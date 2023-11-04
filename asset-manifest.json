@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.326e54bd.css",
-    "main.js": "/static/js/main.00c97b47.js",
-    "static/js/787.71df535f.chunk.js": "/static/js/787.71df535f.chunk.js",
-    "static/media/background.png": "/static/media/background.5ee4ea09f5e4462a32fc.png",
-    "static/media/Photo.png": "/static/media/Photo.d0f432399ba9ccef12cd.png",
-    "static/media/Frame 21186.png": "/static/media/Frame 21186.cfaeb595dcd94f7d6d78.png",
-    "static/media/location-on-outline.svg": "/static/media/location-on-outline.b9dfd5495f39e13527da.svg",
-    "index.html": "/index.html",
-    "main.326e54bd.css.map": "/static/css/main.326e54bd.css.map",
-    "main.00c97b47.js.map": "/static/js/main.00c97b47.js.map",
-    "787.71df535f.chunk.js.map": "/static/js/787.71df535f.chunk.js.map"
+    "main.css": "/citylife/static/css/main.c6446b5d.css",
+    "main.js": "/citylife/static/js/main.8c1bc441.js",
+    "static/js/787.71df535f.chunk.js": "/citylife/static/js/787.71df535f.chunk.js",
+    "static/media/background.png": "/citylife/static/media/background.5ee4ea09f5e4462a32fc.png",
+    "static/media/Photo.png": "/citylife/static/media/Photo.d0f432399ba9ccef12cd.png",
+    "static/media/Frame 21186.png": "/citylife/static/media/Frame 21186.cfaeb595dcd94f7d6d78.png",
+    "static/media/location-on-outline.svg": "/citylife/static/media/location-on-outline.b9dfd5495f39e13527da.svg",
+    "index.html": "/citylife/index.html",
+    "main.c6446b5d.css.map": "/citylife/static/css/main.c6446b5d.css.map",
+    "main.8c1bc441.js.map": "/citylife/static/js/main.8c1bc441.js.map",
+    "787.71df535f.chunk.js.map": "/citylife/static/js/787.71df535f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.326e54bd.css",
-    "static/js/main.00c97b47.js"
+    "static/css/main.c6446b5d.css",
+    "static/js/main.8c1bc441.js"
   ]
 }
