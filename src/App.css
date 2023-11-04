@@ -1,38 +1,92 @@
-.App {
-  text-align: center;
+* {
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html {
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  margin: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: black;
+}
+
+#green {
+  fill: #44B598;
+}
+
+h1, h2, h3, h4, h5, p {
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-size: 60px;
+  font-family: 'Source Serif 4', sans-serif;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 50px;
+  font-family: 'Source Serif 4', sans-serif;
+  font-weight: 600;
+}
+
+h3, p, a {
+  font-family: 'Inter', sans-serif;
+}
+button {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+::placeholder {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: #8E8E8E;
+}
+
+.header_nav__link__WFM1F::after {
+  margin-top: 2px;
+  content: "";
+  width: 100%;
+  height: 2px;
+  background: #00976F;
+  display: none;
+}
+
+.header_nav__link__WFM1F.active::after {
+  display: block;
+}
+
+.swiper__center {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-content: center;
+} 
+
+.swiper-container {
+  position: relative;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.buttonactive {
+  background: linear-gradient(180deg, #00A364 0%, #009166 100%);
+  border: 2px solid #009166;
 }

@@ -1,0 +1,50 @@
+.another {
+    padding-top: 100px;
+}
+
+.title {
+    padding-bottom: 48px;
+    font-weight: 700;
+}
+
+.another__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+.propo__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1440px;
+    gap: 32px;
+    padding: 0 76px;
+    padding-bottom: 50px;
+}
+
+.another__button {
+    background: none;
+    border: 1px solid #00A177;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 16px 40px;
+}
+
+.another__button p{
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+
+.another__button p::after {
+    content: url(../../../icons/down.png);
+    padding-left: 8px;
+    width: 24px;
+    height: 24px;
+}
+
+.another {
+    padding-bottom: 116px;
+}

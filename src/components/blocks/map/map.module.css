@@ -1,0 +1,89 @@
+.map{
+    position: relative;
+    min-height: 766px;
+}
+
+.contact__card {
+    position: absolute;
+    top: 157px;
+    right: 56px;
+    width: 518px;
+    background: white;
+    box-shadow: 1px 4px 12px 0px rgba(100, 114, 125, 0.18);
+}
+
+.contact__card__wrapper {
+    display: flex;
+    flex-direction: column;
+    padding-left: 64px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.card__title {
+    font-size: 50px;
+    padding-bottom: 40px;
+}
+
+.card__adress {
+    font-weight: 500;
+    box-sizing: border-box;
+    display: flex;
+    max-width: 350px;
+    padding-bottom: 24px;
+}
+
+.card__adress::before {
+    box-sizing: border-box;
+    content: url(../../../icons/location-on-outline.svg);
+    padding-right: 8px;
+}
+
+.card__phone__wrpapper {
+    padding-bottom: 16px;
+    display: flex;
+
+}
+
+.card__phone__wrpapper:before {
+    content: url(../../../icons/phone.png);
+    padding-right: 8px;
+}
+
+.card__phone {
+    font-weight: 500;
+    display: block;
+    padding-bottom: 8px;
+}
+
+.card__email {
+    font-weight: 500;
+    display: flex;
+    padding-bottom: 42px;
+}
+
+.card__email::before {
+    content: url(../../../icons/outline-mail.png);
+    padding-right: 8px;
+}
+
+.social__wrapper svg path {
+    fill: black;
+}
+
+.social__wrapper svg {
+    display: block;
+}
+
+.social__wrapper {
+    display: flex;
+    gap: 32px;
+}
+
+.card__citat {
+    font-weight: 400;
+    padding-bottom: 16px;
+    font-size: 12px;
+    color: #484848;
+}
+

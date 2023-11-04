@@ -1,0 +1,26 @@
+.top {
+    background-color: #E1E3E5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px;
+    padding-bottom: 102px;
+}
+
+.title {
+    padding-bottom: 48px;
+    text-align: center;
+}
+
+.cards__wrapper {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    overflow: hidden;
+}
+
+@media (max-width: 1126px) {
+    .cards__wrapper {
+        gap: 15px;
+    }
+}

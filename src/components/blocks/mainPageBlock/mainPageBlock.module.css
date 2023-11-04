@@ -1,0 +1,38 @@
+.main {
+    height: 100vh;
+    background-image: url(../../../img/background.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.main__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    max-width: 720px;
+    word-wrap: break-word;
+}
+
+.main__buttons__wrapper > :nth-child(n) {
+    margin-left: 24px;
+}
+
+.main__buttons__wrapper {
+    padding-top: 36px;
+    padding-bottom: 130px;
+}
+
+.active {
+    background: linear-gradient(180deg, #00A364 0%, #009166 100%);
+    border: 2px solid #009166;
+}

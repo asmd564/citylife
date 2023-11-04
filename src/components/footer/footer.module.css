@@ -1,0 +1,152 @@
+.footer {
+    background: #1B1B1B;
+    padding-bottom: 40px;
+}
+
+.footer a {
+    display: block;
+    color: white;
+}
+
+.footer__content__wrapper {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 186px;
+    padding-top: 80px;
+    padding-bottom: 120px;
+    border-bottom: 1px solid #484848;
+}
+
+.street {
+    color: #8E8E8E;
+    width: 240px;
+    font-size: 18px;
+    padding-bottom: 24px;
+}
+
+.logo__text {
+    font-weight: 600;
+    font-weight: 400;
+    color: #8E8E8E;
+    padding-top: 24px;
+    width: 200px;
+    text-align: center;
+}
+
+.logo {
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.copyright {
+    font-weight: 400;
+    text-align: center;
+    color: #8E8E8E;
+    font-size: 12px;
+    padding-top: 24px;
+}
+
+.phone__wrapper {
+    position: relative;
+    padding-bottom: 12px;
+}
+
+.phone {
+    font-weight: 600;
+    padding-bottom: 12px;
+    font-size: 18px;
+}
+
+.phone__wrapper::before {
+    content: url(../../icons/phone.png);
+    position: absolute;
+    top: 0;
+    left: -40px;
+}
+
+.mail {
+    font-weight: 600;
+    position: relative;
+    font-size: 18px;
+}
+
+.mail::before {
+    content: url(../../icons/outline-mail.png);
+    position: absolute;
+    top: 0;
+    left: -40px;
+}
+
+.instagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: #484848;
+    cursor: pointer;
+}
+
+.instagram:hover svg path {
+    fill: #e95950;
+}
+
+.facebook {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: #484848;
+    cursor: pointer;
+}
+
+.facebook:hover svg path {
+    fill: #3b5998;
+}
+
+.telegram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: #484848;
+    cursor: pointer;
+}
+
+.telegram:hover svg path {
+    fill: #0088CC;
+}
+
+.whatsapp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: #484848;
+    cursor: pointer;
+}
+
+.whatsapp:hover svg path {
+    fill: #128C7E;
+}
+
+.social__wrapper {
+    display: flex;
+    gap: 16px;
+}
