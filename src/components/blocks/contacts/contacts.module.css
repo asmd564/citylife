@@ -8,6 +8,17 @@
     background: rgba(255, 248, 235, 0.72);
     padding-bottom: 100px;
 }
+.input::placeholder {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: #8E8E8E;
+  }
+
+.input1::placeholder {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: #8E8E8E;
+}
 
 input {
     display: block;
@@ -70,4 +81,8 @@ input {
 
 input:focus, textarea:focus {
     outline: none;
+  }
+
+  .hidden {
+    display: none;
   }

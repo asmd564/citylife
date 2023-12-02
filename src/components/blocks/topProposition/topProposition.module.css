@@ -1,8 +1,5 @@
 .top {
     background-color: #E1E3E5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     padding-top: 100px;
     padding-bottom: 102px;
 }
@@ -13,14 +10,65 @@
 }
 
 .cards__wrapper {
+    min-height: 0;
     display: flex;
-    gap: 32px;
     align-items: center;
-    overflow: hidden;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 1288px;
+    position: relative;
+   
+    
 }
 
-@media (max-width: 1126px) {
-    .cards__wrapper {
-        gap: 15px;
-    }
+
+.error{
+    color: red;
+}
+
+.top__wrapper {
+    padding: 0;
+}
+
+.center {
+    margin: 0 auto;
+    background: #E1E3E5;
+}
+
+
+.swiper__button__prev {
+    height: 44px;
+    width: 44px;
+    background-color: white;
+    background-image: url(../../../icons/prev.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: -4%;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.swiper__button__next {
+    height: 44px;
+    width: 44px;
+    background-color: white;
+    background-image: url(../../../icons/prev.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    right: -4%;
+    z-index: 2;
+    cursor: pointer;
+    transform: rotate(180deg);
+}
+
+.swiper__slide {
+    min-width: 384px;
 }

@@ -12,7 +12,7 @@ export const Footer = () => {
               <div className={style.contacts__wrapper}>
                 <div className={style.phone__wrapper}>
                     <a href="tel:+3800973101091" className={style.phone}>+38 097 310-10-91</a>
-                    <a href="tel:+3806646969791" className={style.phone}>+38 066 469-69-791</a>
+                    <a href="tel:+380664696979" className={style.phone}>+38 066 469-69-79</a>
                 </div>
                 <a href="" className={style.mail}>citylive.if@gmail.com</a>
               </div>
@@ -21,7 +21,7 @@ export const Footer = () => {
                 <p className={style.logo__text}>Агенство нерухомості.</p>
               </div>
               <div className={style.adress}>
-                <p className={style.street}>м. Івано-Франківськ,вул. Лепкого 12а, 3-й поверх</p>
+                <p className={style.street}>м. Івано-Франківськ,вул. Лепкого 12, 2-й поверх</p>
                 <div className={style.social__wrapper}>
                     <div className={style.instagram}>
                         <Instagram />

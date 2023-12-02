@@ -1,0 +1,240 @@
+.first__section {
+    display: flex;
+    flex-direction: column;
+    background-color: #1B1B1B;
+    height: 100vh;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    min-height: 656px;
+}
+
+.first__section__container {
+    display: flex;
+    max-width: 1288px;
+    align-items: center;
+}
+
+.first__section__title {
+    font-family: 'Source Serif 4', sans-serif;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 66px;
+    padding-bottom: 40px;
+}
+
+.first__section__description {
+    color: #8E8E8E;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.016px;
+    max-width: 400px;
+    padding-bottom: 40px;
+}
+
+.first__section__button {
+    padding: 17px 50px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px; /* 155.556% */
+    letter-spacing: 0.045px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #00A364 0%, #009166 100%);
+    color: white;
+    border: none;
+    box-sizing: border-box;
+    border: 2px solid #009166;
+    transition: border 0.3s ;
+}
+
+.first__section__button:hover {
+    border: 2px solid #009166;
+    background: none;
+}
+
+.first__section__img {
+    border-radius: 8px;
+    background-color: #8E8E8E;
+    width: 628px;
+    height: 456px;
+    overflow: hidden;
+}
+
+.first__section__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.about__section__first__wrapper {
+    display: flex;
+    max-width: 1288px;
+    width: 100%;
+    justify-content: space-between;
+    margin: 0 auto;
+    align-items: center;
+    padding-top: 100px;
+}
+
+.about__section__title {
+    font-family: 'Source Serif 4', sans-serif;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 58px;
+    padding-bottom: 40px;
+}
+
+.about__description {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.016px;
+    color: #8E8E8E;
+}
+
+.about__section__first {
+    max-width: 518px;
+}
+
+.mission__wrapper {
+    text-align: start;
+}
+
+.mission__description {
+    width: 518px;
+    color: #8E8E8E;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 150% */
+    letter-spacing: 0.016px;
+}
+
+.mission__img__wrapper {
+    display: flex;
+    gap: 32px;
+}
+
+.mission__img {
+    border-radius: 8px;
+    background-color: #8E8E8E;
+    width: 298px;
+    height: 390px;
+    overflow: hidden;
+}
+
+.mission__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.mission__wrapper {
+    max-width: 1288px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding-top: 100px;
+    align-items: center;
+}
+
+.mission__title {
+    max-width: 848px;
+    text-align: center;
+    font-family: 'Source Serif 4', sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 42px;
+    padding-top: 100px;
+}
+
+.mission {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.section__img {
+    padding-top: 160px;
+    max-width: 1288px;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.section__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+.team__title {
+    padding-top: 100px;
+}
+
+.our__team {
+    text-align: center;
+}
+
+.avatar {
+    border-radius: 50%;
+    background-color: #8E8E8E;
+    width: 161px;
+    height: 161px;
+    overflow: hidden;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.team__card {
+    display: flex;
+    flex-direction: column;
+    max-width: 161px;
+    padding-bottom: 64px;
+}
+
+.card__name, .card__surname {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+}
+
+.card__name {
+    padding-top: 24px;
+}
+
+.team__cards__wrapper {
+    padding-top: 64px;
+    padding-bottom: 90px;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1288px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 64px;
+}

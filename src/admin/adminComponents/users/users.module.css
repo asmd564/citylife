@@ -1,0 +1,341 @@
+.users {
+    max-width: 1288px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.users__title {
+    font-family: 'Source Serif 4', sans-serif;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 58px;
+    padding-top: 40px;
+    padding-bottom: 24px;
+}
+
+.users__list {
+    max-width: 1288px;
+    width: 100%;
+    box-shadow: 1px 6px 30px 0px rgba(27, 27, 27, 0.10), 1px 10px 28px 1px rgba(27, 27, 27, 0.06), 1px 10px 32px 1px rgba(27, 27, 27, 0.04), 1px 100px 80px 0px rgba(27, 27, 27, 0.00), 0px 300px 116px 0px rgba(27, 27, 27, 0.00);
+    background: white;
+    margin: 0 auto;
+    margin-bottom: 24px;
+}
+
+.card__wrapper {
+    display: flex;
+    padding: 24px 32px;
+}
+
+.avatar__wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.avatar__wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.name__wrapper {
+    width: 324px;
+    padding-left: 16px;
+}
+
+.name {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+}
+
+.description {
+    font-family: 'Inter', sans-serif;
+    color: #8E8E8E;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    padding-top: 8px;
+}
+
+.exp__p, .social__p, .phone__p {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    padding-left: 24px;
+    width: 228px;
+}
+
+.list__titles {
+    display: flex;
+    max-width: 1195px;
+    width: 100%;
+    margin: 0 auto;
+    padding-bottom: 21px;
+}
+
+.list__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    color: #8E8E8E;
+}
+
+.list2 {
+    padding-left: 47px;
+}
+
+.list3 {
+    padding-left: 190px;
+}
+
+.list4 {
+    padding-left: 70px;
+}
+
+.list5 {
+    padding-left: 40px;
+}
+
+.input__wrapper {
+    max-width: 1288px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.input {
+    display: block;
+}
+
+.add__button {
+    display: block;
+    position: absolute;
+    top: -13px;
+    right: 0;
+    padding: 17px 40px;
+    border: 2px solid #00976F;
+    background-color: #00976F;
+    color: white;
+    border-radius: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+    cursor: pointer;
+}
+
+.registration__form {
+    display: block;
+    position: fixed;
+    width: 100vw;
+    min-height: 100vh;
+    height: 100%;
+    overflow: scroll;
+    background-color: black;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.form__wrapper {
+    margin-top: 300px;
+    background-color: white;
+     width: 768px;
+     text-align: center;
+     position: relative;
+}
+
+.form__title {
+    padding-top: 56px;
+    padding-bottom: 50px;
+}
+
+.drop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.form__wrapper1 {
+    display: flex;
+    padding-left: 46px;
+    padding-bottom: 56px;
+    flex-wrap: wrap;
+}
+
+.input__wrapper2 {
+    display: flex;
+    align-items: start;
+    max-width: 408px;
+    width: 100%;
+    padding-left: 24px;
+    gap: 60px;
+}
+
+.input__wrapper2 input {
+    display: block;
+    width: 202px;
+}
+
+.input__wrapper1{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+}
+
+.close svg path {
+    fill: black;
+}
+
+.close {
+    background: none;
+    border: none;
+    box-shadow: none;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+}
+
+.dots {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.dots svg path {
+    fill: black;
+}
+
+.buttons {
+    position: relative;
+}
+
+.hidden__menu {
+    box-shadow: 1px 6px 30px 0px rgba(27, 27, 27, 0.10), 1px 10px 28px 1px rgba(27, 27, 27, 0.06), 1px 10px 32px 1px rgba(27, 27, 27, 0.04), 1px 100px 80px 0px rgba(27, 27, 27, 0.00), 0px 300px 116px 0px rgba(27, 27, 27, 0.00);
+    background-color: white;
+    position: absolute;
+    top: 30px;
+    right: 0;
+}
+
+.hidden__menu__wrapper {
+    padding: 16px;
+    width: 286px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit {
+    background-color: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.edit svg path {
+    fill: grey;
+}
+
+.edit svg {
+    padding-right: 5px;
+}
+
+.hidden__submit {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.hidden__submit__wrapper {
+    background-color: white;
+    width: 438px;
+    height: 196px;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    right: 50%;
+    bottom: 50%;
+    transform: translate(-50%);
+    border-radius: 5px;
+}
+
+.hidden__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+    width: 390px;
+    padding: 24px 24px 48px 24px;
+}
+
+.delete {
+    background: linear-gradient(180deg, #F00 -25%, #DC0000 121.59%);
+    color: white;
+    border-radius: 4px;
+    padding: 11px 40px;
+    cursor: pointer;
+    border: 2px solid red;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; 
+    transition: all 0.3s;
+}
+
+.delete:hover {
+    background: none;
+    color: black;
+}
+
+.delete__close {
+    border: 2px solid red;
+    border-radius: 4px;
+    padding: 11px 40px;
+    background: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; 
+    margin-right: 24px;
+    margin-left: 40px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.delete__close:hover {
+    background: linear-gradient(180deg, #F00 -25%, #DC0000 121.59%);
+    color: white;
+}

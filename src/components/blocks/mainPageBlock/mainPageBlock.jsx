@@ -10,8 +10,8 @@ export const MainPageBlock = () => {
             <div className={style.main__wrapper}>
                 <h1 className={style.main__title}>Обирайте кращі місця для життя в кращому місті України</h1>
                 <div className={style.main__buttons__wrapper}>
-                    <Link to="/objects"><Button title="Продаж" isAvtive={true}/></Link>
-                    <Link to="/objects"><Button title="Оренда"/></Link>
+                    <Link to="/objects?category=sale"><Button title="Продаж" isAvtive={true}/></Link>
+                    <Link to="/objects?category=rent"><Button title="Оренда"/></Link>
                 </div>
             </div>
         </section>

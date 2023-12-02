@@ -1,0 +1,135 @@
+.forsellers__header__wrapper {
+    height: 90vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    background-image: url(../../img/services.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.header__title {
+    font-family: 'Source Serif 4', sans-serif;
+    font-size: 66px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 72px;
+    padding-bottom: 40px;
+}
+
+.header__description {
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+    letter-spacing: 0.045px;
+    width: 400px;
+}
+
+.card__wrapper {
+    padding-top: 40px;
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+.details__card {
+    width: 413px;
+    height: 434px;
+    border: 2px solid #BDBDBD;
+    border-radius: 8px;
+}
+
+.card__number {
+    font-family:'Inter', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    color: #00976F;
+    padding-bottom: 32px;
+}
+
+.card__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    padding-bottom: 16px;
+}
+
+.card__description {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px; /* 150% */
+    letter-spacing: 0.016px;
+    color: #484848;
+}
+
+.detail__cards1 {
+    max-width: 1288px;
+    display: flex;
+    gap: 24px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 24px;
+}
+
+.detail__cards2 {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 24px;
+}
+
+.card__list {
+    list-style: circle;
+    padding: 0;
+    margin: 0;
+    padding-left: 10px;
+}
+
+.card__item {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.016px;
+    line-height: 24px;
+}
+
+.details__card.card__width {
+    height: 362px;
+}
+
+.details__card.card__width2 {
+    height: 290px;
+}
+
+.cards {
+    padding-bottom: 74px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cards__title {
+    padding-top: 100px;
+    padding-bottom: 48px;
+    font-family: 'Source Serif 4', sans-serif;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 58px;
+}

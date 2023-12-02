@@ -81,11 +81,31 @@ svg path {
     align-self: center;
     transition: fill 1s;
     cursor: pointer;
+    position: relative;
+}
+
+.count {
+    width: 20px;
+    height: 13px;
+    background-color: #FDB700;
+    border-radius: 14px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 500;
 }
 
 .favorite:hover svg path {
-    fill: #DC143C;
-    stroke: #DC143C;
+    fill: #BDBDBD;
+    stroke: #BDBDBD;
 }
 
 .burger__menu {
@@ -160,4 +180,71 @@ svg path {
         transform: rotate(-135deg);
         transition: transform 0.3s;
     }
+}
+
+.nav__button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.nav__button:hover {
+    color: #04bf87;
+}
+
+.nav__button::after {
+    content: url(../../icons/chevron-down.png);
+    position: absolute;
+    top: 0;
+    left: 75px;
+}
+.position {
+    position: relative;
+}
+
+.services__menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 20px;
+    padding-right: 16px;
+    background-color: #1B1B1B;
+    width: 140px;
+    height: 100px;
+    align-items: center;
+    justify-content: center;
+    text-align: start;
+}
+
+.services__menu__wrapper a{
+    display: block;
+}
+
+.services__menu__wrapper >:not(:last-child) {
+    padding-bottom: 20px;
+}
+
+.services__menu__wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.nav__active::before {
+   content: '';
+   width: 100%;
+   height: 2px;
+   background-color: #009166;
+   display: block;
+   position: absolute;
+   top: 22px;
+   left: 0;
 }

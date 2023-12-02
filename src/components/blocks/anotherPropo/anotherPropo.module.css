@@ -48,3 +48,7 @@
 .another {
     padding-bottom: 116px;
 }
+
+.error{
+    color: red;
+}

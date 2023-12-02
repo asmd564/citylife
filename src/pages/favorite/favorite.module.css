@@ -1,0 +1,27 @@
+.favorite {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+}
+
+.favorite__title {
+    font-family: 'Source Serif 4', sans-serif;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 58px;
+    color: black;
+    padding-top: 80px;
+    padding-bottom: 48px;
+}
+
+.favorite__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1288px;
+    margin: 0 auto;
+    gap: 32px;
+    padding-bottom: 100px;
+    justify-content: center;
+}

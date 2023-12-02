@@ -1,0 +1,213 @@
+.objects__title {
+    color: black;
+    font-family: 'Source Serif 4', sans-serif;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 58px;
+    padding-bottom: 16px;
+}
+
+.object__count {
+    color: #484848;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    padding-bottom: 48px;
+}
+
+.objects__wrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: #E2E2E2;
+    width: 100vw;
+}
+
+.object__wrapper {
+    max-width: 1288px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 48px 0;
+}
+
+.custom__width {
+    width: 411px;
+}
+.custom__width2 {
+    width: 852px;
+}
+.custom__width3 {
+    width: 188px;
+}
+.custom__width4 {
+    width: 130px;
+}
+
+.filters__wrapper {
+    display: flex;
+    gap: 24px;
+    padding-bottom: 24px;
+}
+
+
+
+.products__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 100px;
+    padding-top: 80px;
+}
+
+.label {
+    display: block;
+    padding-bottom: 8px;
+}
+
+.filter__button {
+    height: 54px;
+    margin-top: 28px;
+    padding-left: 16px;
+    padding-right: 16px;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: border 0.3s;
+}
+
+.filter__button:hover {
+    border-color: #00976F;
+}
+
+.filter__button.background {
+    background: none;
+}
+
+.filter__button.background2 {
+    background: linear-gradient(180deg, #00976F 0%, #008766 100%);
+    color: white;
+
+}
+
+.content__wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.filter__button.background2 span::after{
+    content: '';
+}
+
+.filter__button.background2 span::before {
+    content: url(../../icons/magnify.png);
+}
+
+.filter__button span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter__button span::before {
+    content: url(../../icons/outline-filter-alt.png);
+    padding-right: 8px;
+    padding-top: 4px;
+}
+
+.filter__button span::after {
+    content: url(../../icons/chevron-down.png);
+    padding-left: 8px;
+    padding-top: 4px;
+}
+
+
+.first__wrapper {
+    display: flex;
+    gap: 16px;
+    padding-top: 30px;
+    align-items: center;
+
+}
+
+.sort__wrapper {
+    max-width: 1288px;
+    margin: 0 auto;
+}
+
+.sort__button {
+    padding: 7px 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    border-radius: 3px;
+    background: none;
+    border: 1px solid #8E8E8E;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sort__button.active {
+    background: #FDB700;
+    border-color: #FDB700;
+    color: white;
+}
+
+.map__button {
+    border: none;
+    background: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+    margin-top: 24px;
+}
+
+.map__button svg path {
+    fill: black;
+}
+
+.map__button svg {
+    margin-left: 5px;
+}
+
+.map__button:hover {
+    border-color: #008766;
+}
+
+.sort__wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.another__button {
+    background: none;
+    border: 1px solid #00A177;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 16px 40px;
+}
+
+.another__button p{
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+
+.another__button p::after {
+    content: url(../../icons/down.png);
+    padding-left: 8px;
+    width: 24px;
+    height: 24px;
+}

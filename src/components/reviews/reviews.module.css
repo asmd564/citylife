@@ -1,0 +1,147 @@
+.avatar {
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: grey;
+    margin-right: 16px;
+}
+
+.avatar img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+.reviews__card {
+    display: flex;
+    max-width: 845px;
+    width: 100%;
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+.card__description {
+    max-width: 765px;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.016px;
+    color: #484848;
+}
+
+.card__title {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px; 
+    padding-bottom: 8px;
+}
+
+.card__title span {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; 
+    color: #8E8E8E;
+}
+
+
+.reviews__title {
+    color: black;
+    padding-bottom: 52px;
+    font-family: 'Source Serif 4', sans-serif;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 58px;
+    padding-top: 100px;
+}
+
+.reviews {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 100px;
+}
+
+.input__wrapper {
+    display: flex;
+    max-width: 846px;
+    gap: 32px;
+}
+
+.input__wrapper input {
+    width: 800px;
+}
+
+.reviews__form textarea {
+    display: block;
+    height: 142px;
+    width: 846px;
+    resize: none;
+    border: none;
+    border-bottom: 2px solid #BDBDBD;
+    margin-bottom: 64px;
+    font-size: 18px;
+    background: rgba(255, 248, 235, 0.72);
+}
+
+.reviews__form textarea::placeholder {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px; /* 155.556% */
+    letter-spacing: 0.018px;
+    color: #8E8E8E;
+    position: relative;
+}
+
+.reviews__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form__title {
+    font-family: 'Source Serif 4', sans-serif;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 58px;
+    padding-bottom: 56px;
+    padding-top: 100px;
+}
+
+.reviews__form__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 248, 235, 0.72);
+    width: 1288px;
+}
+
+.form__button {
+    padding: 17px 80px;
+    text-align: center;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+    letter-spacing: 0.045px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #00A364 0%, #009166 100%);
+    border: 2px solid #009166;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin-bottom: 100px;
+}
