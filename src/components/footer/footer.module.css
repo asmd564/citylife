@@ -150,3 +150,70 @@
     display: flex;
     gap: 16px;
 }
+
+@media(max-width: 1055px) {
+    .logo  svg {
+        width: 100px;
+    }
+.footer__content__wrapper {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+}
+
+@media(max-width: 795px) {
+    .phone {
+        font-size: 14px;
+    }
+
+    .mail {
+        font-size: 14px;
+    }
+
+    .logo__text {
+        font-size: 14px;
+    }
+
+    .street {
+        font-size: 14px;
+        width: 180px;
+    }
+
+    .telegram, .facebook, .whatsapp, .telegram, .instagram {
+        width: 35px;
+        height: 35px;
+    }
+
+    .footer__content__wrapper {
+        margin: 0 auto;
+        padding-right: 10px;
+    }
+}
+
+@media(max-width: 550px) {
+    .footer__content__wrapper {
+        flex-direction: column;
+    }
+
+    .logo {
+        top: 50px;
+    }
+
+    .logo svg {
+        width: 121px;
+    }
+
+    .contacts__wrapper {
+        padding-top: 150px;
+    }
+
+    .adress {
+        padding-top: 40px;
+    }
+
+    .telegram, .facebook, .whatsapp, .telegram, .instagram {
+        width: 45px;
+        height: 45px;
+        align-self: center;
+    }
+}

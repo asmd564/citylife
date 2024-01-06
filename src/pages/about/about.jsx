@@ -46,7 +46,7 @@ export const About = () => {
             </div>
             <div className={`${style.about__section} container`}>
                 <div className={style.about__section__first__wrapper}>
-                    <div className={style.first__section__img}>
+                    <div className={`${style.first__section__img} ${style.width}`}>
                         <img src={secondblockimg} alt="" />
                     </div>
                     <div className={style.about__section__first}>

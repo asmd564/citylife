@@ -3,9 +3,12 @@ import style from "./header.module.css";
 import { Logo } from "../../icons/logo";
 import { Favorite } from "../../icons/favorite";
 import { Link, NavLink, useLocation } from "react-router-dom";
+import { Burger } from "../../icons/burger";
+import { Close } from "../../icons/close";
 
-export const Header = () => {
+export const Header = ({callback}) => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [mobileMenu, setMobileMenu] = useState(false);
     const location = useLocation();
     const isActiveRoute = (route) => location.pathname.includes(route);
 
@@ -31,6 +34,7 @@ export const Header = () => {
 
     const closeMenu = () => {
         setMenuOpen(false);
+        setMobileMenu(false);
       };
 
       const handleCountChange = () => {
@@ -41,6 +45,10 @@ export const Header = () => {
             setCount(parsedData.length);
         }
     };
+
+    const handleBurger = () => {
+        setMobileMenu(!mobileMenu);
+    }
 
     useEffect(() => {
         handleCountChange();
@@ -79,8 +87,21 @@ export const Header = () => {
                             <div className={style.count}>{cardData.length}</div>
                     </Link>
                 </div>
-                    <button className={style.phone}>Замовити дзвінок</button>
-                    <div className={`${style.burger__menu} ${style.active}`}><span></span></div>
+                    <button className={style.phone} onClick={callback}>Замовити дзвінок</button>
+                    <div className={`${style.burger__menu} ${style.active}`} onClick={handleBurger}>{mobileMenu ? <Close /> : <Burger />}</div>
+                </div>
+            </div>
+            <div className={mobileMenu ? `${style.burger__nav} ${style.active}` : style.burger__nav}>
+                <div className={style.burger__nav__wrapper}>
+                    <ul className={style.burger__nav__list}>
+                        <li className={style.burger__nav__item}><NavLink to="/" className={style.burger__nav__link} onClick={closeMenu}>Головна</NavLink></li>
+                        <li className={style.burger__nav__item}><NavLink to="/for-sellers" className={style.burger__nav__link} onClick={closeMenu}>Для  продавців</NavLink></li>
+                        <li className={style.burger__nav__item}><NavLink to="/for-buyers" className={style.burger__nav__link} onClick={closeMenu}>Для  покупців</NavLink></li>
+                        <li className={style.burger__nav__item}><NavLink to="/about" className={style.burger__nav__link} onClick={closeMenu}>Про нас</NavLink></li>
+                        <li className={style.burger__nav__item}><NavLink to="/reviews" className={style.burger__nav__link} onClick={closeMenu}>Відгуки</NavLink></li>
+                        <li className={style.burger__nav__item}><NavLink to="/favorite" className={style.burger__nav__link} onClick={closeMenu}>Улюблені</NavLink></li>
+                        <li className={style.burger__nav__item}><NavLink to="/contact" className={style.burger__nav__link} onClick={closeMenu}>Контакти</NavLink></li>
+                    </ul>
                 </div>
             </div>
         </header>

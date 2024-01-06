@@ -69,3 +69,26 @@
         padding-bottom: 80px;
     }
 }
+
+@media (max-width: 600px) {
+    .whywe__cards {
+        max-width: 500px;
+    }
+    .whywe__card {
+        width: 210px;
+    }
+}
+
+@media (max-width: 420px) {
+    .whywe__cards {
+        max-width: 320px;
+        margin: 0 auto;
+    }
+    .card__title {
+        font-size: 18px;
+    }
+    .whywe__card {
+        width: 132px;
+    }
+}
+

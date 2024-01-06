@@ -87,3 +87,66 @@
     color: #484848;
 }
 
+@media(max-width: 800px) {
+    
+    .contact__card {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        right: 50%;
+        transform: translate(-50%);
+    }
+}
+
+@media(max-width: 518px) {
+    
+    .contact__card {
+        max-width: 450px;
+    }
+}
+
+@media(max-width: 450px) {
+    
+    .contact__card {
+        max-width: 400px;
+    }
+
+    .contact__card__wrapper {
+        display: flex;
+        flex-direction: column;
+        padding-left: 20px;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+}
+
+@media(max-width: 400px) {
+    
+    .contact__card {
+        max-width: 350px;
+    }
+
+    .contact__card__wrapper {
+        display: flex;
+        flex-direction: column;
+        padding-left: 10px;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+}
+
+@media(max-width: 350px) {
+    
+    .contact__card {
+        max-width: 310px;
+    }
+
+    .contact__card__wrapper {
+        display: flex;
+        flex-direction: column;
+        padding-left: 10px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+}
+

@@ -155,7 +155,8 @@
 }
 
 .form__wrapper {
-    margin-top: 300px;
+    margin-top: 400px;
+    margin-bottom: 40px;
     background-color: white;
      width: 768px;
      text-align: center;
@@ -338,4 +339,35 @@
 .delete__close:hover {
     background: linear-gradient(180deg, #F00 -25%, #DC0000 121.59%);
     color: white;
+}
+
+.submit {
+    padding: 17px 40px;
+    font-size: 18px;
+    border-radius: 5px;
+    background: none;
+    box-shadow: none;
+    box-sizing: border-box;
+    border: 2px  solid #00976F;
+    cursor: pointer;
+    transition: 0.3s;
+   
+}
+
+.submit:hover {
+    background-color: #00976F;
+    color: white;
+}
+
+.submit.active {
+    background: #00976F;
+    color: white;
+    transition: 0.3s;
+    margin-bottom: 40px;
+    margin-right: 20px;
+}
+
+.submit.active:hover {
+    background: none;
+    color: black;
 }

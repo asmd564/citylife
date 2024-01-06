@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/authContext';
 import './App.css';
@@ -15,14 +16,25 @@ import { ForSellers } from './pages/forSellers/forSellers';
 import { Objects } from './pages/objects/objects';
 import { Test } from './components/test';
 import { Favorite } from './pages/favorite/favorite';
+import { Contacts } from './components/blocks/contacts/contacts';
+import { Close } from './icons/close';
 
 
 function App() {
+  const [contact, setContact] = useState(false);
+  
+  const handleOpen = () => {
+    setContact(true);
+  }
+
+  const handleClose = () => {
+    setContact(false);
+  }
   return (
     <BrowserRouter>
        <AuthProvider>
           <div className="App">
-            <ConditionalHeader />
+            <ConditionalHeader callback={handleOpen}/>
               <Routes>
                 <Route path="/" element={<HomePagge /> }/>
                 <Route path="/for-buyers" element={<ForBuyers /> }/>
@@ -36,6 +48,17 @@ function App() {
                 <Route path="/favorite" element={<Favorite />}/>
 
               </Routes>
+              {contact && (
+                <div className='contacts__fixed'>
+                  <div className='contacts__wrapper__fixed'>
+                    <button className='contacts__close' onClick={handleClose}><Close /></button>
+                    <Contacts />
+                  </div>
+                  
+                </div>
+                
+              )}
+
             <ConditionalFooter />
           </div>
         </AuthProvider>
@@ -43,13 +66,13 @@ function App() {
   );
 }
 
-function ConditionalHeader() {
+function ConditionalHeader({callback}) {
   const location = useLocation();
 
   if (location.pathname.startsWith('/admin')) {
     return;
   } else {
-    return <Header />;
+    return <Header callback={callback}/>;
   }
 }
 

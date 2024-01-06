@@ -4,6 +4,7 @@ import axios from 'axios';
 import ProjectMap from '../../../components/ProjectMap/ProjectMap';
 import style from './addNewProject.module.css';
 import Select from 'react-select';
+import { Oval } from 'react-loader-spinner';
 
 export const AddNewProject = ({ user }) => {
     const [type, setType] = useState('');
@@ -19,6 +20,10 @@ export const AddNewProject = ({ user }) => {
     const [mapLng, setMapLng] = useState('');
     const [mapLat, setMapLat] = useState('');
     const [images, setImages] = useState([]);
+    const [formSubmitted, setFormSubmitted] = useState(false);
+    const [formNotSubmitted, setFormNotSubmitted] = useState(false);
+    const [hidden, setHidden] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
   const onDrop = useCallback(acceptedFiles => {
     const imagePreviews = acceptedFiles.map(file => Object.assign(file, {
@@ -138,6 +143,14 @@ export const AddNewProject = ({ user }) => {
         
     };
 
+    const handleHidden = () => {
+        setHidden(true);
+    }
+
+    const handleCloseHidden = () => {
+        setHidden(false);
+    }
+
     const handleLngChange = (e) => {
         setLng(e.target.value);
         setMapLng(Number(e.target.value));
@@ -147,6 +160,7 @@ export const AddNewProject = ({ user }) => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true)
     
         const formData = new FormData();
         formData.append('user_id', user.id);
@@ -197,11 +211,21 @@ export const AddNewProject = ({ user }) => {
                 setImages([]);
 
         }
-          console.log('Данные успешно отправлены:', response.data);
-          // Дополнительная обработка успешной отправки данных
+          setFormSubmitted(true);
+          setHidden(false);
+          setIsLoading(false);
+
+            setTimeout(() => {
+                setFormSubmitted(false);
+            }, 3000);
         } catch (error) {
           console.error('Ошибка отправки данных:', error);
-          // Обработка ошибки
+          setFormNotSubmitted(true);
+          setIsLoading(false);
+
+            setTimeout(() => {
+                setFormNotSubmitted(false);
+            }, 3000);
         }
 
       };
@@ -235,32 +259,32 @@ export const AddNewProject = ({ user }) => {
                         <div className={style.first__input__wrapper}>
                             <input type="text" className={style.hidden__input} value={user.id} name="user_id" id="user_id"/>
                             <label htmlFor="name" className={style.labelWithMargin}>Заголовок</label>
-                            <input type="text" id="name" name="name" placeholder='Повний заголовок для сторінки обʼєкта' required/>
+                            <input type="text" id="name" name="name" placeholder='Повний заголовок для сторінки обʼєкта' />
                             <div className={style.inputs__group__wrapper}>
                                 <div className={style.group__wrapper}>
                                     <label htmlFor="district" className={style.labelWithMargin}>Район</label>
-                                    <input type="text" name="district" id="district" placeholder="Напишіть район" required/>
+                                    <input type="text" name="district" id="district" placeholder="Напишіть район" />
 
                                     <label htmlFor="adress" className={style.labelWithMargin}>Вулиця</label>
-                                    <input type="text" name="adress" id="adress" placeholder="Адреса i номер будинку" required/>
+                                    <input type="text" name="adress" id="adress" placeholder="Адреса i номер будинку" />
                                 </div>
                                 <div className={style.group__wrapper}>
                                     <label htmlFor="lat" className={style.labelWithMargin}>Широта</label>
-                                    <input type="text" name="lat" id="lat" placeholder="Широта" value={lat} onChange={handleLatChange} required/>
+                                    <input type="text" name="lat" id="lat" placeholder="Широта" value={lat} onChange={handleLatChange} />
 
                                     <label htmlFor="lng" className={style.labelWithMargin}>Долгота</label>
-                                    <input type="text" name="lng" id="lng" placeholder="Долгота" value={lng} onChange={handleLngChange} required/>
+                                    <input type="text" name="lng" id="lng" placeholder="Долгота" value={lng} onChange={handleLngChange} />
                                 </div>  
                             </div>
                             <ProjectMap lat={mapLat} lng={mapLng}/>
 
                             <label htmlFor="description" className={style.labelWithMargin}>Опис обʼєкта</label>
-                                <textarea type="text" name="description" id="description" placeholder="Напишіть детальний опис" className={style.textarea} required/>
+                                <textarea type="text" name="description" id="description" placeholder="Напишіть детальний опис" className={style.textarea} />
                         </div>
                         <div className={style.form__wrapper2}>
                         <div className={style.custom__select__wrapper1}>
                                 <label htmlFor="city" className={style.labelWithMargin}>Місто</label>
-                                <input type="text" name="city" id="city" placeholder="Подайте місто" required/>
+                                <input type="text" name="city" id="city" placeholder="Подайте місто" />
                              </div>
                             <div className={style.custom__select__wrapper}>
                                 <label htmlFor="type" className={style.labelWithMargin}>Тип операції</label>
@@ -269,7 +293,7 @@ export const AddNewProject = ({ user }) => {
                                     placeholder= 'Виберіть тип операції'
                                     options={typeOptions}
                                     onChange={handleTypeChange}   
-                                    required
+                                    
                                 />
                             </div>
 
@@ -284,16 +308,16 @@ export const AddNewProject = ({ user }) => {
                             </div>
                             <div className={style.custom__select__wrapper1}>
                                 <label htmlFor="rooms" className={style.labelWithMargin}>Кількість кімнат</label>
-                                <input type="text" name="rooms" id="rooms" placeholder="Напишіть к-ість кімнат" required/>
+                                <input type="text" name="rooms" id="rooms" placeholder="Напишіть к-ість кімнат" />
                              </div>
                              <div className={style.custom__select__wrapper1}>
                                 <label htmlFor="area" className={style.labelWithMargin}>Площа, м²</label>
-                                <input type="text" name="area" id="area" placeholder="Загальна/житлова/пл. кухнi" required/>
+                                <input type="text" name="area" id="area" placeholder="Загальна/житлова/пл. кухнi" />
                              </div>
 
                              <div className={style.custom__select__wrapper1}>
                                 <label htmlFor="flor" className={style.labelWithMargin}>Поверх</label>
-                                <input type="text" name="flor" id="flor" placeholder="Поверх/Кiлькiсть поверхiв" required/>
+                                <input type="text" name="flor" id="flor" placeholder="Поверх/Кiлькiсть поверхiв" />
                              </div>
                              <div className={style.custom__select__wrapper}>
                                 <label htmlFor="state" className={style.labelWithMargin}>Стан</label>
@@ -335,7 +359,7 @@ export const AddNewProject = ({ user }) => {
 
                             <div className={style.custom__select__wrapper1}>
                                 <label htmlFor="price" className={style.labelWithMargin}>Ціна</label>
-                                <input type="text" name="price" id="price" placeholder="Ціна" required/>
+                                <input type="text" name="price" id="price" placeholder="Ціна" />
                              </div>
                              <div className={style.custom__select__wrapper}>
                                 <label htmlFor="top" className={style.labelWithMargin}>Топ</label>
@@ -384,11 +408,47 @@ export const AddNewProject = ({ user }) => {
                         </div>
                     </div>
                     <div className={style.button__wrapper}>
-                        <button className={style.clear__btn} onClick={handleReset}>Скасувати</button>
-                        <button className={style.submit__btn}>Опублікувати</button>
+                        <button className={style.clear__btn} onClick={handleReset} type="button">Скасувати</button>
+                        <button className={style.submit__btn} onClick={handleHidden} type="button">Опублікувати</button>
+
+                        {hidden && (
+                            <div className={style.submit__hidden}>
+                            <div className={style.submit__hidden__wrapper}>
+                                <p className={style.submit__title}>Ви впевнені, що хочете опублікувати цей проект?</p>
+                                <button className={style.clear__btn} onClick={handleCloseHidden} type="button">Скасувати</button>
+                                <button className={isLoading ? `${style.submit__btn} ${style.submit__btn__1}` : `${style.submit__btn}`}>
+                                    {isLoading ? (
+                                        <Oval
+                                        height={20}
+                                        width={20}
+                                        color="#808080"
+                                        wrapperStyle={{}}
+                                        wrapperClass={style.oval}
+                                        visible={true}
+                                        ariaLabel='oval-loading'
+                                        secondaryColor="#808080"
+                                        strokeWidth={2}
+                                        strokeWidthSecondary={2} />
+                                        ) : (
+                                        'Опублікувати'
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                        )}
                     </div>
                     
                 </form>
+                {formSubmitted && (
+                    <p className={`${style.success}`}>
+                        Проект успішно доданий!
+                    </p>
+                )}
+                {formNotSubmitted && (
+                    <p className={`${style.success} ${style.error}`}>
+                        Помилка додавання проекту!
+                    </p>
+                )}
         </section>
     )
 }

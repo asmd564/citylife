@@ -8,6 +8,7 @@ html {
 
 body {
   margin: 0;
+  background-color: white;
 }
 
 .container {
@@ -104,9 +105,32 @@ button {
   margin: 0;
 }
 
+.custom-select-1 {
+  padding: 0;
+  margin: 0;
+  overflow: scroll;
+}
+
+.custom-select1__control {
+  max-height: 56px;
+  height: 56px;
+  overflow: auto;
+  min-height: 0;
+}
+
+.custom-select-1 .react-select__clear-indicator {
+  display: none;
+}
+
+.css-1u9des2-indicatorSeparator {
+  display: none;
+}
+
 .custom-select__control {
   min-height: 0;
   height: 56px;
+  overflow: auto;
+  box-sizing: border-box;
 }
 
 .custom-select__control--is-focused {
@@ -132,4 +156,38 @@ button {
 }
 input.input-100 {
   margin: 0 !important;
+}
+
+.contacts__fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.8);
+
+
+
+}
+
+.contacts__wrapper__fixed {
+  width: 1000px;
+  margin: 0 auto;
+  background: white;
+  margin-top: 120px;
+  position: relative;
+}
+
+.contacts__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.contacts__close svg path {
+  fill: black;
 }

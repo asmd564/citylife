@@ -55,8 +55,74 @@ export const TopProposition = () => {
                     ) : (
                         <Swiper
                             spaceBetween={32}
-                            slidesPerView={3}
+                            slidesPerView={1}
                             navigation={true}
+                            breakpoints={{
+                                0: {
+                                    slidesPerView: 1.1,
+                                    spaceBetween: 5,
+                                  },
+                                358: {
+                                    slidesPerView: 1.2,
+                                    spaceBetween: 5,
+                                  },
+                                413: {
+                                    slidesPerView: 1.4,
+                                    spaceBetween: 5,
+                                  },
+                                465: {
+                                    slidesPerView: 1.5,
+                                    spaceBetween: 5,
+                                  },
+                                501: {
+                                    slidesPerView: 1.2,
+                                    spaceBetween: 5,
+                                  },
+                                613: {
+                                    slidesPerView: 1.5,
+                                    spaceBetween: 5,
+                                  },
+                                800: {
+                                    slidesPerView: 2,
+                                    spaceBetween: 0,
+                                  },
+                                830: {
+                                    slidesPerView: 2.1,
+                                    spaceBetween: 5,
+                                  },
+                                891: {
+                                    slidesPerView: 2.1,
+                                    spaceBetween: 10,
+                                  },
+                                905: {
+                                    slidesPerView: 2.4,
+                                    spaceBetween: 5,
+                                  },
+                                1000: {
+                                    slidesPerView: 2.3,
+                                    spaceBetween: 5,
+                                  },
+                                1050: {
+                                    slidesPerView: 2.5,
+                                    spaceBetween: 5,
+                                  },
+                                1161: {
+                                    slidesPerView: 2.7,
+                                    spaceBetween: 5,
+                                  },
+                                1220: {
+                                  slidesPerView: 3,
+                                  spaceBetween: 10,
+                                },
+                                1301: {
+                                  slidesPerView: 3,
+                                  spaceBetween: 10,
+                                },
+                                1400: {
+                                  slidesPerView: 3,
+                                  spaceBetween: 32,
+                                },
+                              }}
                             onSwiper={(swiper) => setSwiper(swiper)}
                             className={style.mySwiper}
                         >

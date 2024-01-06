@@ -9,6 +9,8 @@ import { Default } from "./default/default";
 import { UserSettings } from "./settings/userSettings";
 import { Edit } from "../edit/edit";
 import { Users } from "../users/users";
+import EditProject from "../../editProject/editProject";
+import { ProductPreviev } from "../productPreviev/productPreviev";
 
 const UserProfile = () => {
   const { id } = useParams();
@@ -36,9 +38,10 @@ const UserProfile = () => {
         <Route path="/" element={<Default user={data}/>}/>
         <Route path="my-products" element={<MyProducts/>}/>
         <Route path="add-product" element={<AddNewProject user={data}/>} />
-        <Route path="profile" element={<UserSettings user={data}/>}/>
         <Route path="users" element={<Users />}/>
-        <Route path="my-products/:id" element={<Edit />}/>
+        <Route path="profile" element={<Edit user={data}/>}/>
+        <Route path="my-products/edit/:projectId" element={<EditProject />}/>
+        <Route path="my-products/:projectId" element={<ProductPreviev />}/>
 
       </Routes>
     </>

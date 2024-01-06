@@ -9,6 +9,7 @@ import { WhyWe } from "../../components/blocks/whyWe/whyWe";
 import Map from "../../components/blocks/map/map";
 import { BookIcon } from "../../icons/book";
 import { useLocation } from "react-router-dom";
+import { Close } from "../../icons/close";
 
 export const Objects = () => {
     const [type, setType] = useState('');
@@ -21,6 +22,22 @@ export const Objects = () => {
     const [sortBy, setSortBy] = useState("");
     const [originalData, setOriginalData] = useState([]);
     const [visibleCards, setVisibleCards] = useState(9);
+    const [openFilters, setOpenFilters] = useState(false);
+
+    const [selectedRegions, setSelectedRegions] = useState([]);
+    const [selectedBuildingTypes, setSelectedBuildingTypes] = useState([]);
+    const [selectedRooms, setSelectedRooms] = useState([]);
+    const [priceRange, setPriceRange] = useState({ min: '', max: '' });
+
+    const handleOpenFilters = () => {
+        setOpenFilters(true);
+        document.body.style.overflow = 'hidden';
+    }
+
+    const handleCloseFilters = () => {
+        setOpenFilters(false);
+        document.body.style.overflow = 'unset';
+    }
 
     const handleShowMore = () => {
         setVisibleCards(prevCount => prevCount + 9);
@@ -125,9 +142,10 @@ export const Objects = () => {
     const handleOptionChange = (selectedOption) => {
         setType(selectedOption.value);
         if(type === 'sell') {
-            setCurrency('UAH');
-        } else if(type === 'rent') {
             setCurrency('$');
+        } 
+        if(type === 'rent') {
+            setCurrency('UAH');
         }
     };
 
@@ -162,6 +180,39 @@ export const Objects = () => {
         setSortBy("");
     };
 
+    const filterData = () => {
+        let filteredResult = originalData.filter(item => {
+            // Проверка для каждого поля на совпадение
+            if (
+                (type && item.type !== type)
+                // Добавьте другие поля для фильтрации, если они есть
+            ) {
+                return false;
+            }
+            
+            return true;
+        });
+
+        // Применение отфильтрованных данных к состоянию для отображения
+        setData(filteredResult);
+    };
+
+    useEffect(() => {
+        // Пересчет данных при изменении выбранных опций
+        filterData();
+    }, [type]);
+
+    const handleOperationChange = selectedOption => {
+        setType(selectedOption.value);
+    };
+    
+
+    
+    const handlePriceRangeChange = event => {
+        const { name, value } = event.target;
+        setPriceRange(prevState => ({ ...prevState, [name]: value }));
+    };
+    
     
 
     return (
@@ -178,7 +229,7 @@ export const Objects = () => {
                                 className={style.custom__width}
                                 placeholder= 'Виберіть тип операції'
                                 options={typeOptions}
-                                onChange={handleOptionChange}   
+                                onChange={handleOperationChange}   
                             />
                         </div>
                         <div className={style.select__wrapper}>
@@ -200,11 +251,12 @@ export const Objects = () => {
                             <label className={style.label}>Тип нерохомості</label>
                                 <Select
                                     isMulti
-                                    classNamePrefix='custom-select'
-                                    className={style.custom__width4}
+                                    classNamePrefix='custom-select-1'
+                                    className={`${style.custom__width4} ${style.custom__owerflow}`}
+                                    menuPortalTarget={document.body}
                                     placeholder= 'Всі типи'
                                     options={buildingType}
-                                    onChange={handleOptionChange}   
+                                    onChange={handleOptionChange} 
                                 />
                             </div>
                             <div className={style.select__wrapper}>
@@ -224,11 +276,10 @@ export const Objects = () => {
                                     classNamePrefix='custom-select'
                                     className={style.custom__width3}
                                     placeholder= 'Всі оголошення'
-                                    options={typeOptions}
                                     onChange={handleOptionChange}   
                                 />
                             </div>
-                            <button className={style.filter__button}><span>Більше фільтрів</span></button>
+                            <button className={style.filter__button} onClick={handleOpenFilters}><span>Більше фільтрів</span></button>
                             <button className={`${style.filter__button} ${style.background}`}>Очистити все</button>
                             
                         </div>
@@ -256,6 +307,93 @@ export const Objects = () => {
             <Contacts />
             <WhyWe />
             <Map />
+            {openFilters && (
+                <div className={style.more__filters}>
+                    <div className={style.more__filters__wrapper}>
+                        <button type="button" className={style.more__filters__button} onClick={handleCloseFilters}><Close /></button>
+                        <div className={style.filters__wrapper__modal}>
+                            <h2 className={style.filters__title}>Розширений фільтр</h2>
+                            <div className={style.filtes__inputs__wrapper}>
+                                <div className={style.filters__inputs}>
+                                <label className={`${style.label} ${style.label2}`}>{`Тип  операції`}</label>
+                                    <Select 
+                                        classNamePrefix='custom-select'
+                                        className={style.custom__width11}
+                                        placeholder= 'Тип  операції'
+                                        options={typeOptions}
+                                        onChange={handleOptionChange}   
+                                    />
+
+                                <label className={`${style.label} ${style.label2}`}>{`Район`}</label>
+                                    <Select 
+                                        classNamePrefix='custom-select'
+                                        className={style.custom__width11}
+                                        placeholder= 'Всі оголошення'
+                                        options={typeOptions}
+                                        onChange={handleOptionChange}   
+                                    />
+                                </div>
+                                <div className={style.filters__inputs}>
+                                    <label className={`${style.label} ${style.label2}`}>{`Тип  нерухомості`}</label>
+                                        <Select 
+                                            classNamePrefix='custom-select'
+                                            className={style.custom__width11}
+                                            placeholder= 'Всі оголошення'
+                                            options={typeOptions}
+                                            onChange={handleOptionChange}   
+                                        />
+
+                                    <label className={`${style.label} ${style.label2}`}>{`Стан`}</label>
+                                        <Select 
+                                            classNamePrefix='custom-select'
+                                            className={style.custom__width11}
+                                            placeholder= 'Всі оголошення'
+                                            options={typeOptions}
+                                            onChange={handleOptionChange}   
+                                        />
+                                </div>
+                            </div>
+                            <div className={style.filters__more__prices}>
+                                <div className={style.filters__more__price}>
+                                    <label htmlFor="">Поверх:</label>
+                                    <div className={style.filters__input__wrapper}>
+                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="вiд"/>
+                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="до"/>
+                                    </div>
+                                    
+                                </div>
+
+                                <div className={style.filters__more__price}>
+                                    <label htmlFor="">Кількість кімнат:</label>
+                                    <div className={style.filters__input__wrapper}>
+                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="вiд"/>
+                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="до"/>
+                                    </div>
+                                    
+                                </div>
+
+                                <div className={style.filters__more__price}>
+                                    <label htmlFor="">Площа:</label>
+                                    <div className={style.filters__input__wrapper}>
+                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="вiд"/>
+                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="до"/>
+                                    </div>
+                                    
+                                </div>
+
+                                <div className={style.filters__more__price}>
+                                    <label htmlFor="">Ціна, грн:</label>
+                                    <div className={style.filters__input__wrapper}>
+                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="вiд"/>
+                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="до"/>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     )
 }

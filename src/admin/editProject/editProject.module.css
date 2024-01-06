@@ -310,3 +310,9 @@
 .submit__hidden__wrapper button {
     padding-left: 40px;
 }
+
+.delete {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}

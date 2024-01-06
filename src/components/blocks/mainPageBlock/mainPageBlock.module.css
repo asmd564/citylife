@@ -9,7 +9,9 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    min-height: 600px;
 }
+
 
 .main__wrapper {
     display: flex;
@@ -35,4 +37,30 @@ h1 {
 .active {
     background: linear-gradient(180deg, #00A364 0%, #009166 100%);
     border: 2px solid #009166;
+}
+
+@media(max-width: 630px) {
+    .main {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .main__title {
+        font-size: 36px;
+    }
+
+    .main__wrapper {
+        max-width: 400px;
+    }
+
+    .main__buttons__wrapper {
+        padding-top: 42px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .main__buttons__wrapper > :nth-child(n) {
+        margin-left: 0;
+    }
 }
