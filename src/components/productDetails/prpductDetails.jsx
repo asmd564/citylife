@@ -137,7 +137,7 @@ useEffect(() => {
     window.scrollTo(0,0);
    },[])
     return (
-        <section className={`${style.product__details} container`}>
+        <section className={`${style.product__details}`}>
             <p className={style.go__back} onClick={handleBack}>Назад до оголошень</p>
             { product ? (
                 <>
@@ -191,8 +191,14 @@ useEffect(() => {
                                 <button className={style.favorive} onClick={toggleFavorite}>
                                     <div className={style.favotite__title}>В обране{favorite ? <FavoriteActive /> : <Favorite />}</div>
                                 </button>
-                                <button onClick={scrollToRef} className={style.map__btn}><div className={style.favotite__title1}><BookIcon />Дивитись на мапі</div></button>
-                                <button className={style.map__btn}><div className={style.favotite__title1} onClick={handleOpenGallery}><PhotoIcon />Всі фото</div></button>
+
+                                <button onClick={scrollToRef} className={style.map__btn}>
+                                    <div className={style.favotite__title1}><BookIcon />Дивитись на мапі</div>
+                                </button>
+
+                                <button className={style.map__btn}>
+                                    <div className={style.favotite__title1} onClick={handleOpenGallery}><PhotoIcon />Всі фото</div>
+                                </button>
                             </div>
                         </section> 
                         ) : (
@@ -208,19 +214,19 @@ useEffect(() => {
                             <div className={style.description__goods}>
                                 <div className={style.goods__wrapper}>
                                     <div className={style.good}>
-                                        <p className={style.type}>Вулиця</p>
+                                        <p className={`${style.type} ${style.type__width}`}>Вулиця</p>
                                         <p className={style.desc}>{product.adress}</p>
                                     </div>
                                     <div className={style.good}>
-                                        <p className={`${style.type} ${style.room}`}>Кімнат</p>
+                                        <p className={`${style.type} ${style.type__width} ${style.room}`}>Кімнат</p>
                                         <p className={style.desc}>{product.rooms}</p>
                                     </div>
                                     <div className={style.good}>
-                                        <p className={`${style.type} ${style.area}`}>Площа</p>
+                                        <p className={`${style.type} ${style.type__width} ${style.area}`}>Площа</p>
                                         <p className={style.desc}>{product.area} м²</p>
                                     </div>
                                     <div className={style.good}>
-                                        <p className={`${style.type} ${style.floor}`}>Поверх</p>
+                                        <p className={`${style.type} ${style.type__width} ${style.floor}`}>Поверх</p>
                                         <p className={style.desc}>{product.flor}</p>
                                     </div>
                                 </div>
@@ -248,7 +254,7 @@ useEffect(() => {
                         </div>
                         <div className={style.card__wrapper} >
                             <AgentCard user={user}/>
-                            </div>
+                        </div>
                     </section>
                     <section className={style.full__description}>
                         <h2 className={style.full__title}>Опис </h2>

@@ -193,7 +193,6 @@ export const Objects = () => {
             return true;
         });
 
-        // Применение отфильтрованных данных к состоянию для отображения
         setData(filteredResult);
     };
 

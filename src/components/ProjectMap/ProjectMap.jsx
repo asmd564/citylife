@@ -38,7 +38,7 @@ const ProjectMap = ({lat, lng, width}) => {
       
 
     const containerStyle = {
-        width: '848px',
+        width: '100%',
         height: '492px',
       };
     
@@ -50,6 +50,7 @@ const ProjectMap = ({lat, lng, width}) => {
       return (
         <section className={`${style.map} container`}>
             <h2 className={style.title}>Адреса</h2>
+            <div className={style.width}>
                 <LoadScript googleMapsApiKey='AIzaSyDVztCGH1CU0r2VLIlTcZnF_Ta_WGOlgw4'>
                 <GoogleMap
                     key={`${lat}-${lng}`}
@@ -67,6 +68,7 @@ const ProjectMap = ({lat, lng, width}) => {
                     <Marker position={center} title="Маркер" icon={{url: icon}}/>
                 </GoogleMap>
                 </LoadScript>
+              </div>
         </section>
     );
 }

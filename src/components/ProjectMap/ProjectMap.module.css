@@ -1,6 +1,6 @@
 .title {
     padding-bottom: 24px;
-    font-family: Inter;
+    font-family: 'Inter', sans-serif;
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
@@ -8,4 +8,9 @@
 
 .map {
     padding-bottom: 100px;
+}
+
+.width {
+    max-width: 848px;
+    width: 100%;
 }

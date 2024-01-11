@@ -22,8 +22,11 @@ export const AgentCard = ({ isFixed, user }) => {
                 <p className={style.desc}>Менеджер з продажу нерухомості Агентство нерухомості "City live".</p>
                 <div className={style.exp}>Досвід у сфері нерухомості з {user.exp} р.</div>
                 <div className={style.projects}>Всього пропозицій: <span>6</span> </div>
-                <a href="tel:" className={style.phone}>{user.phone}</a>
-                <a href="" className={style.request}>Замовити дзвінок</a>
+                <div className={style.phone__wrapper}>
+                    <a href="tel:" className={style.phone}>{user.phone}</a>
+                    <a href="" className={style.request}>Замовити дзвінок</a>
+                </div>
+                
                 <div className={style.social}>
                     <a className={style.telegram}>Написати у Telegram</a>
                     <a className={style.viber}>Написати у Viber</a>
