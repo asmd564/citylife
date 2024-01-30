@@ -269,7 +269,10 @@ return (
                                 <input type="text" name="lng" id="lng" placeholder="Долгота" value={formData.lng} onChange={(e) => setFormData({ ...formData, lng: e.target.value })}/>
                             </div>  
                         </div>
-                        <ProjectMap lat={mapLat} lng={mapLng}/>
+                        <div>
+                            <ProjectMap lat={mapLat} lng={mapLng}/>
+                        </div>
+                       
 
                         <label htmlFor="description" className={style.labelWithMargin}>Опис обʼєкта</label>
                             <textarea type="text" name="description" id="description" placeholder="Напишіть детальний опис" className={style.textarea} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })}/>

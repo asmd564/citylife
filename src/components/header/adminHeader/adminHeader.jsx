@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import style from "./adminHeader.module.css";
 import { Logo } from "../../../icons/logo";
 import { Link, NavLink, useParams } from "react-router-dom";
@@ -23,6 +23,21 @@ export const AdminHeader = ({ id, user }) => {
     const closeAdmin = () => {
         setOpen(false);
     }
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (open && !event.target.closest(`.${style.profile__details}`) && !event.target.closest(`.${style.profile}`)) {
+                setOpen(false);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [open]);
+
     return (
         <header className={style.header}>
             <div className={`${style.header__wrapper} container`}>
@@ -53,7 +68,7 @@ export const AdminHeader = ({ id, user }) => {
                                  <p className={style.email}>{user.email}</p>
                              </div>
                              <div className={style.profile__links__wrapper}>
-                                 <Link to={`/admin/dashboard/${id}/profile`}><div className={style.profile__link}><UserEdit />Мій профіль</div></Link>
+                                 <Link to={`/admin/dashboard/${id}/profile`} onClick={toggleAdmin}><div className={style.profile__link}><UserEdit />Мій профіль</div></Link>
                                  <button className={style.exit__link} onClick={handleLoguot} ><Exit />Вихід</button>
                              </div>
                          </div>

@@ -276,7 +276,10 @@ export const AddNewProject = ({ user }) => {
                                     <input type="text" name="lng" id="lng" placeholder="Долгота" value={lng} onChange={handleLngChange} />
                                 </div>  
                             </div>
-                            <ProjectMap lat={mapLat} lng={mapLng}/>
+                            <div className={style.project__map}>
+                                <ProjectMap lat={mapLat} lng={mapLng}/>
+                            </div>
+                            
 
                             <label htmlFor="description" className={style.labelWithMargin}>Опис обʼєкта</label>
                                 <textarea type="text" name="description" id="description" placeholder="Напишіть детальний опис" className={style.textarea} />
@@ -405,6 +408,7 @@ export const AddNewProject = ({ user }) => {
                             <input {...getInputProps()} />
                             <p>Перетягніть свої фото сюди або натиснути <span>Завантажити</span></p>
                         </div>
+                       
                         </div>
                     </div>
                     <div className={style.button__wrapper}>

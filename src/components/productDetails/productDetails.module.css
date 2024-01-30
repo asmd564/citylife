@@ -2,6 +2,10 @@
    padding-left: 76px;
    padding-right: 76px;
 }
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+}
 
 .go__back {
     box-sizing: border-box;

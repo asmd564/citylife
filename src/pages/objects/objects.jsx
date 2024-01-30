@@ -215,7 +215,7 @@ export const Objects = () => {
     
 
     return (
-        <section className={style.objects}>
+        <section className={`${style.objects} ${style.container}`}>
             <div className={style.objects__wrapper}>
                 <div className={style.object__wrapper}>
                     <h1 className={style.objects__title}>{type === "rent" ? 'Оренда' : 'Продаж'}</h1>

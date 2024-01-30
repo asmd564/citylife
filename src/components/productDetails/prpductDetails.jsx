@@ -137,7 +137,7 @@ useEffect(() => {
     window.scrollTo(0,0);
    },[])
     return (
-        <section className={`${style.product__details}`}>
+        <section className={`${style.product__details} ${style.container}`}>
             <p className={style.go__back} onClick={handleBack}>Назад до оголошень</p>
             { product ? (
                 <>
