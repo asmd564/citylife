@@ -76,7 +76,6 @@ export const Objects = () => {
         {
             label: 'Райони',
             options: [
-              { value: 'all', label: 'Всі райони' },
               { value: 'Центр', label: 'Центр' },
               { value: 'Івасюка-Надрічна', label: 'Івасюка-Надрічна' },
               { value: 'Пасічна', label: 'Пасічна' },
@@ -90,7 +89,6 @@ export const Objects = () => {
           {
             label: 'Передмістя',
             options: [
-              { value: 'all', label: 'Всі передмістя' },
               { value: 'Крихівці', label: 'Крихівці' },
               { value: 'Драгомирчани', label: 'Драгомирчани' },
               { value: 'Опришівці', label: 'Опришівці' },
@@ -107,9 +105,8 @@ export const Objects = () => {
             ],
           },
           {
-            label: 'Передмістя',
+            label: 'Райони області',
             options: [
-              { value: 'all', label: 'Всі райони області' },
               { value: 'Тисменицький', label: 'Тисменицький' },
               { value: 'Івано-Франківський', label: 'Івано-Франківський' },
               { value: 'Калуський', label: 'Калуський' },
@@ -139,13 +136,37 @@ export const Objects = () => {
 
 
 
-    const handleOptionChange = (selectedOption) => {
-        setType(selectedOption.value);
-        if(type === 'sell') {
-            setCurrency('$');
-        } 
-        if(type === 'rent') {
-            setCurrency('UAH');
+   const handleOptionChange = (selectedOption, action) => {
+        if (action.name === "operation") {
+            setType(selectedOption.value);
+            // ... (логика обработки валюты)
+        } else if (action.name === "regions") {
+            setSelectedRegions(selectedOption);
+        } else if (action.name === "buildingTypes") {
+            setSelectedBuildingTypes(selectedOption);
+        } else if (action.name === "rooms") {
+            setSelectedRooms(selectedOption);
+        }
+        // ... (обработка других случаев)
+    };
+
+const handleAdvancedFilterChange = (selectedOption, action, filterType) => {
+        switch (filterType) {
+            case "operation":
+                setType(selectedOption.value);
+                break;
+            case "regions":
+                setSelectedRegions(selectedOption);
+                break;
+            case "buildingType":
+                setSelectedBuildingTypes(selectedOption);
+                break;
+            case "rooms":
+                setSelectedRooms(selectedOption);
+                break;
+            // Добавьте обработку других полей, если необходимо
+            default:
+                break;
         }
     };
 
@@ -180,26 +201,33 @@ export const Objects = () => {
         setSortBy("");
     };
 
-    const filterData = () => {
-        let filteredResult = originalData.filter(item => {
-            // Проверка для каждого поля на совпадение
-            if (
-                (type && item.type !== type)
-                // Добавьте другие поля для фильтрации, если они есть
-            ) {
-                return false;
-            }
-            
-            return true;
-        });
+   const filterData = () => {
+    let filteredResult = originalData.filter(item => {
+        // Проверка для каждого поля на совпадение
+        if (
+            (type && item.type !== type) ||
+            (selectedRegions.length > 0 && (!item.district || !selectedRegions.some(region => region.value === item.district))) ||
+            (selectedBuildingTypes.length > 0 && (!item.buildingType || !selectedBuildingTypes.some(type => type.value === item.buildingType))) ||
+            (selectedRooms.length > 0 && (!item.rooms || !selectedRooms.some(room => room.value === item.rooms.toString()))) ||
+            ((priceRange.min !== '' && parseFloat(item.price) < parseFloat(priceRange.min)) ||
+            (priceRange.max !== '' && parseFloat(item.price) > parseFloat(priceRange.max)))
+            // Добавьте другие поля для фильтрации, если они есть
+        ) {
+            return false;
+        }
 
-        setData(filteredResult);
-    };
+        return true;
+    });
 
-    useEffect(() => {
+    // Обновляем данные, которые отображаются в компоненте
+    setData(filteredResult);
+};
+
+
+   useEffect(() => {
         // Пересчет данных при изменении выбранных опций
         filterData();
-    }, [type]);
+    }, [type, selectedRegions, selectedBuildingTypes, selectedRooms, priceRange]);
 
     const handleOperationChange = selectedOption => {
         setType(selectedOption.value);
@@ -212,6 +240,19 @@ export const Objects = () => {
         setPriceRange(prevState => ({ ...prevState, [name]: value }));
     };
     
+
+    const handleAdvancedFilterInputChange = (event, filterType) => {
+        const { name, value } = event.target;
+
+        switch (filterType) {
+            case "priceRange":
+                setPriceRange(prevState => ({ ...prevState, [name]: value }));
+                break;
+            // Добавьте обработку других полей ввода, если необходимо
+            default:
+                break;
+        }
+    };
     
 
     return (
@@ -228,7 +269,7 @@ export const Objects = () => {
                                 className={style.custom__width}
                                 placeholder= 'Виберіть тип операції'
                                 options={typeOptions}
-                                onChange={handleOperationChange}   
+                                onChange={(selectedOption, action) => handleAdvancedFilterChange(selectedOption, action, "operation")}  
                             />
                         </div>
                         <div className={style.select__wrapper}>
@@ -239,7 +280,7 @@ export const Objects = () => {
                                 className={style.custom__width2}
                                 placeholder= 'Виберіть район'
                                 options={regionTypes}
-                                onChange={handleOptionChange}   
+                                onChange={(selectedOption, action) => handleAdvancedFilterChange(selectedOption, action, "regions")}  
                             />
                         </div>
                     </div>
@@ -255,7 +296,7 @@ export const Objects = () => {
                                     menuPortalTarget={document.body}
                                     placeholder= 'Всі типи'
                                     options={buildingType}
-                                    onChange={handleOptionChange} 
+                                    onChange={(selectedOption, action) => handleAdvancedFilterChange(selectedOption, action, "buildingType")}
                                 />
                             </div>
                             <div className={style.select__wrapper}>
@@ -265,7 +306,7 @@ export const Objects = () => {
                                     className={style.custom__width3}
                                     placeholder= 'Всі оголошення'
                                     options={roomsType}
-                                    onChange={handleOptionChange}   
+                                    onChange={(selectedOption, action) => handleAdvancedFilterChange(selectedOption, action, "rooms")}  
                                 />
                             </div>
 
@@ -388,6 +429,10 @@ export const Objects = () => {
                                     </div>
                                     
                                 </div>
+                            </div>
+                            <div className={style.filters__buttons}>
+                                <button type="button" className={style.filters__button1}>Скинути</button>
+                                <button type="button" className={style.filters__button2}>Шукати</button>
                             </div>
                         </div>
                     </div>

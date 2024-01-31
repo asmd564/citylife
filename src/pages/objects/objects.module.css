@@ -233,7 +233,8 @@
 }
 
 .more__filters__wrapper {
-    margin-top: 140px;
+    margin-top: 120px;
+    margin-bottom: 40px;
     width: 960px;
     background: #E2E2E2;
     box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.08);
@@ -287,6 +288,45 @@
     max-width: 620px;
     justify-content: space-between;
     margin: 0 auto;
+}
+
+.filters__buttons {
+    margin: 0 auto;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.filters__button1,
+.filters__button2 {
+    padding: 17px 0;
+    width: 200px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    background: none;
+    border: 1px solid #008766;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.filters__button2 {
+    color: white;
+    background-color: #008766;
+}
+
+.filters__button1:hover {
+    color: white;
+    background-color: #008766;
+}
+
+.filters__button2:hover {
+    color: black;
+    background-color: transparent;
 }
 
 
