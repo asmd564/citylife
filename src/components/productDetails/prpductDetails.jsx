@@ -91,8 +91,6 @@ useEffect(() => {
     triggerOnce: false,
 });
 
-console.log(user);
-
 
 
 const handleScroll = () => {

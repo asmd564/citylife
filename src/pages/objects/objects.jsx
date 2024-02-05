@@ -3,31 +3,32 @@ import style from './objects.module.css';
 import Select from 'react-select';
 import axios from "axios";
 import { ProductCard } from "../../components/ui/product__card/product__card";
-import { Link } from "react-router-dom";
 import { Contacts } from "../../components/blocks/contacts/contacts";
 import { WhyWe } from "../../components/blocks/whyWe/whyWe";
 import Map from "../../components/blocks/map/map";
 import { BookIcon } from "../../icons/book";
-import { useLocation } from "react-router-dom";
 import { Close } from "../../icons/close";
 
 export const Objects = () => {
     const [type, setType] = useState('');
     const [data, setData] = useState([]);
-    const [filteredData, setFilteredData] = useState(data);
-    const [active, setActive] = useState('')
-    const location = useLocation();
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [filteredData, setFilteredData] = useState([]);
     const [currency, setCurrency] = useState('');
-    const [sortBy, setSortBy] = useState("");
+    const [sortBy, setSortBy] = useState("default");
     const [originalData, setOriginalData] = useState([]);
     const [visibleCards, setVisibleCards] = useState(9);
     const [openFilters, setOpenFilters] = useState(false);
 
-    const [selectedRegions, setSelectedRegions] = useState([]);
-    const [selectedBuildingTypes, setSelectedBuildingTypes] = useState([]);
-    const [selectedRooms, setSelectedRooms] = useState([]);
-    const [priceRange, setPriceRange] = useState({ min: '', max: '' });
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
+    const [minRooms, setMinRooms] = useState('');
+    const [maxRooms, setMaxRooms] = useState('');
+    const [district, setDistrict] = useState('');
+    const [roomsCount, setRoomsCount] = useState('');
+    const [buildingTypeCount, setBuildingTypeCount] = useState('');
+    const [sortedFilter, setSortedFilter] = useState([])
+    const [typeSelectValue, setTypeSelectValue] = useState(null);
+
 
     const handleOpenFilters = () => {
         setOpenFilters(true);
@@ -47,25 +48,18 @@ export const Objects = () => {
         window.scrollTo(0,0);
     },[])
 
-    useEffect(() => {
-        const searchParams = new URLSearchParams(location.search);
-        const category = searchParams.get("category");
-    
-        setSelectedCategory(category);
-      }, [location.search]);
-
     useEffect(()=> {
         axios.get('http://46.41.141.5:3001/products')
             .then(response => {
                 const products = response.data;
                 setData(products);
-                setOriginalData([...products])
+                setOriginalData([...products]);
+                setFilteredData([...products]);
             })
             .catch(error => {
                 console.error('ошибка');
             });
     },[]);
-
 
     const typeOptions = [
         {value: 'sell', label: 'Продаж'},
@@ -134,133 +128,89 @@ export const Objects = () => {
     ];
 
 
+    const filterAndSortProducts = () => {
+        let filteredProducts = [...data];
 
-
-   const handleOptionChange = (selectedOption, action) => {
-        if (action.name === "operation") {
-            setType(selectedOption.value);
-            // ... (логика обработки валюты)
-        } else if (action.name === "regions") {
-            setSelectedRegions(selectedOption);
-        } else if (action.name === "buildingTypes") {
-            setSelectedBuildingTypes(selectedOption);
-        } else if (action.name === "rooms") {
-            setSelectedRooms(selectedOption);
+        if(type !== '') {
+            filteredProducts = filteredProducts.filter(product => product.type === type);
         }
-        // ... (обработка других случаев)
-    };
-
-const handleAdvancedFilterChange = (selectedOption, action, filterType) => {
-        switch (filterType) {
-            case "operation":
-                setType(selectedOption.value);
-                break;
-            case "regions":
-                setSelectedRegions(selectedOption);
-                break;
-            case "buildingType":
-                setSelectedBuildingTypes(selectedOption);
-                break;
-            case "rooms":
-                setSelectedRooms(selectedOption);
-                break;
-            // Добавьте обработку других полей, если необходимо
-            default:
-                break;
+        if (minPrice !== '') {
+            filteredProducts = filteredProducts.filter(product => parseFloat(product.price) >= parseFloat(minPrice));
         }
+        if (maxPrice !== '') {
+            filteredProducts = filteredProducts.filter(product => parseFloat(product.price) <= parseFloat(maxPrice));
+        }
+        if (minRooms !== '') {
+            filteredProducts = filteredProducts.filter(product => parseFloat(product.rooms) >= parseFloat(minRooms));
+        }
+        if (maxRooms !== '') {
+            filteredProducts = filteredProducts.filter(product => parseFloat(product.rooms) <= parseFloat(maxRooms));
+        }
+        if (district && district.length > 0) {
+            filteredProducts = filteredProducts.filter(product => district.some(d => d.value === product.district));
+        }
+        if (buildingTypeCount && buildingTypeCount.length > 0) {
+            filteredProducts = filteredProducts.filter(product => buildingTypeCount.some(d => d.value === product.buildingtype));
+        }
+
+        setFilteredData(filteredProducts);
+        setSortedFilter(filteredProducts);
+        setOriginalData(filteredProducts);
     };
 
     const sortProducts = (order) => {
         let sortedProducts;
     
         if (order === "default") {
-            // Сбросить сортировку, например, отобразить в том порядке, в котором они были получены с сервера
             setSortBy("default");
             return;
         } else {
-            // В противном случае сортируем по указанному типу
-            sortedProducts = [...data].sort((a, b) => {
+            sortedProducts = [...filteredData].sort((a, b) => {
                 if (order === "lowToHigh") {
                     // Сортировка по возрастанию цены
                     return parseFloat(a.price) - parseFloat(b.price);
                 } else if (order === "highToLow") {
-                    // Сортировка по убыванию цены
                     return parseFloat(b.price) - parseFloat(a.price);
                 }
-                // Другие возможности сортировки
-                // ...
             });
         }
     
-        setData(sortedProducts);
+        setFilteredData(sortedProducts);
         setSortBy(order);
     };
 
     const resetSort = () => {
-        setData([...originalData]); // Сброс сортировки к начальным данным
-        setSortBy("");
+        setFilteredData([...filteredData]);
+        setSortBy("default");
     };
 
-   const filterData = () => {
-    let filteredResult = originalData.filter(item => {
-        // Проверка для каждого поля на совпадение
-        if (
-            (type && item.type !== type) ||
-            (selectedRegions.length > 0 && (!item.district || !selectedRegions.some(region => region.value === item.district))) ||
-            (selectedBuildingTypes.length > 0 && (!item.buildingType || !selectedBuildingTypes.some(type => type.value === item.buildingType))) ||
-            (selectedRooms.length > 0 && (!item.rooms || !selectedRooms.some(room => room.value === item.rooms.toString()))) ||
-            ((priceRange.min !== '' && parseFloat(item.price) < parseFloat(priceRange.min)) ||
-            (priceRange.max !== '' && parseFloat(item.price) > parseFloat(priceRange.max)))
-            // Добавьте другие поля для фильтрации, если они есть
-        ) {
-            return false;
-        }
+    const handleSearch = () => {
+        filterAndSortProducts();
+      };
 
-        return true;
-    });
+    const handleClearSearch = ()  => {
+        setFilteredData(data);
+        setSortBy("default");
+        setType("");
+        setTypeSelectValue(null);
+        setDistrict([]);
+        setBuildingTypeCount([]);
+        setMinRooms("");
+        setMaxRooms("");
+        setMaxPrice("");
+        setMinPrice("");
+    }
 
-    // Обновляем данные, которые отображаются в компоненте
-    setData(filteredResult);
-};
-
-
-   useEffect(() => {
-        // Пересчет данных при изменении выбранных опций
-        filterData();
-    }, [type, selectedRegions, selectedBuildingTypes, selectedRooms, priceRange]);
-
-    const handleOperationChange = selectedOption => {
-        setType(selectedOption.value);
-    };
+    useEffect(() => {
+        filterAndSortProducts();
+    }, [minPrice, maxPrice, district, type, buildingTypeCount, sortBy, maxRooms, minRooms]);
     
-
-    
-    const handlePriceRangeChange = event => {
-        const { name, value } = event.target;
-        setPriceRange(prevState => ({ ...prevState, [name]: value }));
-    };
-    
-
-    const handleAdvancedFilterInputChange = (event, filterType) => {
-        const { name, value } = event.target;
-
-        switch (filterType) {
-            case "priceRange":
-                setPriceRange(prevState => ({ ...prevState, [name]: value }));
-                break;
-            // Добавьте обработку других полей ввода, если необходимо
-            default:
-                break;
-        }
-    };
-    
-
     return (
         <section className={`${style.objects} ${style.container}`}>
             <div className={style.objects__wrapper}>
                 <div className={style.object__wrapper}>
-                    <h1 className={style.objects__title}>{type === "rent" ? 'Оренда' : 'Продаж'}</h1>
-                    <p className={style.object__count}>Знайдено {data.length} оголошень</p>
+                    <h1 className={style.objects__title}>{type === "rent" ? 'Оренда' : type === "sell" ? 'Продаж' : "Все"}</h1>
+                    <p className={style.object__count}>Знайдено {filteredData.length} оголошень</p>
                     <div className={style.filters__wrapper}>
                         <div className={style.select__wrapper}>
                         <label className={style.label}>Тип операції</label>
@@ -269,7 +219,11 @@ const handleAdvancedFilterChange = (selectedOption, action, filterType) => {
                                 className={style.custom__width}
                                 placeholder= 'Виберіть тип операції'
                                 options={typeOptions}
-                                onChange={(selectedOption, action) => handleAdvancedFilterChange(selectedOption, action, "operation")}  
+                                value={typeSelectValue}
+                                onChange={(selectedOption) => {
+                                    setType(selectedOption.value);
+                                    setTypeSelectValue(selectedOption);
+                                }}
                             />
                         </div>
                         <div className={style.select__wrapper}>
@@ -280,7 +234,8 @@ const handleAdvancedFilterChange = (selectedOption, action, filterType) => {
                                 className={style.custom__width2}
                                 placeholder= 'Виберіть район'
                                 options={regionTypes}
-                                onChange={(selectedOption, action) => handleAdvancedFilterChange(selectedOption, action, "regions")}  
+                                value={district}
+                                onChange={(selectedOption) => setDistrict(selectedOption)}
                             />
                         </div>
                     </div>
@@ -293,34 +248,33 @@ const handleAdvancedFilterChange = (selectedOption, action, filterType) => {
                                     isMulti
                                     classNamePrefix='custom-select-1'
                                     className={`${style.custom__width4} ${style.custom__owerflow}`}
-                                    menuPortalTarget={document.body}
                                     placeholder= 'Всі типи'
                                     options={buildingType}
-                                    onChange={(selectedOption, action) => handleAdvancedFilterChange(selectedOption, action, "buildingType")}
+                                    value={buildingTypeCount}
+                                    onChange={(selectedOption) => setBuildingTypeCount(selectedOption)}
                                 />
                             </div>
                             <div className={style.select__wrapper}>
-                                <label className={style.label}>Кількість кімнат</label>
-                                <Select 
-                                    classNamePrefix='custom-select'
-                                    className={style.custom__width3}
-                                    placeholder= 'Всі оголошення'
-                                    options={roomsType}
-                                    onChange={(selectedOption, action) => handleAdvancedFilterChange(selectedOption, action, "rooms")}  
-                                />
+                                <label className={style.label}>{`Кiмнати вiд:`}</label>
+                                    <input type="text" style={{width: '138px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="Вiд" value={minRooms} onChange={(e) => setMinRooms(e.target.value)}/>
                             </div>
 
                             <div className={style.select__wrapper}>
-                                <label className={style.label}>{`Ціна, ${currency}`}</label>
-                                <Select 
-                                    classNamePrefix='custom-select'
-                                    className={style.custom__width3}
-                                    placeholder= 'Всі оголошення'
-                                    onChange={handleOptionChange}   
-                                />
+                                <label className={style.label}>{`Кiмнати до:`}</label>
+                                    <input type="text" style={{width: '138px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="До"value={maxRooms}  onChange={(e) => setMaxRooms(e.target.value)}/>
                             </div>
-                            <button className={style.filter__button} onClick={handleOpenFilters}><span>Більше фільтрів</span></button>
-                            <button className={`${style.filter__button} ${style.background}`}>Очистити все</button>
+
+                            <div className={style.select__wrapper}>
+                                <label className={style.label}>{`Ціна вiд:`}</label>
+                                    <input type="text" style={{width: '138px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="Вiд" value={minPrice} onChange={(e) => setMinPrice(e.target.value)}/>
+                            </div>
+
+                            <div className={style.select__wrapper}>
+                                <label className={style.label}>{`Ціна до:`}</label>
+                                    <input type="text" style={{width: '138px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="До" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}/>
+                            </div>
+                            {/*<button className={style.filter__button} onClick={handleOpenFilters}><span>Більше фільтрів</span></button>*/}
+                            <button className={`${style.filter__button} ${style.background}`} onClick={handleClearSearch}>Очистити все</button>
                             
                         </div>
                         <button className={`${style.filter__button} ${style.background2}`}><span>Знайти</span></button>
@@ -330,19 +284,24 @@ const handleAdvancedFilterChange = (selectedOption, action, filterType) => {
             <div className={style.sort__wrapper}>
                 <div className={style.first__wrapper}>
                     <div className={style.sort__title}>Сортування</div>
-                    <button className={`${style.sort__button} ${sortBy === "" ? style.active : ""}`} onClick={resetSort}>Звичайне</button>
+                    <button className={`${style.sort__button} ${sortBy === "default" ? style.active : ""}`} onClick={resetSort}>Звичайне</button>
                     <button className={`${style.sort__button} ${sortBy === "lowToHigh" ? style.active : ""}`} onClick={() => sortProducts("lowToHigh")}>Від  дешевих до дорогих</button>
                     <button className={`${style.sort__button} ${sortBy === "highToLow" ? style.active : ""}`} onClick={() => sortProducts("highToLow")}>Від дорогих до дешевих </button>
                 </div>
                 <button className={style.map__button}>На карті<BookIcon /></button>
             </div>
-            <div className={style.products__wrapper}>
-                {data.slice(0, visibleCards).map(product => (
-                    <ProductCard product={product}/>
-                ))}
-                 {visibleCards < data.length && data.length > 9 && (
+            <div>
+                <div className={style.products__wrapper}>
+                    {filteredData.slice(0, visibleCards).map(product => (
+                        <ProductCard product={product}/>
+                    ))}    
+                </div>
+                <div className={style.products__button}>
+                    {visibleCards < filteredData.length && filteredData.length > 9 && (
                         <button className={style.another__button} onClick={handleShowMore}><p>Показати більше</p></button>
-                    )}      
+                    )}  
+                </div>
+                
             </div>
             <Contacts />
             <WhyWe />
@@ -361,7 +320,7 @@ const handleAdvancedFilterChange = (selectedOption, action, filterType) => {
                                         className={style.custom__width11}
                                         placeholder= 'Тип  операції'
                                         options={typeOptions}
-                                        onChange={handleOptionChange}   
+                                      
                                     />
 
                                 <label className={`${style.label} ${style.label2}`}>{`Район`}</label>
@@ -370,7 +329,7 @@ const handleAdvancedFilterChange = (selectedOption, action, filterType) => {
                                         className={style.custom__width11}
                                         placeholder= 'Всі оголошення'
                                         options={typeOptions}
-                                        onChange={handleOptionChange}   
+                                  
                                     />
                                 </div>
                                 <div className={style.filters__inputs}>
@@ -380,7 +339,7 @@ const handleAdvancedFilterChange = (selectedOption, action, filterType) => {
                                             className={style.custom__width11}
                                             placeholder= 'Всі оголошення'
                                             options={typeOptions}
-                                            onChange={handleOptionChange}   
+                                     
                                         />
 
                                     <label className={`${style.label} ${style.label2}`}>{`Стан`}</label>
@@ -389,7 +348,7 @@ const handleAdvancedFilterChange = (selectedOption, action, filterType) => {
                                             className={style.custom__width11}
                                             placeholder= 'Всі оголошення'
                                             options={typeOptions}
-                                            onChange={handleOptionChange}   
+                                           
                                         />
                                 </div>
                             </div>
