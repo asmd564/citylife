@@ -252,21 +252,21 @@ return (
                 <div className={style.form__wrapper}>
                     <div className={style.first__input__wrapper}>
                         <label htmlFor="name" className={style.labelWithMargin}>Заголовок</label>
-                        <input type="text" id="name" name="name" placeholder='Повний заголовок для сторінки обʼєкта' value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}/>
+                        <input className={style.input} type="text" id="name" name="name" placeholder='Повний заголовок для сторінки обʼєкта' value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}/>
                         <div className={style.inputs__group__wrapper}>
                             <div className={style.group__wrapper}>
                                 <label htmlFor="district" className={style.labelWithMargin}>Район</label>
-                                <input type="text" name="district" id="district" placeholder="Напишіть район" value={formData.district} onChange={(e) => setFormData({ ...formData, district: e.target.value })}/>
+                                <input className={style.input} type="text" name="district" id="district" placeholder="Напишіть район" value={formData.district} onChange={(e) => setFormData({ ...formData, district: e.target.value })}/>
 
                                 <label htmlFor="adress" className={style.labelWithMargin}>Вулиця</label>
-                                <input type="text" name="adress" id="adress" placeholder="Адреса i номер будинку" value={formData.adress} onChange={(e) => setFormData({ ...formData, adress: e.target.value })}/>
+                                <input className={style.input} type="text" name="adress" id="adress" placeholder="Адреса i номер будинку" value={formData.adress} onChange={(e) => setFormData({ ...formData, adress: e.target.value })}/>
                             </div>
                             <div className={style.group__wrapper}>
                                 <label htmlFor="lat" className={style.labelWithMargin}>Широта</label>
-                                <input type="text" name="lat" id="lat" placeholder="Широта" value={formData.lat} onChange={(e) => setFormData({ ...formData, lat: e.target.value })}/>
+                                <input className={style.input} type="text" name="lat" id="lat" placeholder="Широта" value={formData.lat} onChange={(e) => setFormData({ ...formData, lat: e.target.value })}/>
 
                                 <label htmlFor="lng" className={style.labelWithMargin}>Долгота</label>
-                                <input type="text" name="lng" id="lng" placeholder="Долгота" value={formData.lng} onChange={(e) => setFormData({ ...formData, lng: e.target.value })}/>
+                                <input className={style.input} type="text" name="lng" id="lng" placeholder="Долгота" value={formData.lng} onChange={(e) => setFormData({ ...formData, lng: e.target.value })}/>
                             </div>  
                         </div>
                         <div>
@@ -280,7 +280,7 @@ return (
                     <div className={style.form__wrapper2}>
                     <div className={style.custom__select__wrapper1}>
                             <label htmlFor="city" className={style.labelWithMargin}>Місто</label>
-                            <input type="text" name="city" id="city" placeholder="Подайте місто" value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })}/>
+                            <input className={style.input} type="text" name="city" id="city" placeholder="Подайте місто" value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })}/>
                          </div>
                         <div className={style.custom__select__wrapper}>
                             <label htmlFor="type" className={style.labelWithMargin}>Тип операції</label>
@@ -306,16 +306,16 @@ return (
                         </div>
                         <div className={style.custom__select__wrapper1}>
                             <label htmlFor="rooms" className={style.labelWithMargin}>Кількість кімнат</label>
-                            <input type="text" name="rooms" id="rooms" placeholder="Напишіть к-ість кімнат" value={formData.rooms} onChange={(e) => setFormData({ ...formData, rooms: e.target.value })}/>
+                            <input className={style.input} type="text" name="rooms" id="rooms" placeholder="Напишіть к-ість кімнат" value={formData.rooms} onChange={(e) => setFormData({ ...formData, rooms: e.target.value })}/>
                          </div>
                          <div className={style.custom__select__wrapper1}>
                             <label htmlFor="area" className={style.labelWithMargin}>Площа, м²</label>
-                            <input type="text" name="area" id="area" placeholder="Загальна/житлова/пл. кухнi" value={formData.area} onChange={(e) => setFormData({ ...formData, area: e.target.value })}/>
+                            <input className={style.input} type="text" name="area" id="area" placeholder="Загальна/житлова/пл. кухнi" value={formData.area} onChange={(e) => setFormData({ ...formData, area: e.target.value })}/>
                          </div>
 
                          <div className={style.custom__select__wrapper1}>
                             <label htmlFor="flor" className={style.labelWithMargin}>Поверх</label>
-                            <input type="text" name="flor" id="flor" placeholder="Поверх/Кiлькiсть поверхiв" value={formData.flor} onChange={(e) => setFormData({ ...formData, flor: e.target.value })}/>
+                            <input className={style.input} type="text" name="flor" id="flor" placeholder="Поверх/Кiлькiсть поверхiв" value={formData.flor} onChange={(e) => setFormData({ ...formData, flor: e.target.value })}/>
                          </div>
                          <div className={style.custom__select__wrapper}>
                             <label htmlFor="state" className={style.labelWithMargin}>Стан</label>
@@ -361,7 +361,7 @@ return (
 
                         <div className={style.custom__select__wrapper1}>
                             <label htmlFor="price" className={style.labelWithMargin}>Ціна</label>
-                            <input type="text" name="price" id="price" placeholder="Ціна" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })}/>
+                            <input className={style.input} type="text" name="price" id="price" placeholder="Ціна" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })}/>
                          </div>
                          <div className={style.custom__select__wrapper}>
                             <label htmlFor="top" className={style.labelWithMargin}>Топ</label>

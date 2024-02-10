@@ -76,7 +76,7 @@ export const Header = ({callback}) => {
                             )}
                             </li>
                         <li className={style.nav__item}><NavLink to="/about" className={style.nav__link} onClick={closeMenu}>Про нас</NavLink></li>
-                        <li className={style.nav__item}><NavLink to="/reviews" className={style.nav__link} onClick={closeMenu}>Відгуки</NavLink></li>
+                        {/*<li className={style.nav__item}><NavLink to="/reviews" className={style.nav__link} onClick={closeMenu}>Відгуки</NavLink></li>*/}
                         <li className={style.nav__item}><NavLink to="/contact" className={style.nav__link} onClick={closeMenu}>Контакти</NavLink></li>
                     </ul>
                 </nav>
@@ -98,7 +98,7 @@ export const Header = ({callback}) => {
                         <li className={style.burger__nav__item}><NavLink to="/for-sellers" className={style.burger__nav__link} onClick={closeMenu}>Для  продавців</NavLink></li>
                         <li className={style.burger__nav__item}><NavLink to="/for-buyers" className={style.burger__nav__link} onClick={closeMenu}>Для  покупців</NavLink></li>
                         <li className={style.burger__nav__item}><NavLink to="/about" className={style.burger__nav__link} onClick={closeMenu}>Про нас</NavLink></li>
-                        <li className={style.burger__nav__item}><NavLink to="/reviews" className={style.burger__nav__link} onClick={closeMenu}>Відгуки</NavLink></li>
+                        {/*<li className={style.burger__nav__item}><NavLink to="/reviews" className={style.burger__nav__link} onClick={closeMenu}>Відгуки</NavLink></li>*/}
                         <li className={style.burger__nav__item}><NavLink to="/favorite" className={style.burger__nav__link} onClick={closeMenu}>Улюблені</NavLink></li>
                         <li className={style.burger__nav__item}><NavLink to="/contact" className={style.burger__nav__link} onClick={closeMenu}>Контакти</NavLink></li>
                     </ul>

@@ -75,13 +75,13 @@ const Map = () => {
                             <a href="tel:+380664696979" className={style.card__phone}>+38 066 469-69-79</a>
                         </div>
                     </div>
-                    <a href="#" className={style.card__email}>citylive.if@gmail.com</a>
+                    <a href="mailto:citylive.if@gmail.com" className={style.card__email}>citylive.if@gmail.com</a>
                     <p className={style.card__citat}>Ми завжди на звʼязку</p>
                     <div className={style.social__wrapper}>
-                        <Instagram />
-                        <Facebook />
-                        <Teleggram />
-                        <Whatsapp />
+                        <a href="https://www.instagram.com/city_live.if" target="_blank"><Instagram /></a>
+                        <a href="https://www.facebook.com/cityliveif" target="_blank"><Facebook /></a>
+                        <a href="https://t.me/citylive_if" target="_blank"><Teleggram /></a>
+                        <a href="viber://chat?number=+380973101091" target="_blank"><Whatsapp /></a>
                     </div>
                 </div>
             </div>

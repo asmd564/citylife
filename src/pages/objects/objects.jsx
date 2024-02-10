@@ -8,6 +8,7 @@ import { WhyWe } from "../../components/blocks/whyWe/whyWe";
 import Map from "../../components/blocks/map/map";
 import { BookIcon } from "../../icons/book";
 import { Close } from "../../icons/close";
+import { Shevron } from "./shevron";
 
 export const Objects = () => {
     const [type, setType] = useState('');
@@ -23,11 +24,16 @@ export const Objects = () => {
     const [maxPrice, setMaxPrice] = useState('');
     const [minRooms, setMinRooms] = useState('');
     const [maxRooms, setMaxRooms] = useState('');
+    const [minArea, setMinArea] = useState('');
+    const [maxArea, setMaxArea] = useState('');
     const [district, setDistrict] = useState('');
     const [roomsCount, setRoomsCount] = useState('');
     const [buildingTypeCount, setBuildingTypeCount] = useState('');
     const [sortedFilter, setSortedFilter] = useState([])
     const [typeSelectValue, setTypeSelectValue] = useState(null);
+    const [state1, setState1] = useState('');
+    const [minFloor, setMinFloor] = useState('');
+    const [maxFloor, setMaxFloor] = useState('');
 
 
     const handleOpenFilters = () => {
@@ -64,6 +70,11 @@ export const Objects = () => {
     const typeOptions = [
         {value: 'sell', label: 'Продаж'},
         {value: 'rent', label: 'Оренда'},
+    ];
+
+    const stateOptions = [
+        { value: 'З ремонтом', label: 'З ремонтом' },
+        { value: 'Без ремонту', label: 'Без ремонту' },
     ];
 
     const regionTypes = [
@@ -125,6 +136,7 @@ export const Objects = () => {
         {value: 'Будинок', label: 'Будинок'},
         {value: 'Комерційна нерухомість', label: 'Комерційна нерухомість'},
         {value: 'Дача', label: 'Дача'},
+        {value: 'Земля', label: 'Земля'},
     ];
 
 
@@ -133,6 +145,9 @@ export const Objects = () => {
 
         if(type !== '') {
             filteredProducts = filteredProducts.filter(product => product.type === type);
+        }
+        if(state1 !== '') {
+            filteredProducts = filteredProducts.filter(product => product.state === state1.value);
         }
         if (minPrice !== '') {
             filteredProducts = filteredProducts.filter(product => parseFloat(product.price) >= parseFloat(minPrice));
@@ -145,6 +160,18 @@ export const Objects = () => {
         }
         if (maxRooms !== '') {
             filteredProducts = filteredProducts.filter(product => parseFloat(product.rooms) <= parseFloat(maxRooms));
+        }
+        if (minArea !== '') {
+            filteredProducts = filteredProducts.filter(product => parseFloat(product.area.split('/')[0], 10) >= parseFloat(minArea));
+        }
+        if (maxArea !== '') {
+            filteredProducts = filteredProducts.filter(product => parseFloat(product.area.split('/')[0], 10) <= parseFloat(maxArea));
+        }
+        if (minFloor !== '') {
+            filteredProducts = filteredProducts.filter(product => parseFloat(product.flor.split('/')[0], 10) >= parseFloat(minFloor));
+        }
+        if (maxFloor !== '') {
+            filteredProducts = filteredProducts.filter(product => parseFloat(product.flor.split('/')[0], 10) <= parseFloat(maxFloor));
         }
         if (district && district.length > 0) {
             filteredProducts = filteredProducts.filter(product => district.some(d => d.value === product.district));
@@ -199,21 +226,26 @@ export const Objects = () => {
         setMaxRooms("");
         setMaxPrice("");
         setMinPrice("");
+        setMinArea("");
+        setMaxArea("");
+        setState1("");
+        setMaxFloor("");
+        setMinFloor("");
     }
 
     useEffect(() => {
         filterAndSortProducts();
-    }, [minPrice, maxPrice, district, type, buildingTypeCount, sortBy, maxRooms, minRooms]);
+    }, [minPrice, maxPrice, district, type, buildingTypeCount, sortBy, maxRooms, minRooms, minArea, maxArea, state1, minFloor, maxFloor]);
     
     return (
         <section className={`${style.objects} ${style.container}`}>
             <div className={style.objects__wrapper}>
                 <div className={style.object__wrapper}>
-                    <h1 className={style.objects__title}>{type === "rent" ? 'Оренда' : type === "sell" ? 'Продаж' : "Все"}</h1>
+                    <h1 className={style.objects__title}>{type === "rent" ? 'Оренда' : type === "sell" ? 'Продаж' : "Всi оголошення"}</h1>
                     <p className={style.object__count}>Знайдено {filteredData.length} оголошень</p>
-                    <div className={style.filters__wrapper}>
+                    <div className={`${style.filters__wrapper} ${style.filters__wrapper__mobile}`}>
                         <div className={style.select__wrapper}>
-                        <label className={style.label}>Тип операції</label>
+                        <label className={`${style.label} ${style.label__hidden}`}>Тип операції</label>
                             <Select
                                 classNamePrefix='custom-select'
                                 className={style.custom__width}
@@ -226,12 +258,14 @@ export const Objects = () => {
                                 }}
                             />
                         </div>
-                        <div className={style.select__wrapper}>
+                        <button className={`${style.filter__button} ${style.mobile__filter__button__hidden}`} onClick={handleOpenFilters}><span>Фільтри</span></button>
+                        <div className={`${style.select__wrapper} ${style.select__wrapper__hidden}`}>
                             <label className={style.label}>Район</label>
                             <Select 
                                 isMulti
                                 classNamePrefix='custom-select'
                                 className={style.custom__width2}
+                                style={{ width: '100%' }}
                                 placeholder= 'Виберіть район'
                                 options={regionTypes}
                                 value={district}
@@ -241,12 +275,15 @@ export const Objects = () => {
                     </div>
 
                     <div className={style.content__wrapper}>
-                        <div className={style.filters__wrapper}>
+                        <div className={`${style.filters__wrapper} ${style.filers__wrapper__hidden}`}>
+                            <div className={style.filters__wrapper1}>
+
+                           
                             <div className={style.select__wrapper}>
                             <label className={style.label}>Тип нерохомості</label>
                                 <Select
                                     isMulti
-                                    classNamePrefix='custom-select-1'
+                                    classNamePrefix='custom-select'
                                     className={`${style.custom__width4} ${style.custom__owerflow}`}
                                     placeholder= 'Всі типи'
                                     options={buildingType}
@@ -256,29 +293,47 @@ export const Objects = () => {
                             </div>
                             <div className={style.select__wrapper}>
                                 <label className={style.label}>{`Кiмнати вiд:`}</label>
-                                    <input type="text" style={{width: '138px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="Вiд" value={minRooms} onChange={(e) => setMinRooms(e.target.value)}/>
+                                    <input className={style.price__input} type="number" style={{width: '115px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="Вiд" value={minRooms} onChange={(e) => setMinRooms(e.target.value)}/>
                             </div>
 
                             <div className={style.select__wrapper}>
                                 <label className={style.label}>{`Кiмнати до:`}</label>
-                                    <input type="text" style={{width: '138px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="До"value={maxRooms}  onChange={(e) => setMaxRooms(e.target.value)}/>
+                                    <input className={style.price__input} type="number" style={{width: '116px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="До" value={maxRooms}  onChange={(e) => setMaxRooms(e.target.value)}/>
                             </div>
 
                             <div className={style.select__wrapper}>
                                 <label className={style.label}>{`Ціна вiд:`}</label>
-                                    <input type="text" style={{width: '138px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="Вiд" value={minPrice} onChange={(e) => setMinPrice(e.target.value)}/>
+                                    <input className={style.price__input} type="number" style={{width: '116px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="Вiд" value={minPrice} onChange={(e) => setMinPrice(e.target.value)}/>
                             </div>
 
                             <div className={style.select__wrapper}>
                                 <label className={style.label}>{`Ціна до:`}</label>
-                                    <input type="text" style={{width: '138px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="До" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}/>
+                                    <input className={style.price__input} type="number" style={{width: '120px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="До" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}/>
                             </div>
-                            {/*<button className={style.filter__button} onClick={handleOpenFilters}><span>Більше фільтрів</span></button>*/}
+
+
+                            <div className={style.select__wrapper}>
+                                <label className={style.label}>{`Площа вiд:`}</label>
+                                    <input className={style.price__input} type="number" style={{width: '120px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="Вiд" value={minArea} onChange={(e) => setMinArea(e.target.value)}/>
+                            </div>
+
+                            <div className={style.select__wrapper}>
+                                <label className={style.label}>{`Площа до:`}</label>
+                                    <input className={style.price__input} type="number" style={{width: '120px', height:'55px', background: 'white', borderRadius:'4px'}} placeholder="До" value={maxArea} onChange={(e) => setMaxArea(e.target.value)}/>
+                            </div>
                             <button className={`${style.filter__button} ${style.background}`} onClick={handleClearSearch}>Очистити все</button>
-                            
+                            </div> 
                         </div>
-                        <button className={`${style.filter__button} ${style.background2}`}><span>Знайти</span></button>
+                        <div className={style.filter__button__wrapper}>
+                            <button className={`${style.filter__button} ${style.filter__button__hidden}`} onClick={handleOpenFilters}><span>Фільтри</span></button>
+                        </div>
+                        <div className={style.search__buttons__wrapper}>
+                            <button className={`${style.filter__button} ${style.background} ${style.filter__button__hidden}`} onClick={handleClearSearch}>Очистити все</button>
+                            <button className={`${style.filter__button} ${style.background2}`}><span>Знайти</span></button>
+                        </div>
+                        
                     </div>
+                    
                 </div>
             </div>
             <div className={style.sort__wrapper}>
@@ -309,6 +364,12 @@ export const Objects = () => {
             {openFilters && (
                 <div className={style.more__filters}>
                     <div className={style.more__filters__wrapper}>
+                        <div className={style.more__filters__header}>
+                            <div className={style.more__filters__header__wrapper}>
+                                <button onClick={handleCloseFilters} className={style.more__filters__header__button}><Shevron/></button>
+                                <h4 className={style.more__filters__header__label}>Фільтри</h4>
+                            </div>  
+                        </div>
                         <button type="button" className={style.more__filters__button} onClick={handleCloseFilters}><Close /></button>
                         <div className={style.filters__wrapper__modal}>
                             <h2 className={style.filters__title}>Розширений фільтр</h2>
@@ -320,15 +381,23 @@ export const Objects = () => {
                                         className={style.custom__width11}
                                         placeholder= 'Тип  операції'
                                         options={typeOptions}
+                                        value={typeSelectValue}
+                                        onChange={(selectedOption) => {
+                                            setType(selectedOption.value);
+                                            setTypeSelectValue(selectedOption);
+                                        }}
                                       
                                     />
 
                                 <label className={`${style.label} ${style.label2}`}>{`Район`}</label>
                                     <Select 
+                                        isMulti
                                         classNamePrefix='custom-select'
                                         className={style.custom__width11}
-                                        placeholder= 'Всі оголошення'
-                                        options={typeOptions}
+                                        placeholder= 'Виберіть район'
+                                        options={regionTypes}
+                                        value={district}
+                                        onChange={(selectedOption) => setDistrict(selectedOption)}
                                   
                                     />
                                 </div>
@@ -337,8 +406,10 @@ export const Objects = () => {
                                         <Select 
                                             classNamePrefix='custom-select'
                                             className={style.custom__width11}
-                                            placeholder= 'Всі оголошення'
-                                            options={typeOptions}
+                                            placeholder= 'Всі типи'
+                                            options={buildingType}
+                                            value={buildingTypeCount}
+                                            onChange={(selectedOption) => setBuildingTypeCount(selectedOption)}
                                      
                                         />
 
@@ -346,52 +417,54 @@ export const Objects = () => {
                                         <Select 
                                             classNamePrefix='custom-select'
                                             className={style.custom__width11}
-                                            placeholder= 'Всі оголошення'
-                                            options={typeOptions}
+                                            placeholder= 'Всі стани'
+                                            options={stateOptions}
+                                            value={state1}
+                                            onChange={(selectedOption) => setState1(selectedOption)}
                                            
                                         />
                                 </div>
                             </div>
                             <div className={style.filters__more__prices}>
                                 <div className={style.filters__more__price}>
-                                    <label htmlFor="">Поверх:</label>
+                                    <label className={style.label3} htmlFor="">Поверх:</label>
                                     <div className={style.filters__input__wrapper}>
-                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="вiд"/>
-                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="до"/>
+                                        <input type="number" className={style.more__filters__inputs} placeholder="вiд" value={minFloor} onChange={(e) => setMinFloor(e.target.value)}/>
+                                        <input type="number" className={style.more__filters__inputs} placeholder="до" value={maxFloor} onChange={(e) => setMaxFloor(e.target.value)}/>
                                     </div>
                                     
                                 </div>
 
                                 <div className={style.filters__more__price}>
-                                    <label htmlFor="">Кількість кімнат:</label>
+                                    <label className={style.label3} htmlFor="">Кількість кімнат:</label>
                                     <div className={style.filters__input__wrapper}>
-                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="вiд"/>
-                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="до"/>
+                                        <input type="number" className={style.more__filters__inputs} placeholder="вiд" value={minRooms} onChange={(e) => setMinRooms(e.target.value)}/>
+                                        <input type="number" className={style.more__filters__inputs} placeholder="до" value={maxRooms}  onChange={(e) => setMaxRooms(e.target.value)}/>
                                     </div>
                                     
                                 </div>
 
                                 <div className={style.filters__more__price}>
-                                    <label htmlFor="">Площа:</label>
+                                    <label className={style.label3} htmlFor="">Площа:</label>
                                     <div className={style.filters__input__wrapper}>
-                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="вiд"/>
-                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="до"/>
+                                        <input type="number" className={style.more__filters__inputs}  placeholder="вiд" value={minArea} onChange={(e) => setMinArea(e.target.value)}/>
+                                        <input type="number" className={style.more__filters__inputs}  placeholder="до" value={maxArea} onChange={(e) => setMaxArea(e.target.value)}/>
                                     </div>
                                     
                                 </div>
 
                                 <div className={style.filters__more__price}>
-                                    <label htmlFor="">Ціна, грн:</label>
+                                    <label className={style.label3} htmlFor="">Ціна:</label>
                                     <div className={style.filters__input__wrapper}>
-                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="вiд"/>
-                                        <input type="text" style={{width: '138px', height:'50px', background: 'white', borderRadius:'4px'}} placeholder="до"/>
+                                        <input type="number" className={style.more__filters__inputs}  placeholder="вiд"/>
+                                        <input type="number" className={style.more__filters__inputs}  placeholder="до"/>
                                     </div>
                                     
                                 </div>
                             </div>
                             <div className={style.filters__buttons}>
-                                <button type="button" className={style.filters__button1}>Скинути</button>
-                                <button type="button" className={style.filters__button2}>Шукати</button>
+                                <button type="button" className={style.filters__button1} onClick={handleClearSearch}>Скинути</button>
+                                <button type="button" className={style.filters__button2} onClick={handleCloseFilters}>Шукати</button>
                             </div>
                         </div>
                     </div>

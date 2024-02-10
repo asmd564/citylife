@@ -302,7 +302,6 @@
 
 .card__container {
     position: relative;
-    overflow: scroll;
 }
 
 .mySwiper {
@@ -390,9 +389,9 @@
     position: fixed;
     min-width: 100vw;
     width: 100%;
-    min-height: 100vh;
-    height: 100%;
-    overflow: scroll;
+    max-height: 100vh;
+    overflow-x: scroll;
+    overflow-y: auto;
     background-color: black;
     top: 0;
     left: 0;
@@ -405,7 +404,8 @@
 }
 
 .gallery__container {
-    margin-top: 450px;
+    margin-top: 300px;
+    margin-bottom: 60px;
     background-color: white;
      text-align: center;
      position: relative;

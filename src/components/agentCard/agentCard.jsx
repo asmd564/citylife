@@ -2,7 +2,7 @@ import { useState } from "react";
 import style from "./agentCard.module.css";
 import avatar from "./Frame 21186.png"
 
-export const AgentCard = ({ isFixed, user }) => {
+export const AgentCard = ({ isFixed, user, count }) => {
     const [phone, setPhone] = useState('');
     if (!user || !user.name || !user.surname || !user.position) {
         return null;
@@ -21,7 +21,7 @@ export const AgentCard = ({ isFixed, user }) => {
                 </div>
                 <p className={style.desc}>Менеджер з продажу нерухомості Агентство нерухомості "City live".</p>
                 <div className={style.exp}>Досвід у сфері нерухомості з {user.exp} р.</div>
-                <div className={style.projects}>Всього пропозицій: <span>6</span> </div>
+                <div className={style.projects}>Всього пропозицій: <span>{count}</span> </div>
                 <div className={style.phone__wrapper}>
                     <a href="tel:" className={style.phone}>{user.phone}</a>
                     <a href="" className={style.request}>Замовити дзвінок</a>

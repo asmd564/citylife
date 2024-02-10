@@ -9,7 +9,8 @@ export const Edit = ({ user }) => {
     const [surname, setSurname] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [preview, setPreview] = useState(user.avatar || null); 
+    const [preview, setPreview] = useState(user.avatar || null);
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -18,7 +19,7 @@ export const Edit = ({ user }) => {
           setEmail(user.email || '');
           setAvatar(user.avatar || null);
         }
-      }, [user]);
+      }, [user, avatar, name, surname, password, email]);
   
     // Функция для загрузки аватара
     const handleDrop = (acceptedFiles) => {
@@ -115,10 +116,10 @@ export const Edit = ({ user }) => {
                       </div>
                   )}
               </Dropzone>
-            <input type="text" value={name} onChange={handleNameChange} placeholder="Name"  style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
-            <input type="text" value={surname} onChange={handleSurnameChange} placeholder="Surname" style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
-            <input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
-            <input type="email" value={email} onChange={handleEmailChange} placeholder="Email" style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
+            <input className={style.input} type="text" value={name} onChange={handleNameChange} placeholder="Name"  style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
+            <input className={style.input} type="text" value={surname} onChange={handleSurnameChange} placeholder="Surname" style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
+            <input className={style.input} type="password" value={password} onChange={handlePasswordChange} placeholder="Password" style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
+            <input className={style.input} type="email" value={email} onChange={handleEmailChange} placeholder="Email" style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
             <button type="submit" className={style.submit}>Save</button>
           </form>
         </div>

@@ -35,6 +35,7 @@ export const ProductDetails = () => {
    const [swiper1, setSwiper1] = useState(null);
    const [favorite, setFavorite] = useState(false);
    const [gallery, setGallery] = useState(false);
+   const [data, setData] = useState('');
 
    const toggleFavorite = () => {
     const storedData = localStorage.getItem('cardData');
@@ -66,18 +67,21 @@ useEffect(() => {
    useEffect(() => {
     const fetchData = async () => {
        try {
-          const [productResponse, usersResponse] = await Promise.all([
+          const [productResponse, usersResponse, allData] = await Promise.all([
              axios.get(`http://46.41.141.5:3001/products/${id}`, {
                 params: {
                    random: Math.random()
                 }
              }),
-             axios.get(`http://46.41.141.5:3001/users`)
+             axios.get(`http://46.41.141.5:3001/users`),
+             axios.get(`http://46.41.141.5:3001/products`)
           ]);
 
           setProduct(productResponse.data);
           const foundUser = usersResponse.data.find(user => user.id === productResponse.data.user_id);
           setUser(foundUser);
+          const findCount = allData.data.filter(find => find.user_id === foundUser.id);
+          setData(findCount);
        } catch (error) {
           console.error('Ошибка загрузки данных:', error);
        }
@@ -251,7 +255,7 @@ useEffect(() => {
                             
                         </div>
                         <div className={style.card__wrapper} >
-                            <AgentCard user={user}/>
+                            <AgentCard user={user} count={data.length}/>
                         </div>
                     </section>
                     <section className={style.full__description}>

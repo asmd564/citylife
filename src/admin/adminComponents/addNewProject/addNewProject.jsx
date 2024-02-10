@@ -23,7 +23,8 @@ export const AddNewProject = ({ user }) => {
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [formNotSubmitted, setFormNotSubmitted] = useState(false);
     const [hidden, setHidden] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); 
+    const [district, setDistrict] = useState('');
 
   const onDrop = useCallback(acceptedFiles => {
     const imagePreviews = acceptedFiles.map(file => Object.assign(file, {
@@ -55,6 +56,10 @@ export const AddNewProject = ({ user }) => {
     const handleTypeChange = (selectedOption) => {
         setType(selectedOption.value);
     };
+
+    const handleDistrictChange = (selectedOption) => {
+        setDistrict(selectedOption.value);
+    }
 
     const handleTop = (selectedOption) => {
         setTop(selectedOption.value);
@@ -97,6 +102,7 @@ export const AddNewProject = ({ user }) => {
       ];
 
     const typeOfHeating = [
+        { value: 'Немає', label: 'Немає' },
         { value: 'Індивідуальне газове', label: 'Індивідуальне газове' },
         { value: 'Індивідуальне електричне', label: 'Індивідуальне електричне' },
         { value: 'Централізоване', label: 'Централізоване' },
@@ -104,6 +110,7 @@ export const AddNewProject = ({ user }) => {
     ]
 
     const typeOfWaterHeating = [
+        { value: 'Немає', label: 'Немає' },
         { value: 'котел', label: 'Котел' },
         { value: 'бойлер', label: 'Бойлер' },
         { value: 'колонка', label: 'Колонка' },
@@ -137,6 +144,52 @@ export const AddNewProject = ({ user }) => {
         { value: 'UAH', label: 'UAH' },
       ]
 
+      const regionTypes = [
+        {
+            label: 'Райони',
+            options: [
+              { value: 'Центр', label: 'Центр' },
+              { value: 'Івасюка-Надрічна', label: 'Івасюка-Надрічна' },
+              { value: 'Пасічна', label: 'Пасічна' },
+              { value: 'Позитрон-Каскад', label: 'Позитрон-Каскад' },
+              { value: 'Коновальця-Чорновола', label: 'Коновальця-Чорновола' },
+              { value: 'Бам', label: 'Бам' },
+              { value: 'Незалежності–Тисменицька', label: 'Незалежності–Тисменицька' },
+              { value: 'Набережна–Княгинин', label: 'Набережна–Княгинин' },
+            ],
+          },
+          {
+            label: 'Передмістя',
+            options: [
+              { value: 'Крихівці', label: 'Крихівці' },
+              { value: 'Драгомирчани', label: 'Драгомирчани' },
+              { value: 'Опришівці', label: 'Опришівці' },
+              { value: 'Угорники', label: 'Угорники' },
+              { value: 'Микитинці', label: 'Микитинці' },
+              { value: 'Підлужжя', label: 'Підлужжя' },
+              { value: 'Підпечери', label: 'Підпечери' },
+              { value: 'Угринів', label: 'Угринів' },
+              { value: 'Клузів', label: 'Клузів' },
+              { value: 'Ямниця', label: 'Ямниця' },
+              { value: 'Чукалівка', label: 'Чукалівка' },
+              { value: 'Хриплин', label: 'Хриплин' },
+              { value: 'Черніїв', label: 'Черніїв' },
+            ],
+          },
+          {
+            label: 'Райони області',
+            options: [
+              { value: 'Тисменицький', label: 'Тисменицький' },
+              { value: 'Івано-Франківський', label: 'Івано-Франківський' },
+              { value: 'Калуський', label: 'Калуський' },
+              { value: 'Коломийський', label: 'Коломийський' },
+              { value: 'Косівський', label: 'Косівський' },
+              { value: 'Надвірнянський', label: 'Надвірнянський' },
+              { value: 'Верховинський', label: 'Верховинський' },
+            ],
+          },
+    ];
+
       const handleLatChange = (e) => {
         setLat(e.target.value);
         setMapLat(Number(e.target.value));
@@ -165,7 +218,7 @@ export const AddNewProject = ({ user }) => {
         const formData = new FormData();
         formData.append('user_id', user.id);
         formData.append('name', e.target.name.value);
-        formData.append('district', e.target.district.value);
+        formData.append('district', district);
         formData.append('adress', e.target.adress.value);
         formData.append('city', e.target.city.value);
         formData.append('lat', lat);
@@ -259,21 +312,28 @@ export const AddNewProject = ({ user }) => {
                         <div className={style.first__input__wrapper}>
                             <input type="text" className={style.hidden__input} value={user.id} name="user_id" id="user_id"/>
                             <label htmlFor="name" className={style.labelWithMargin}>Заголовок</label>
-                            <input type="text" id="name" name="name" placeholder='Повний заголовок для сторінки обʼєкта' />
+                            <input className={style.input}  type="text" id="name" name="name" placeholder='Повний заголовок для сторінки обʼєкта' />
                             <div className={style.inputs__group__wrapper}>
                                 <div className={style.group__wrapper}>
-                                    <label htmlFor="district" className={style.labelWithMargin}>Район</label>
-                                    <input type="text" name="district" id="district" placeholder="Напишіть район" />
+                                <div className={style.custom__select__wrapper}>
+                                <label htmlFor="isHouse" className={style.labelWithMargin}>Район</label>
+                                <Select
+                                    classNamePrefix='custom-select'
+                                    placeholder= 'Район'
+                                    options={regionTypes}
+                                    onChange={handleDistrictChange}   
+                                />
+                            </div>
 
                                     <label htmlFor="adress" className={style.labelWithMargin}>Вулиця</label>
-                                    <input type="text" name="adress" id="adress" placeholder="Адреса i номер будинку" />
+                                    <input className={style.input} type="text" name="adress" id="adress" placeholder="Адреса i номер будинку" />
                                 </div>
                                 <div className={style.group__wrapper}>
                                     <label htmlFor="lat" className={style.labelWithMargin}>Широта</label>
-                                    <input type="text" name="lat" id="lat" placeholder="Широта" value={lat} onChange={handleLatChange} />
+                                    <input className={style.input} type="text" name="lat" id="lat" placeholder="Широта" value={lat} onChange={handleLatChange} />
 
-                                    <label htmlFor="lng" className={style.labelWithMargin}>Долгота</label>
-                                    <input type="text" name="lng" id="lng" placeholder="Долгота" value={lng} onChange={handleLngChange} />
+                                    <label htmlFor="lng" className={style.labelWithMargin}>Довгота</label>
+                                    <input className={style.input} type="text" name="lng" id="lng" placeholder="Довгота" value={lng} onChange={handleLngChange} />
                                 </div>  
                             </div>
                             <div className={style.project__map}>
@@ -287,7 +347,7 @@ export const AddNewProject = ({ user }) => {
                         <div className={style.form__wrapper2}>
                         <div className={style.custom__select__wrapper1}>
                                 <label htmlFor="city" className={style.labelWithMargin}>Місто</label>
-                                <input type="text" name="city" id="city" placeholder="Подайте місто" />
+                                <input className={style.input} type="text" name="city" id="city" placeholder="Подайте місто" />
                              </div>
                             <div className={style.custom__select__wrapper}>
                                 <label htmlFor="type" className={style.labelWithMargin}>Тип операції</label>
@@ -311,16 +371,16 @@ export const AddNewProject = ({ user }) => {
                             </div>
                             <div className={style.custom__select__wrapper1}>
                                 <label htmlFor="rooms" className={style.labelWithMargin}>Кількість кімнат</label>
-                                <input type="text" name="rooms" id="rooms" placeholder="Напишіть к-ість кімнат" />
+                                <input className={style.input}  type="text" name="rooms" id="rooms" placeholder="Напишіть к-ість кімнат" />
                              </div>
                              <div className={style.custom__select__wrapper1}>
                                 <label htmlFor="area" className={style.labelWithMargin}>Площа, м²</label>
-                                <input type="text" name="area" id="area" placeholder="Загальна/житлова/пл. кухнi" />
+                                <input className={style.input} type="text" name="area" id="area" placeholder="Загальна/житлова/пл. кухнi" />
                              </div>
 
                              <div className={style.custom__select__wrapper1}>
                                 <label htmlFor="flor" className={style.labelWithMargin}>Поверх</label>
-                                <input type="text" name="flor" id="flor" placeholder="Поверх/Кiлькiсть поверхiв" />
+                                <input className={style.input} type="text" name="flor" id="flor" placeholder="Поверх/Кiлькiсть поверхiв" />
                              </div>
                              <div className={style.custom__select__wrapper}>
                                 <label htmlFor="state" className={style.labelWithMargin}>Стан</label>
@@ -362,7 +422,7 @@ export const AddNewProject = ({ user }) => {
 
                             <div className={style.custom__select__wrapper1}>
                                 <label htmlFor="price" className={style.labelWithMargin}>Ціна</label>
-                                <input type="text" name="price" id="price" placeholder="Ціна" />
+                                <input className={style.input} type="text" name="price" id="price" placeholder="Ціна" />
                              </div>
                              <div className={style.custom__select__wrapper}>
                                 <label htmlFor="top" className={style.labelWithMargin}>Топ</label>

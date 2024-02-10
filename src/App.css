@@ -105,13 +105,7 @@ button {
   margin: 0;
 }
 
-.custom-select-1 {
-  padding: 0;
-  margin: 0;
-  overflow: scroll;
-}
-
-.custom-select1__control {
+.custom-select-1__control {
   max-height: 56px;
   height: 56px;
   overflow: auto;
@@ -119,7 +113,16 @@ button {
 }
 
 .custom-select-1 .react-select__clear-indicator {
-  display: none;
+  display: block;
+}
+
+.custom-select-1__multi-value .css-1p3m7a8-multiValue {
+  display: block;
+}
+
+.custom-select-1__value-container {
+  display: flex;
+  flex-wrap: nowrap;
 }
 
 .css-1u9des2-indicatorSeparator {
@@ -166,9 +169,6 @@ input.input-100 {
   height: 100vh;
   z-index: 5;
   background: rgba(0, 0, 0, 0.8);
-
-
-
 }
 
 .contacts__wrapper__fixed {
@@ -191,3 +191,36 @@ input.input-100 {
 .contacts__close svg path {
   fill: black;
 }
+
+.css-3w2yfm-ValueContainer {
+  -webkit-flex-wrap: nowrap !important;
+  -webkit-box-flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+  width: 100% !important;
+  overflow-y: hidden !important;
+}
+
+.css-3w2yfm-ValueContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.css-1p3m7a8-multiValue {
+  min-width: unset !important;
+}
+
+.custom-select__indicator.custom-select__clear-indicator.css-1xc3v61-indicatorContainer {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.css-1dyz3mf {
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+}
+
+.css-1dyz3mf::-webkit-scrollbar {
+  display: none;
+}
+

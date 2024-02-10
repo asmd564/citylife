@@ -23,3 +23,15 @@
     padding-left: 40px;
 }
 
+.input100 {
+    border: none;
+    border-bottom: 1px solid grey;
+    width: 100%;
+    padding-bottom: 20px;
+    font-size: 16px;
+}
+
+.input100::placeholder {
+    color: grey;
+    font-size: 16px;
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import style from "./users.module.css";
 import axios from "axios";
+import _ from 'lodash';
 import { useDropzone } from 'react-dropzone';
 import { Close } from "../../../icons/close";
 import { Dots } from "../../../icons/dots";
@@ -182,11 +183,13 @@ export const Users = () => {
           const response = await axios.get(`http://46.41.141.5:3001/users/${userId}`);
           const userData = response.data;
       
-          // Сохранение исходных данных пользователя перед редактированием
-          setOriginalUserData(userData);
+          const originalUserDataCopy = _.cloneDeep(userData);
+          setOriginalUserData(originalUserDataCopy);
       
           // Установка данных пользователя для редактирования
-          setFormDataEdit(userData);
+          setFormDataEdit({
+            ...userData
+          });
           setPreview(userData.avatar); // Установка превью изображения
       
           setAvatar(userData.avatar); // Установка аватара для сохранения при редактировании
@@ -202,14 +205,14 @@ export const Users = () => {
         e.preventDefault();
         setLoading(true);
       
-        const editedData = { ...formDataEdit };
-        const isDataChanged = Object.keys(editedData).some(
-          key => editedData[key] !== originalUserData[key]
-        );
+        const editedData = _.cloneDeep(formDataEdit);
+        const originalData = _.cloneDeep(originalUserData);
       
+        const isDataChanged = !_.isEqual(editedData, originalData);
+
         if (!isDataChanged && !fileEdit) {
-          console.log('No changes made');
-          return;
+            console.log('No changes made');
+            return;
         }
       
         try {
@@ -217,7 +220,9 @@ export const Users = () => {
           formDataToSend.append('name', editedData.name);
           formDataToSend.append('surname', editedData.surname);
           formDataToSend.append('email', editedData.email);
-          formDataToSend.append('password', editedData.password);
+          if (editedData.password !== originalUserData.password) { // Проверяем, изменился ли пароль
+            formDataToSend.append('password', editedData.password);
+          }
           formDataToSend.append('exp', editedData.exp);
           formDataToSend.append('phone', editedData.phone);
           formDataToSend.append('position', editedData.position);
@@ -226,7 +231,6 @@ export const Users = () => {
           }
       
           const editResponse = await axios.put(`http://46.41.141.5:3001/users/${editingUserId}`, formDataToSend);
-          console.log('Edit successful:', editResponse.data);
           setEditMode(false);
           setEditingUserId(null);
           setLoading(false);
@@ -238,7 +242,7 @@ export const Users = () => {
       
 
     const handleDeleteUser = async (userId) => {
-        try {
+    
             await axios.delete(`http://46.41.141.5:3001/users/${userId}`);
             const updatedData = data.filter(item => item.id !== userId);
             setData(updatedData);
@@ -281,7 +285,7 @@ export const Users = () => {
                         </div>
                         <div className={style.name__wrapper}>
                             <h3 className={style.name}>{`${item.name} ${item.surname}`}</h3>
-                            <p className={style.description}>Менеджер з продажу агентства нерухомості "City live".</p>
+                            <p className={style.description}>{item.position}</p>
                         </div>
                         <div className={style.exp}>
                             <p className={style.exp__p}>{`З ${item.exp} року`}</p>
@@ -336,6 +340,7 @@ export const Users = () => {
                                             type="text"
                                             id="name"
                                             style={{background: 'none', display: 'block'}}
+                                            className={style.input}
                                             required
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -345,6 +350,7 @@ export const Users = () => {
                                 <div className={style.input__wrapper1}>
                                         <label htmlFor="surname">Прізвище</label>
                                         <input
+                                            className={style.input}
                                             type="text"
                                             id="surname"
                                             style={{background: 'none', display: 'block'}}
@@ -359,6 +365,7 @@ export const Users = () => {
                                     <div className={style.input__wrapper1}>
                                         <label htmlFor="email" style={{background: 'none', display: 'block'}}>E-mail</label>
                                         <input
+                                            className={style.input}
                                             type="email"
                                             id="email"
                                             style={{background: 'none', display: 'block'}}
@@ -371,6 +378,7 @@ export const Users = () => {
                                 <div className={style.input__wrapper1}>
                                         <label htmlFor="password">Пароль</label>
                                         <input
+                                            className={style.input}
                                             type="password"
                                             id="password"
                                             style={{background: 'none', display: 'block'}}
@@ -385,7 +393,8 @@ export const Users = () => {
                             <div className={style.input__wrapper5}>
                                     <div className={style.input__wrapper1}>
                                         <label htmlFor="exp" style={{background: 'none', display: 'block'}}>Досвід роботи</label>
-                                        <input 
+                                        <input
+                                            className={style.input}
                                             type="text"
                                             id="exp"
                                             style={{background: 'none', display: 'block'}}
@@ -398,6 +407,7 @@ export const Users = () => {
                                 <div className={style.input__wrapper1}>
                                         <label htmlFor="phone">Телефон</label>
                                         <input
+                                            className={style.input}
                                             type="phone"
                                             id="phone"
                                             style={{background: 'none', display: 'block'}}
@@ -409,6 +419,7 @@ export const Users = () => {
                                 <div className={style.input__wrapper1}>
                                         <label htmlFor="position">Должность</label>
                                         <input
+                                            className={style.input}
                                             type="text"
                                             id="position"
                                             style={{background: 'none', display: 'block'}}
@@ -437,6 +448,7 @@ export const Users = () => {
                             <div className={style.input__wrapper1}>
                                 <label htmlFor="name" style={{background: 'none', display: 'block'}}>Імʼя</label>
                                 <input 
+                                    className={style.input}
                                     type="text"
                                     id="name"
                                     style={{background: 'none', display: 'block'}}
@@ -449,6 +461,7 @@ export const Users = () => {
                         <div className={style.input__wrapper1}>
                                 <label htmlFor="surname">Прізвище</label>
                                 <input
+                                    className={style.input}
                                     type="text"
                                     id="surname"
                                     style={{background: 'none', display: 'block'}}
@@ -463,6 +476,7 @@ export const Users = () => {
                             <div className={style.input__wrapper1}>
                                 <label htmlFor="email" style={{background: 'none', display: 'block'}}>E-mail</label>
                                 <input
+                                    className={style.input}
                                     type="email"
                                     id="email"
                                     style={{background: 'none', display: 'block'}}
@@ -475,10 +489,10 @@ export const Users = () => {
                         <div className={style.input__wrapper1}>
                                 <label htmlFor="password">Пароль</label>
                                 <input
+                                    className={style.input}
                                     type="password"
                                     id="password"
                                     style={{background: 'none', display: 'block'}}
-                                    defaultValue={formDataEdit.password}
                                     onChange={handlePasswordChange}
                                 />
                         </div>
@@ -488,7 +502,8 @@ export const Users = () => {
                     <div className={style.input__wrapper5}>
                             <div className={style.input__wrapper1}>
                                 <label htmlFor="exp" style={{background: 'none', display: 'block'}}>Досвід роботи</label>
-                                <input 
+                                <input
+                                    className={style.input} 
                                     type="text"
                                     id="exp"
                                     style={{background: 'none', display: 'block'}}
@@ -501,6 +516,7 @@ export const Users = () => {
                         <div className={style.input__wrapper1}>
                                 <label htmlFor="phone">Телефон</label>
                                 <input
+                                    className={style.input}
                                     type="phone"
                                     id="phone"
                                     style={{background: 'none', display: 'block'}}
@@ -512,6 +528,7 @@ export const Users = () => {
                         <div className={style.input__wrapper1}>
                                 <label htmlFor="position">Должность</label>
                                 <input
+                                    className={style.input}
                                     type="text"
                                     id="position"
                                     style={{background: 'none', display: 'block'}}

@@ -57,13 +57,13 @@ export const Login = () => {
                             </span>
 
                             <div className="wrap-input100 validate-input" data-validate="Enter username">
-                                <input style={{ marginBottom: 0 }} id="email" className="input100" type="text" name="email" placeholder="Логін" value={email} onChange={(e) => setEmail(e.target.value)} />
-                                <span className="focus-input100" data-placeholder="&#xf207;"></span>
+                                <input id="email" className={style.input100} type="text" name="email" placeholder="Логін" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                <span data-placeholder="&#xf207;"></span>
                             </div>
 
                             <div className="wrap-input100 validate-input" data-validate="Enter password">
-                                <input style={{ marginBottom: 0 }} className="input100" type="password" name="password" id="password" placeholder="Пароль" value={password} onChange={(e) => setPassword(e.target.value)} />
-                                <span className="focus-input100" data-placeholder="&#xf191;"></span>
+                                <input className={style.input100} type="password" name="password" id="password" placeholder="Пароль" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                <span data-placeholder="&#xf191;"></span>
                             </div>
 
                             <div className="container-login100-form-btn">

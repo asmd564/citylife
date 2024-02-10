@@ -14,7 +14,7 @@ export const Footer = () => {
                     <a href="tel:+3800973101091" className={style.phone}>+38 097 310-10-91</a>
                     <a href="tel:+380664696979" className={style.phone}>+38 066 469-69-79</a>
                 </div>
-                <a href="" className={style.mail}>citylive.if@gmail.com</a>
+                <a href="mailto:citylive.if@gmail.com" className={style.mail}>citylive.if@gmail.com</a>
               </div>
               <div className={style.logo}>
                 <FooterLogo />
@@ -24,16 +24,16 @@ export const Footer = () => {
                 <p className={style.street}>м. Івано-Франківськ,вул. Лепкого 12, 2-й поверх</p>
                 <div className={style.social__wrapper}>
                     <div className={style.instagram}>
-                        <Instagram />
+                        <a href="https://www.instagram.com/city_live.if" target="_blank"><Instagram /></a>
                     </div>
                     <div className={style.facebook}>
-                        <Facebook />
+                        <a href="https://www.facebook.com/cityliveif" target="_blank"><Facebook /></a>
                     </div>
                     <div className={style.telegram}>
-                        <Teleggram />
+                        <a href="https://t.me/citylive_if" target="_blank"><Teleggram /></a>
                     </div>
                     <div className={style.whatsapp}>
-                        <Whatsapp />
+                        <a href="viber://chat?number=+380973101091" target="_blank"><Whatsapp /></a>
                     </div>
                 </div>
               </div>
