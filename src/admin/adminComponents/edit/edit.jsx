@@ -77,7 +77,7 @@ export const Edit = ({ user }) => {
   
       try {
           if (formData) {
-              const response = await axios.put(`http://46.41.141.5:3001/users/${user.id}`, formData);
+              const response = await axios.put(`${process.env.REACT_APP_BE_HOST}/users/${user.id}`, formData);
               console.log('Данные успешно обновлены:', response.data);
           } else {
               console.log('Нет изменений для сохранения');

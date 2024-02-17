@@ -326,3 +326,7 @@
     font-size: 20px;
     width: 400px
 }
+
+.group__wrapper {
+    max-width: 400px;
+}

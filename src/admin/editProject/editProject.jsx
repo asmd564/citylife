@@ -24,7 +24,6 @@ const EditProject = () => {
     buildingOption: '',
     lat: '',
     lng: '',
-    imgUrls: [],
     district: '',
     adress: '',
     isHouse: '',
@@ -46,20 +45,20 @@ const EditProject = () => {
     const [lng, setLng] = useState('');
     const [mapLng, setMapLng] = useState('');
     const [mapLat, setMapLat] = useState('');
-    const [images, setImages] = useState([]);
+    // const [images, setImages] = useState([]);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [formNotSubmitted, setFormNotSubmitted] = useState(false);
     const [hidden, setHidden] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [district, setDistrict] = useState('');
 
     useEffect(() => {
         const fetchProject = async () => {
           try {
-            const response = await axios.get(`http://46.41.141.5:3001/products/${projectId}`);
-            console.log(response.data);
+            const response = await axios.get(`${process.env.REACT_APP_BE_HOST}/products/${projectId}`);
             setProjectData(response.data); // Загрузка данных проекта для редактирования
             setFormData(response.data); // Используем данные для установки начальных значений формы
-            setImages(response.data.imgUrls); // Установка изображений для предварительного просмотра
+            // setImages(response.data.imgUrls); // Установка изображений для предварительного просмотра
           } catch (error) {
             console.error('Ошибка при получении данных проекта:', error);
           }
@@ -70,13 +69,18 @@ const EditProject = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true)
+
 
     try {
-      await axios.put(`http://46.41.141.5:3001/products/${projectId}`, formData);
+      await axios.put(`${process.env.REACT_APP_BE_HOST}/products/${projectId}`, formData);
       // Обработка успешного обновления проекта
-      console.log('Проект успешно обновлен!');
+      console.log('Проект успешно обновлен!', formData);
+      setHidden(false);
+      setIsLoading(false);
     } catch (error) {
       console.error('Ошибка при обновлении проекта:', error);
+      setIsLoading(false);
     }
   };
 
@@ -111,6 +115,52 @@ const typeOfWaterHeating = [
     { value: 'Комерційна нерухомість', label: 'Комерційна нерухомість'},
   ]
 
+  const regionTypes = [
+    {
+        label: 'Райони',
+        options: [
+          { value: 'Центр', label: 'Центр' },
+          { value: 'Івасюка-Надрічна', label: 'Івасюка-Надрічна' },
+          { value: 'Пасічна', label: 'Пасічна' },
+          { value: 'Позитрон-Каскад', label: 'Позитрон-Каскад' },
+          { value: 'Коновальця-Чорновола', label: 'Коновальця-Чорновола' },
+          { value: 'Бам', label: 'Бам' },
+          { value: 'Незалежності–Тисменицька', label: 'Незалежності–Тисменицька' },
+          { value: 'Набережна–Княгинин', label: 'Набережна–Княгинин' },
+        ],
+      },
+      {
+        label: 'Передмістя',
+        options: [
+          { value: 'Крихівці', label: 'Крихівці' },
+          { value: 'Драгомирчани', label: 'Драгомирчани' },
+          { value: 'Опришівці', label: 'Опришівці' },
+          { value: 'Угорники', label: 'Угорники' },
+          { value: 'Микитинці', label: 'Микитинці' },
+          { value: 'Підлужжя', label: 'Підлужжя' },
+          { value: 'Підпечери', label: 'Підпечери' },
+          { value: 'Угринів', label: 'Угринів' },
+          { value: 'Клузів', label: 'Клузів' },
+          { value: 'Ямниця', label: 'Ямниця' },
+          { value: 'Чукалівка', label: 'Чукалівка' },
+          { value: 'Хриплин', label: 'Хриплин' },
+          { value: 'Черніїв', label: 'Черніїв' },
+        ],
+      },
+      {
+        label: 'Райони області',
+        options: [
+          { value: 'Тисменицький', label: 'Тисменицький' },
+          { value: 'Івано-Франківський', label: 'Івано-Франківський' },
+          { value: 'Калуський', label: 'Калуський' },
+          { value: 'Коломийський', label: 'Коломийський' },
+          { value: 'Косівський', label: 'Косівський' },
+          { value: 'Надвірнянський', label: 'Надвірнянський' },
+          { value: 'Верховинський', label: 'Верховинський' },
+        ],
+      },
+];
+
 
   const buildingOptions = [
     { value: 'цегляний', label: 'Цегляний'},
@@ -132,15 +182,15 @@ const typeOfWaterHeating = [
   ]
 
   const removeImage = (indexToRemove) => {
-    const updatedImages = images.filter((_, index) => index !== indexToRemove);
-    setImages(updatedImages);
-    setFormData({ ...formData, imgUrls: updatedImages.map(img => img.src) });
+    // const updatedImages = images.filter((_, index) => index !== indexToRemove);
+    // setImages(updatedImages);
+    // setFormData({ ...formData, imgUrls: updatedImages.map(img => img.src) });
   };
   
   const onDrop = useCallback((acceptedFiles) => {
     const newImages = acceptedFiles.map((file) => URL.createObjectURL(file));
 
-    setImages((prevImages) => [...prevImages, ...newImages]); // Обновление изображений
+    // setImages((prevImages) => [...prevImages, ...newImages]); // Обновление изображений
     setFormData((prevFormData) => ({
       ...prevFormData,
       imgUrls: [...prevFormData.imgUrls, ...newImages],
@@ -153,15 +203,15 @@ const typeOfWaterHeating = [
       return;
     }
 
-    const updatedImages = Array.from(images);
-    const [reorderedItem] = updatedImages.splice(result.source.index, 1);
-    updatedImages.splice(result.destination.index, 0, reorderedItem);
+    // const updatedImages = Array.from(images);
+    // const [reorderedItem] = updatedImages.splice(result.source.index, 1);
+    // updatedImages.splice(result.destination.index, 0, reorderedItem);
 
-    setImages(updatedImages); // Обновление изображений
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      imgUrls: updatedImages,
-    })); // Обновление formData.imgUrls
+    // setImages(updatedImages); // Обновление изображений
+    // setFormData((prevFormData) => ({
+    //   ...prevFormData,
+    //   imgUrls: updatedImages,
+    // })); // Обновление formData.imgUrls
   };
 
 const { getRootProps: dropzoneGetRootProps, getInputProps: dropzoneGetInputProps } = useDropzone({
@@ -173,34 +223,46 @@ const { getRootProps: dropzoneGetRootProps, getInputProps: dropzoneGetInputProps
   
     const handleTypeChange = (selectedOption) => {
         setType(selectedOption.value);
+        setFormData((prevFormData) => ({ ...prevFormData, type: selectedOption.value }));
     };
 
     const handleTop = (selectedOption) => {
         setTop(selectedOption.value);
+        setFormData((prevFormData) => ({ ...prevFormData, top: selectedOption.value }));
     };
 
     const handleBuildingOptionChange = (selectedOption) => {
         setBuildingOption(selectedOption.value);
+        setFormData((prevFormData) => ({ ...prevFormData, isHouse: selectedOption.value }));
     };
 
     const handleStateOption = (selectedOption) => {
         setStateOption(selectedOption.value);
+        setFormData((prevFormData) => ({ ...prevFormData, state: selectedOption.value }));
     };
+    const handleDistrictChange = (selectedOption) => {
+        setDistrict(selectedOption.value);
+        setFormData((prevFormData) => ({ ...prevFormData, district: selectedOption.value }));
+    }
 
     const handleBuildingType = (selectedOption) => {
         setBuildingType(selectedOption.value);
+        setFormData((prevFormData) => ({ ...prevFormData, buildingtype: selectedOption.value }));
     };
 
     const handleHeatingType = (selectedOption) => {
         setHeating(selectedOption.value);
+        setFormData((prevFormData) => ({ ...prevFormData, heating: selectedOption.value }));
     };
 
     const handleWaterHeatingType = (selectedOption) => {
         setWaterheating(selectedOption.value);
+        setFormData((prevFormData) => ({ ...prevFormData, waterheating: selectedOption.value }));
     };
 
     const handleCurrencyType = (selectedOption) => {
         setCurrency(selectedOption.value);
+        setFormData((prevFormData) => ({ ...prevFormData, currency: selectedOption.value }));
     };
 
 
@@ -238,7 +300,7 @@ const handleReset = () => {
             setTop('');
             setLat('');
             setLng('');
-            setImages([]);
+            // setImages([]);
 
     }
   }
@@ -255,9 +317,16 @@ return (
                         <input className={style.input} type="text" id="name" name="name" placeholder='Повний заголовок для сторінки обʼєкта' value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}/>
                         <div className={style.inputs__group__wrapper}>
                             <div className={style.group__wrapper}>
+                            <div className={style.custom__select__wrapper}>
                                 <label htmlFor="district" className={style.labelWithMargin}>Район</label>
-                                <input className={style.input} type="text" name="district" id="district" placeholder="Напишіть район" value={formData.district} onChange={(e) => setFormData({ ...formData, district: e.target.value })}/>
-
+                                <Select
+                                    classNamePrefix='custom-select'
+                                    placeholder= 'Район'
+                                    options={regionTypes}
+                                    value={regionTypes.reduce((acc, group) => [...acc, ...group.options], []).find(option => option.value === formData.district)}
+                                    onChange={handleDistrictChange}   
+                                />
+                            </div>
                                 <label htmlFor="adress" className={style.labelWithMargin}>Вулиця</label>
                                 <input className={style.input} type="text" name="adress" id="adress" placeholder="Адреса i номер будинку" value={formData.adress} onChange={(e) => setFormData({ ...formData, adress: e.target.value })}/>
                             </div>
@@ -288,8 +357,8 @@ return (
                                 classNamePrefix='custom-select'
                                 placeholder= 'Виберіть тип операції'
                                 options={typeOptions}
+                                value={typeOptions.find(option => option.value === formData.type)} 
                                 onChange={handleTypeChange}
-                                value={typeOptions.find(option => option.value === formData.type)}
                                 
                             />
                         </div>
@@ -300,8 +369,9 @@ return (
                                 classNamePrefix='custom-select'
                                 placeholder= 'Виберіть тип нерухомості'
                                 options={buildingTypeOptions}
+                                value={buildingTypeOptions.find(option => option.value === formData.isHouse)} 
                                 onChange={handleBuildingOptionChange}
-                                value={buildingTypeOptions.find(option => option.value === formData.isHouse)}   
+                                 
                             />
                         </div>
                         <div className={style.custom__select__wrapper1}>
@@ -370,7 +440,7 @@ return (
                                 placeholder= 'В топ?'
                                 options={topOptions}
                                 onChange={handleTop}
-                                value={topOptions.find(option => option.value == formData.top)}   
+                                value={topOptions.find(option => option.value === String(formData.top))}  
                             />
                         </div>
                          <div className={style.custom__select__wrapper}>
@@ -387,7 +457,7 @@ return (
                 </div>
 
                 <div>
-                <DragDropContext onDragEnd={handleDragEnd}>
+                {/* <DragDropContext onDragEnd={handleDragEnd}>
                     <Droppable droppableId="uniqueDroppableId">
                     {(provided) => (
                         <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -408,7 +478,7 @@ return (
                         </div>
                     )}
                     </Droppable>
-                </DragDropContext>
+                </DragDropContext> */}
 
 
 
@@ -416,7 +486,6 @@ return (
 
                     </div>
                 <div className={style.button__wrapper}>
-                    <button className={style.clear__btn} onClick={handleReset} type="button">Скасувати</button>
                     <button className={style.submit__btn} onClick={handleHidden} type="button">Опублікувати</button>
 
                     {hidden && (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import style from "./users.module.css";
 import axios from "axios";
 import _ from 'lodash';
@@ -10,6 +10,7 @@ import { Trash } from "../../../icons/trash";
 import { Oval } from "react-loader-spinner";
 
 export const Users = () => {
+    const menuRef = useRef(null);
     const [newUser, setNewUser] = useState(false)
     const [data, setData] = useState([]);
     const [inputText, setInputText] = useState('');
@@ -24,7 +25,9 @@ export const Users = () => {
         password: '',
         exp: '',
         phone: '',
-        position: ''
+        position: '',
+        viber: '',
+        telegram: ''
     });
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [editMode, setEditMode] = useState(false);
@@ -38,19 +41,19 @@ export const Users = () => {
         password: '',
         exp: '',
         phone: '',
-        position: ''
+        position: '',
+        viber: '',
+        telegram: ''
     });
 
     const [fileEdit, setFileEdit] = useState(null);
     const [avatar, setAvatar] = useState('');
     const [preview, setPreview] = useState(null);
 
-
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://46.41.141.5:3001/users')
+                const response = await axios.get(`${process.env.REACT_APP_BE_HOST}/users`)
                 setData(response.data);
                 setFilteredData(response.data);
             } catch (error) {
@@ -59,6 +62,8 @@ export const Users = () => {
         }
         fetchData();
     }, [])
+
+    
 
     const handleAdd = () => {
         setNewUser(true);
@@ -87,7 +92,22 @@ export const Users = () => {
 
     const handleOpenMenu = (userId) => {
         setSelectedUserId(userId === selectedUserId ? null : userId);
+        
     }
+
+    const handleDocumentClick = (event) => {
+        if (menuRef.current && !menuRef.current.contains(event.target)) {
+          setSelectedUserId(null); // Закрыть меню
+        }
+      };
+    
+      useEffect(() => {
+        document.addEventListener('click', handleDocumentClick);
+    
+        return () => {
+          document.removeEventListener('click', handleDocumentClick);
+        };
+      }, []);
 
     const handleOpenConfirm = () => {
         setConfirm(true);
@@ -110,11 +130,13 @@ export const Users = () => {
         formDataToSend.append('password', formData.password);
         formDataToSend.append('exp', formData.exp);
         formDataToSend.append('phone', formData.phone);
+        formDataToSend.append('viber', formData.viber);
+        formDataToSend.append('telegram', formData.telegram);
         formDataToSend.append('position', formData.position);
         
 
         try {
-            const response = await axios.post('http://46.41.141.5:3001/registration', formDataToSend);
+            const response = await axios.post(`${process.env.REACT_APP_BE_HOST}/registration`, formDataToSend);
             console.log('Registration successful:', response.data);
             setFormData({
                 name: '',
@@ -123,7 +145,9 @@ export const Users = () => {
                 password: '',
                 exp: '',
                 phone: '',
-                position: ''
+                viber: '',
+                position: '',
+                telegram: ''
             });
             setFile(null);
             setLoading(false);
@@ -156,6 +180,14 @@ export const Users = () => {
       const handlePhoneChange = (e) => {
         setFormDataEdit(prevData => ({ ...prevData, phone: e.target.value }));
       };
+
+      const handleViberChange = (e) => {
+        setFormDataEdit(prevData => ({ ...prevData, viber: e.target.value }));
+      };
+
+      const handleTelegramChange = (e) => {
+        setFormDataEdit(prevData => ({ ...prevData, telegram: e.target.value }));
+      };
       
       const handlePositionChange = (e) => {
         setFormDataEdit(prevData => ({ ...prevData, position: e.target.value }));
@@ -180,7 +212,7 @@ export const Users = () => {
 
     const handleEditUser = async (userId) => {
         try {
-          const response = await axios.get(`http://46.41.141.5:3001/users/${userId}`);
+          const response = await axios.get(`${process.env.REACT_APP_BE_HOST}/users/${userId}`);
           const userData = response.data;
       
           const originalUserDataCopy = _.cloneDeep(userData);
@@ -225,12 +257,19 @@ export const Users = () => {
           }
           formDataToSend.append('exp', editedData.exp);
           formDataToSend.append('phone', editedData.phone);
+          formDataToSend.append('viber', editedData.viber);
+          formDataToSend.append('telegram', editedData.telegram);
           formDataToSend.append('position', editedData.position);
           if (fileEdit) {
             formDataToSend.append('avatar', fileEdit);
           }
       
-          const editResponse = await axios.put(`http://46.41.141.5:3001/users/${editingUserId}`, formDataToSend);
+          const editResponse = await axios.put(`${process.env.REACT_APP_BE_HOST}/users/${editingUserId}`, formDataToSend);
+          const updatedData = data.map(item => 
+            item.id === editingUserId ? { ...item, ...editedData } : item
+          );
+          setData(updatedData);
+          setFilteredData(updatedData);
           setEditMode(false);
           setEditingUserId(null);
           setLoading(false);
@@ -242,8 +281,8 @@ export const Users = () => {
       
 
     const handleDeleteUser = async (userId) => {
-    
-            await axios.delete(`http://46.41.141.5:3001/users/${userId}`);
+        try{
+            await axios.delete(`${process.env.REACT_APP_BE_HOST}/users/${userId}`);
             const updatedData = data.filter(item => item.id !== userId);
             setData(updatedData);
             setFilteredData(updatedData);
@@ -291,7 +330,7 @@ export const Users = () => {
                             <p className={style.exp__p}>{`З ${item.exp} року`}</p>
                         </div>
                         <div className={style.social}>
-                            <p className={style.social__p}>{item.phone}</p>
+                            <p className={style.social__p}>{`${item.telegram}, ${item.viber}`}</p>
                         </div>
                         <div className={style.phone}>
                             <p className={style.phone__p}>{item.phone}</p>
@@ -417,6 +456,30 @@ export const Users = () => {
                                         />
                                 </div>
                                 <div className={style.input__wrapper1}>
+                                        <label htmlFor="viber">Viber</label>
+                                        <input
+                                            className={style.input}
+                                            type="viber"
+                                            id="phone"
+                                            style={{background: 'none', display: 'block'}}
+                                            required
+                                            value={formData.viber}
+                                            onChange={(e) => setFormData({ ...formData, viber: e.target.value })}
+                                        />
+                                </div>
+                                <div className={style.input__wrapper1}>
+                                        <label htmlFor="viber">Telegram</label>
+                                        <input
+                                            className={style.input}
+                                            type="viber"
+                                            id="phone"
+                                            style={{background: 'none', display: 'block'}}
+                                            required
+                                            value={formData.telegram}
+                                            onChange={(e) => setFormData({ ...formData, telegram: e.target.value })}
+                                        />
+                                </div>
+                                <div className={style.input__wrapper1}>
                                         <label htmlFor="position">Должность</label>
                                         <input
                                             className={style.input}
@@ -526,6 +589,30 @@ export const Users = () => {
                                 />
                         </div>
                         <div className={style.input__wrapper1}>
+                                <label htmlFor="viber">Viber</label>
+                                <input
+                                    className={style.input}
+                                    type="viber"
+                                    id="viber"
+                                    style={{background: 'none', display: 'block'}}
+                                    required
+                                    defaultValue={formDataEdit.viber}
+                                    onChange={handleViberChange}
+                                />
+                        </div>
+                        <div className={style.input__wrapper1}>
+                                <label htmlFor="viber">Telegram</label>
+                                <input
+                                    className={style.input}
+                                    type="viber"
+                                    id="viber"
+                                    style={{background: 'none', display: 'block'}}
+                                    required
+                                    defaultValue={formDataEdit.telegram}
+                                    onChange={handleTelegramChange}
+                                />
+                        </div>
+                        <div className={style.input__wrapper1}>
                                 <label htmlFor="position">Должность</label>
                                 <input
                                     className={style.input}
@@ -540,7 +627,7 @@ export const Users = () => {
                         </div>  
 
                 </div>
-                <button className={`${style.submit} ${style.active}`}>Зберегти</button>
+                <button className={`${style.submit} ${style.active}`}>{loading ? <Oval width={16} height={16} /> : 'Зберегти'}</button>
                 <button className={style.submit} onClick={handleClose} type="button">Скасувати</button>
             </div>
         </form>

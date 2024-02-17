@@ -11,7 +11,7 @@ export const MyProducts = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get(`http://46.41.141.5:3001/products`) 
+            const response = await axios.get(`${process.env.REACT_APP_BE_HOST}/products`) 
             const filteredData = response.data.filter(item => item.user_id == id);
             setProduct(filteredData);
         } catch (error) {
@@ -27,7 +27,7 @@ export const MyProducts = () => {
 
     const handleDeleteProduct = async (productId) => {
         try {
-            await axios.delete(`http://46.41.141.5:3001/products/${productId}`);
+            await axios.delete(`${process.env.REACT_APP_BE_HOST}/products/${productId}`);
             setProduct(prevProducts => prevProducts.filter(item => item.id !== productId));
         } catch (error) {
             console.error('Ошибка удаления продукта:', error);

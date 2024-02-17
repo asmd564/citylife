@@ -18,7 +18,7 @@ export const AnotherPropo = () => {
     useEffect(()=> {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://46.41.141.5:3001/products`);
+                const response = await axios.get(`${process.env.REACT_APP_BE_HOST}/products`);
                 setProducts(response.data);
             } catch (error) {
                 setError(error.message || 'помилка завантаження даних');

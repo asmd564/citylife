@@ -30,7 +30,7 @@ export const Objects = () => {
     const [roomsCount, setRoomsCount] = useState('');
     const [buildingTypeCount, setBuildingTypeCount] = useState('');
     const [sortedFilter, setSortedFilter] = useState([])
-    const [typeSelectValue, setTypeSelectValue] = useState(null);
+    const [typeSelectValue, setTypeSelectValue] = useState();
     const [state1, setState1] = useState('');
     const [minFloor, setMinFloor] = useState('');
     const [maxFloor, setMaxFloor] = useState('');
@@ -55,12 +55,35 @@ export const Objects = () => {
     },[])
 
     useEffect(()=> {
-        axios.get('http://46.41.141.5:3001/products')
+        axios.get(`${process.env.REACT_APP_BE_HOST}/products`)
             .then(response => {
                 const products = response.data;
                 setData(products);
                 setOriginalData([...products]);
                 setFilteredData([...products]);
+
+            const savedFilters = JSON.parse(localStorage.getItem("filters"));
+
+            if (savedFilters) {
+                // Устанавливаем сохраненные фильтры в состояние компонента
+                setMinPrice(savedFilters.minPrice || "");
+                setMaxPrice(savedFilters.maxPrice || "");
+                setMinRooms(savedFilters.minRooms || "");
+                setMaxRooms(savedFilters.maxRooms || "");
+                setMinArea(savedFilters.minArea || "");
+                setMaxArea(savedFilters.maxArea || "");
+                setDistrict(savedFilters.district || []);
+                setBuildingTypeCount(savedFilters.buildingTypeCount || []);
+                setSortBy(savedFilters.sortBy || "default");
+                setState1(savedFilters.state1 || "");
+                setType(savedFilters.type || "");
+                setMinFloor(savedFilters.minFloor || "");
+                setMaxFloor(savedFilters.maxFloor || "");
+                setTypeSelectValue(savedFilters.typeSelectValue || "");
+
+                // Применяем фильтры
+                filterAndSortProducts();
+            }
             })
             .catch(error => {
                 console.error('ошибка');
@@ -177,7 +200,7 @@ export const Objects = () => {
             filteredProducts = filteredProducts.filter(product => district.some(d => d.value === product.district));
         }
         if (buildingTypeCount && buildingTypeCount.length > 0) {
-            filteredProducts = filteredProducts.filter(product => buildingTypeCount.some(d => d.value === product.buildingtype));
+            filteredProducts = filteredProducts.filter(product => buildingTypeCount.some(d => d.value === product.isHouse));
         }
 
         setFilteredData(filteredProducts);
@@ -236,6 +259,27 @@ export const Objects = () => {
     useEffect(() => {
         filterAndSortProducts();
     }, [minPrice, maxPrice, district, type, buildingTypeCount, sortBy, maxRooms, minRooms, minArea, maxArea, state1, minFloor, maxFloor]);
+
+    useEffect(() => {
+        const filtersToSave = {
+            minPrice,
+            maxPrice,
+            minRooms,
+            maxRooms,
+            minArea,
+            maxArea,
+            district,
+            type,
+            buildingTypeCount,
+            minFloor,
+            maxFloor,
+            state1,
+            sortBy,
+            typeSelectValue
+        };
+    
+        localStorage.setItem("filters", JSON.stringify(filtersToSave));
+    }, [minPrice, maxPrice, district, type, buildingTypeCount, sortBy, maxRooms, minRooms, minArea, maxArea, state1, minFloor, maxFloor, typeSelectValue]);
     
     return (
         <section className={`${style.objects} ${style.container}`}>
@@ -348,7 +392,7 @@ export const Objects = () => {
             <div>
                 <div className={style.products__wrapper}>
                     {filteredData.slice(0, visibleCards).map(product => (
-                        <ProductCard product={product}/>
+                        <ProductCard product={product} key={product.id}/>
                     ))}    
                 </div>
                 <div className={style.products__button}>

@@ -25,7 +25,7 @@ export const Login = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post(`http://46.41.141.5:3001/login`, {
+            const response = await axios.post(`${process.env.REACT_APP_BE_HOST}/login`, {
                 email,
                 password
             });

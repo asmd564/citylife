@@ -11,7 +11,7 @@ export const Contacts = () => {
         e.preventDefault();
         const data = { name, phone, zapyt };
         try {
-          const response = await fetch('http://localhost:3001/email', {
+          const response = await fetch(`${process.env.REACT_APP_BE_HOST}/email`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

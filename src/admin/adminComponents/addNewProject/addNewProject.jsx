@@ -244,7 +244,7 @@ export const AddNewProject = ({ user }) => {
         });
     
         try {
-          const response = await axios.post(`http://46.41.141.5:3001/products`, formData, {
+          const response = await axios.post(`${process.env.REACT_APP_BE_HOST}/products`, formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
@@ -450,7 +450,7 @@ export const AddNewProject = ({ user }) => {
                             {images.map((image, index) => (
                             <div key={index} className={style.image__preview} draggable
                                 onDragStart={(e) => e.dataTransfer.setData('text/plain', index)}>
-                                <button onClick={() => removeImage(index)} className={style.img__btn}>Видалити</button>
+                                <button onClick={() => removeImage(index)} className={style.img__btn} type='button'>Видалити</button>
                                 <img 
                                     src={image.preview}
                                     alt={`preview-${index}`}

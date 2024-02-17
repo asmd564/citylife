@@ -11,6 +11,7 @@ import { Edit } from "../edit/edit";
 import { Users } from "../users/users";
 import EditProject from "../../editProject/editProject";
 import { ProductPreviev } from "../productPreviev/productPreviev";
+import { AllProjects } from "../allProjects/allProjects";
 
 const UserProfile = () => {
   const { id } = useParams();
@@ -19,7 +20,7 @@ const UserProfile = () => {
 
   const fetchData = async () => {
     try {
-        const response = await axios.get(`http://46.41.141.5:3001/users/${id}`)
+        const response = await axios.get(`${process.env.REACT_APP_BE_HOST}/users/${id}`)
         setData(response.data);
      } catch (error) {
         console.error('Ошибка получения данных о продукте:', error);
@@ -39,6 +40,7 @@ const UserProfile = () => {
         <Route path="my-products" element={<MyProducts/>}/>
         <Route path="add-product" element={<AddNewProject user={data}/>} />
         <Route path="users" element={<Users />}/>
+        <Route path="all-projects" element={<AllProjects />}/>
         <Route path="profile" element={<Edit user={data}/>}/>
         <Route path="my-products/edit/:projectId" element={<EditProject />}/>
         <Route path="my-products/:projectId" element={<ProductPreviev />}/>

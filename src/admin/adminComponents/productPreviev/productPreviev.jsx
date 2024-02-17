@@ -67,12 +67,12 @@ useEffect(() => {
     const fetchData = async () => {
        try {
           const [productResponse, usersResponse] = await Promise.all([
-             axios.get(`http://46.41.141.5:3001/products/${projectId}`, {
+             axios.get(`${process.env.REACT_APP_BE_HOST}/products/${projectId}`, {
                 params: {
                    random: Math.random()
                 }
              }),
-             axios.get(`http://46.41.141.5:3001/users`)
+             axios.get(`${process.env.REACT_APP_BE_HOST}/users`)
           ]);
 
           setProduct(productResponse.data);

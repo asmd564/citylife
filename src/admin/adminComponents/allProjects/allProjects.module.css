@@ -1,0 +1,84 @@
+.title {
+    color: black;
+    font-size: 50px;
+    align-self: center;
+    padding-top: 30px;
+}
+
+.allprojects {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.users__wrapper {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+}
+
+.users__cards__wrapper {
+    display: flex;
+    gap: 10px;
+    overflow: auto;
+    max-width: 800px;
+}
+
+.users__card {
+    display: block;
+    min-width: max-content;
+    border: 1px solid #8E8E8E;
+    padding: 5px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.user__card__all {
+    margin-right: 20px;
+    width: 70px;
+    text-align: center;
+}
+
+.paragraph {
+    min-width: max-content;
+    padding-right: 30px;
+    width: 300px;
+}
+
+.users {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    overflow-x: scroll;
+    padding-top: 15px;
+}
+
+.active {
+    background-color: #FDB700;
+    color: white;
+    border-color: #FDB700;
+}
+
+.filtered__products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+.no__projects {
+    font-size: 40px;
+}
+
+.search__input {
+    font-size: 18px;
+    margin-top: 30px;
+    border: none;
+    border-bottom: 1px solid grey;
+    padding-bottom: 10px;
+}

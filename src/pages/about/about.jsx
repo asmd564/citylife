@@ -15,7 +15,7 @@ export const About = () => {
 
     const getUsers = async () => {
         try{
-           const response = await axios.get('http://46.41.141.5:3001/users');
+           const response = await axios.get(`${process.env.REACT_APP_BE_HOST}/users`);
             setUsers(response.data);
         } catch (error) {
             console.error(error);
