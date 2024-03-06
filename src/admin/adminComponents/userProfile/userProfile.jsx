@@ -12,6 +12,7 @@ import { Users } from "../users/users";
 import EditProject from "../../editProject/editProject";
 import { ProductPreviev } from "../productPreviev/productPreviev";
 import { AllProjects } from "../allProjects/allProjects";
+import { AllProjectsUser } from "../allProjects/allProjectsUser";
 
 const UserProfile = () => {
   const { id } = useParams();
@@ -41,8 +42,9 @@ const UserProfile = () => {
         <Route path="add-product" element={<AddNewProject user={data}/>} />
         <Route path="users" element={<Users />}/>
         <Route path="all-projects" element={<AllProjects />}/>
+        <Route path="all-objects" element={<AllProjectsUser />}/>
         <Route path="profile" element={<Edit user={data}/>}/>
-        <Route path="my-products/edit/:projectId" element={<EditProject />}/>
+        <Route path="my-products/edit/:projectId" element={<EditProject user={data}/>}/>
         <Route path="my-products/:projectId" element={<ProductPreviev />}/>
 
       </Routes>

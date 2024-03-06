@@ -51,9 +51,12 @@
     display: flex;
     flex-wrap: nowrap;
     gap: 10px;
-    overflow-x: scroll;
     padding-top: 15px;
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;   
 }
+
 
 .active {
     background-color: #FDB700;
@@ -81,4 +84,9 @@
     border: none;
     border-bottom: 1px solid grey;
     padding-bottom: 10px;
+}
+
+.loading {
+    margin: 0 auto;
+    padding-top: 30px;
 }

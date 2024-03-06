@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Dropzone from 'react-dropzone';
 import axios from "axios";
 import style from './edit.module.css';
+import { Oval } from "react-loader-spinner";
 
 export const Edit = ({ user }) => {
     const [avatar, setAvatar] = useState(user.avatar || '');
@@ -11,6 +12,8 @@ export const Edit = ({ user }) => {
     const [email, setEmail] = useState('');
     const [preview, setPreview] = useState(user.avatar || null);
     const [loader, setLoader] = useState(false);
+    const [message, setMessage] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(false);
 
     useEffect(() => {
         if (user) {
@@ -19,39 +22,43 @@ export const Edit = ({ user }) => {
           setEmail(user.email || '');
           setAvatar(user.avatar || null);
         }
-      }, [user, avatar, name, surname, password, email]);
+      }, [user]);
   
     // Функция для загрузки аватара
-    const handleDrop = (acceptedFiles) => {
-        const file = acceptedFiles[0];
-        if (file instanceof Blob) {
-            setAvatar(file);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreview(reader.result); // Установка превью после чтения файла
-            };
-            reader.readAsDataURL(file);
-        } else {
-            console.error('Переданный файл не является объектом Blob');
-        }
-    };
+    const handleDrop = (acceptedFiles, rejectedFiles) => {
+      if (rejectedFiles && rejectedFiles.length > 0) {
+          console.error('Ошибка при загрузке файла:', rejectedFiles[0].errors[0].message);
+      } else {
+          const file = acceptedFiles[0];
+          if (file instanceof Blob) {
+              setAvatar(file);
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                  setPreview(reader.result); // Установка превью после чтения файла
+              };
+              reader.readAsDataURL(file);
+          } else {
+              console.error('Переданный файл не является объектом Blob');
+          }
+      }
+  };
 
     // Функции для обновления данных пользователя
     const handleNameChange = (e) => {
       setName(e.target.value);
-    };
+  };
   
-    const handleSurnameChange = (e) => {
+  const handleSurnameChange = (e) => {
       setSurname(e.target.value);
-    };
+  };
   
-    const handlePasswordChange = (e) => {
+  const handlePasswordChange = (e) => {
       setPassword(e.target.value);
-    };
+  };
   
-    const handleEmailChange = (e) => {
+  const handleEmailChange = (e) => {
       setEmail(e.target.value);
-    };
+  };
   
     // Функция для отправки обновленных данных на сервер
     const handleSubmit = async (e) => {
@@ -74,14 +81,20 @@ export const Edit = ({ user }) => {
       if (avatar) {
           formData.append('avatar', avatar);
       }
+      setLoader(true)
   
       try {
           if (formData) {
               const response = await axios.put(`${process.env.REACT_APP_BE_HOST}/users/${user.id}`, formData);
-              console.log('Данные успешно обновлены:', response.data);
           } else {
               console.log('Нет изменений для сохранения');
           }
+          setLoader(false)
+          setMessage(true);
+          setTimeout(() => {
+            setMessage(false);
+        }, 3000);
+
       } catch (error) {
           console.error('Ошибка при обновлении данных пользователя:', error);
           if (error.response && error.response.status) {
@@ -89,6 +102,11 @@ export const Edit = ({ user }) => {
           } else {
               console.error('Отсутствует объект ошибки ответа или его статус');
           }
+          setLoader(false)
+          setErrorMessage(true);
+          setTimeout(() => {
+            setErrorMessage(false);
+        }, 3000);
       }
   };
   
@@ -116,11 +134,17 @@ export const Edit = ({ user }) => {
                       </div>
                   )}
               </Dropzone>
-            <input className={style.input} type="text" value={name} onChange={handleNameChange} placeholder="Name"  style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
-            <input className={style.input} type="text" value={surname} onChange={handleSurnameChange} placeholder="Surname" style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
-            <input className={style.input} type="password" value={password} onChange={handlePasswordChange} placeholder="Password" style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
-            <input className={style.input} type="email" value={email} onChange={handleEmailChange} placeholder="Email" style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
-            <button type="submit" className={style.submit}>Save</button>
+            <input className={style.input} type="text" value={name} onChange={(e) => handleNameChange(e)} placeholder="Name"  style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
+            <input className={style.input} type="text" value={surname} onChange={(e) => handleSurnameChange(e)} placeholder="Surname" style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
+            <input className={style.input} type="password" value={password} onChange={(e) => handlePasswordChange(e)} placeholder="Password" style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
+            <input className={style.input} type="email" value={email} onChange={(e) => handleEmailChange(e)} placeholder="Email" style={{background: 'none', padding: 0, margin: 0, marginBottom: 40}}/>
+            <button type="submit" className={style.submit}>{loader ? <Oval width={20} height={20}/> : 'Save'}</button>
+            {errorMessage && (
+              <p className={style.error}>Помилка оновлення даних</p>
+            )}
+            {message && (
+              <p className={style.okMessage}>Дані успішно оновлено</p>
+            )}
           </form>
         </div>
       </div>

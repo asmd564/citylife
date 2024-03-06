@@ -398,4 +398,17 @@
     }
 }
 
+.id {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    background: rgba(27, 27, 27, 0.72);
+    width: 100px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 

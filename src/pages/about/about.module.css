@@ -209,6 +209,7 @@
 }
 
 .team__card {
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     max-width: 161px;
@@ -237,6 +238,39 @@
     align-items: center;
     justify-content: center;
     gap: 64px;
+}
+
+.agentCard__container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: scroll;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.agentCard__wrapper {
+    position: relative;
+     position: absolute;
+     top: 120px;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 20px;
+    height: 20px;
+    z-index: 5;
+    cursor: pointer;
+}
+.close svg path{
+    fill: black;
 }
 
 

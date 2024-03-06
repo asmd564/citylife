@@ -330,3 +330,25 @@
 .group__wrapper {
     max-width: 400px;
 }
+
+.image__preview__container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 1288px;
+    gap: 20px;
+    padding-bottom: 100px;
+}
+
+.image__preview {
+    width: 390px;
+    height: 250px;
+}
+
+.image__preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}

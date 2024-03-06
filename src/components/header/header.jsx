@@ -6,26 +6,20 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { Burger } from "../../icons/burger";
 import { Close } from "../../icons/close";
 
-export const Header = ({callback}) => {
+export const Header = ({ callback }) => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [mobileMenu, setMobileMenu] = useState(false);
     const location = useLocation();
     const isActiveRoute = (route) => location.pathname.includes(route);
+    const [cardData, setCardData] = useState([]);
 
-    const [cardData, setCardData] = useState(() => {
-        const storedData = localStorage.getItem('cardData');
-        return storedData ? JSON.parse(storedData) : [];
-    });
-
-    const [count, setCount] = useState(() => {
-        const storedData = localStorage.getItem('cardData');
-        return storedData ? JSON.parse(storedData).length : 0;
-    });
 
     useEffect(() => {
-        localStorage.setItem('cardData', JSON.stringify(cardData));
-        setCount(cardData.length);
-    }, [cardData]);
+        const storedData = localStorage.getItem('cardData');
+        if (storedData) {
+          setCardData(JSON.parse(storedData));
+        }
+      }, [cardData]);
 
 
     const toggleMenu = () => {
@@ -37,22 +31,11 @@ export const Header = ({callback}) => {
         setMobileMenu(false);
       };
 
-      const handleCountChange = () => {
-        const storedData = localStorage.getItem('cardData');
-        if (storedData) {
-            const parsedData = JSON.parse(storedData);
-            setCardData(parsedData);
-            setCount(parsedData.length);
-        }
-    };
 
     const handleBurger = () => {
         setMobileMenu(!mobileMenu);
     }
 
-    useEffect(() => {
-        handleCountChange();
-    }, []);
     return (
         <header className={style.header}>
             <div className={`${style.header__wrapper} container`}>
@@ -94,13 +77,13 @@ export const Header = ({callback}) => {
             <div className={mobileMenu ? `${style.burger__nav} ${style.active}` : style.burger__nav}>
                 <div className={style.burger__nav__wrapper}>
                     <ul className={style.burger__nav__list}>
-                        <li className={style.burger__nav__item}><NavLink to="/" className={style.burger__nav__link} onClick={closeMenu}>Головна</NavLink></li>
-                        <li className={style.burger__nav__item}><NavLink to="/for-sellers" className={style.burger__nav__link} onClick={closeMenu}>Для  продавців</NavLink></li>
-                        <li className={style.burger__nav__item}><NavLink to="/for-buyers" className={style.burger__nav__link} onClick={closeMenu}>Для  покупців</NavLink></li>
-                        <li className={style.burger__nav__item}><NavLink to="/about" className={style.burger__nav__link} onClick={closeMenu}>Про нас</NavLink></li>
+                        <NavLink to="/" className={style.burger__nav__link} onClick={closeMenu}><li className={style.burger__nav__item}>Головна</li></NavLink>
+                        <NavLink to="/for-sellers" className={style.burger__nav__link} onClick={closeMenu}><li className={style.burger__nav__item}>Для  продавців</li></NavLink>
+                        <NavLink to="/for-buyers" className={style.burger__nav__link} onClick={closeMenu}><li className={style.burger__nav__item}>Для  покупців</li></NavLink>
+                        <NavLink to="/about" className={style.burger__nav__link} onClick={closeMenu}><li className={style.burger__nav__item}>Про нас</li></NavLink>
                         {/*<li className={style.burger__nav__item}><NavLink to="/reviews" className={style.burger__nav__link} onClick={closeMenu}>Відгуки</NavLink></li>*/}
-                        <li className={style.burger__nav__item}><NavLink to="/favorite" className={style.burger__nav__link} onClick={closeMenu}>Улюблені</NavLink></li>
-                        <li className={style.burger__nav__item}><NavLink to="/contact" className={style.burger__nav__link} onClick={closeMenu}>Контакти</NavLink></li>
+                        <NavLink to="/favorite" className={style.burger__nav__link} onClick={closeMenu}><li className={style.burger__nav__item}>Улюблені</li></NavLink>
+                        <NavLink to="/contact" className={style.burger__nav__link} onClick={closeMenu}><li className={style.burger__nav__item}>Контакти</li></NavLink>
                     </ul>
                 </div>
             </div>

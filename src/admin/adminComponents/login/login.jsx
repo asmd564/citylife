@@ -29,7 +29,6 @@ export const Login = () => {
                 email,
                 password
             });
-
             localStorage.setItem('token', response.data.accessToken);
             login(response.data.accessToken);
             setError(null);
@@ -38,7 +37,7 @@ export const Login = () => {
         } catch (error) {
             console.error('Ошибка входа', error);
             
-            setError('Ошибка входа. Проверьте введенные данные.');
+            setError('Помилка входу. Перевірте введені дані.');
         }
     };
 
@@ -74,7 +73,7 @@ export const Login = () => {
 
                             {error && (
                                 <div className="error-message">
-                                    Ви невірно ввели логін або пароль!
+                                    {error}
                                 </div>
                             )}
                         </form>

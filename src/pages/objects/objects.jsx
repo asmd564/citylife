@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import style from './objects.module.css';
 import Select from 'react-select';
 import axios from "axios";
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ProductCard } from "../../components/ui/product__card/product__card";
 import { Contacts } from "../../components/blocks/contacts/contacts";
 import { WhyWe } from "../../components/blocks/whyWe/whyWe";
@@ -9,8 +10,10 @@ import Map from "../../components/blocks/map/map";
 import { BookIcon } from "../../icons/book";
 import { Close } from "../../icons/close";
 import { Shevron } from "./shevron";
+import { Oval } from "react-loader-spinner";
 
 export const Objects = () => {
+    const location = useLocation();
     const [type, setType] = useState('');
     const [data, setData] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
@@ -30,10 +33,13 @@ export const Objects = () => {
     const [roomsCount, setRoomsCount] = useState('');
     const [buildingTypeCount, setBuildingTypeCount] = useState('');
     const [sortedFilter, setSortedFilter] = useState([])
-    const [typeSelectValue, setTypeSelectValue] = useState();
+    const [typeSelectValue, setTypeSelectValue] = useState('');
     const [state1, setState1] = useState('');
     const [minFloor, setMinFloor] = useState('');
     const [maxFloor, setMaxFloor] = useState('');
+    const [loader, setLoader] = useState(true);
+
+    const [sortOrder, setSortOrder] = useState('asc');
 
 
     const handleOpenFilters = () => {
@@ -54,41 +60,104 @@ export const Objects = () => {
         window.scrollTo(0,0);
     },[])
 
-    useEffect(()=> {
-        axios.get(`${process.env.REACT_APP_BE_HOST}/products`)
-            .then(response => {
-                const products = response.data;
+    useEffect(() => {
+        // Обработчик события при изменении местоположения
+        const handleLocationChange = () => {
+          const currentSearch = location.search;
+    
+          if (currentSearch.includes('?category=sale')) {
+            setTypeSelectValue({ value: 'sell', label: 'Продаж' });
+            setType('sell');
+          } else if (currentSearch.includes('?category=rent')) {
+            setTypeSelectValue({ value: 'rent', label: 'Оренда' });
+            setType('rent');
+          }
+        };
+    
+        // Вызываем обработчик события при загрузке компонента и при изменении местоположения
+        handleLocationChange();
+      }, []);
+
+      useEffect(() => {
+        const fetchDataAndFilters = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_BE_HOST}/products`);
+                const products = response.data.sort((a, b) => b.id - a.id);
                 setData(products);
                 setOriginalData([...products]);
                 setFilteredData([...products]);
-
-            const savedFilters = JSON.parse(localStorage.getItem("filters"));
-
-            if (savedFilters) {
-                // Устанавливаем сохраненные фильтры в состояние компонента
-                setMinPrice(savedFilters.minPrice || "");
-                setMaxPrice(savedFilters.maxPrice || "");
-                setMinRooms(savedFilters.minRooms || "");
-                setMaxRooms(savedFilters.maxRooms || "");
-                setMinArea(savedFilters.minArea || "");
-                setMaxArea(savedFilters.maxArea || "");
-                setDistrict(savedFilters.district || []);
-                setBuildingTypeCount(savedFilters.buildingTypeCount || []);
-                setSortBy(savedFilters.sortBy || "default");
-                setState1(savedFilters.state1 || "");
-                setType(savedFilters.type || "");
-                setMinFloor(savedFilters.minFloor || "");
-                setMaxFloor(savedFilters.maxFloor || "");
-                setTypeSelectValue(savedFilters.typeSelectValue || "");
-
-                // Применяем фильтры
-                filterAndSortProducts();
+    
+                const savedFilters = JSON.parse(localStorage.getItem("filters"));
+    
+                console.log('Saved Filters from LocalStorage:', savedFilters);
+    
+                if (savedFilters) {
+                    console.log('Applying saved filters:', savedFilters);
+                    try {
+                        // Устанавливаем сохраненные фильтры в состояние компонента
+                        setMinPrice(savedFilters.minPrice || "");
+                        setMaxPrice(savedFilters.maxPrice || "");
+                        setMinRooms(savedFilters.minRooms || "");
+                        setMaxRooms(savedFilters.maxRooms || "");
+                        setMinArea(savedFilters.minArea || "");
+                        setMaxArea(savedFilters.maxArea || "");
+                        setDistrict(savedFilters.district || []);
+                        setBuildingTypeCount(savedFilters.buildingTypeCount || []);
+                        setSortBy(savedFilters.sortBy || "default");
+                        setState1(savedFilters.state1 || "");
+                        setType(savedFilters.type || "");
+                        setMinFloor(savedFilters.minFloor || "");
+                        setMaxFloor(savedFilters.maxFloor || "");
+                        setTypeSelectValue(savedFilters.typeSelectValue || "");
+    
+                        // Применяем фильтры
+                        filterAndSortProducts();
+                        setLoader(false);
+                    } catch (error) {
+                        console.error('Error applying saved filters:', error);
+                        setLoader(false);
+                    }
+                } else {
+                    // Если сохраненных фильтров нет, оставляем текущее состояние
+                    setLoader(false);
+                }
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                // Обработка ошибки
             }
-            })
-            .catch(error => {
-                console.error('ошибка');
-            });
-    },[]);
+        };
+    
+        // Вызываем функцию при монтировании компонента
+        fetchDataAndFilters();
+    }, []);
+
+    const saveFiltersToLocalStorage = () => {
+        const filtersToSave = {
+            minPrice,
+            maxPrice,
+            minRooms,
+            maxRooms,
+            minArea,
+            maxArea,
+            district,
+            type,
+            buildingTypeCount,
+            minFloor,
+            maxFloor,
+            state1,
+            sortBy,
+            typeSelectValue
+        };
+    
+        localStorage.setItem("filters", JSON.stringify(filtersToSave));
+    };
+
+    useEffect(() => {
+        saveFiltersToLocalStorage();
+    
+    }, [minPrice, maxPrice, district, type, buildingTypeCount, sortBy, maxRooms, minRooms, minArea, maxArea, state1, minFloor, maxFloor, typeSelectValue]);
+    
+    
 
     const typeOptions = [
         {value: 'sell', label: 'Продаж'},
@@ -160,16 +229,17 @@ export const Objects = () => {
         {value: 'Комерційна нерухомість', label: 'Комерційна нерухомість'},
         {value: 'Дача', label: 'Дача'},
         {value: 'Земля', label: 'Земля'},
+        {value: 'Гараж', label: 'Гараж'},
     ];
 
 
-    const filterAndSortProducts = () => {
+    const filterData = () => {
         let filteredProducts = [...data];
-
-        if(type !== '') {
+    
+        if (type !== '') {
             filteredProducts = filteredProducts.filter(product => product.type === type);
         }
-        if(state1 !== '') {
+        if (state1 !== '') {
             filteredProducts = filteredProducts.filter(product => product.state === state1.value);
         }
         if (minPrice !== '') {
@@ -202,33 +272,30 @@ export const Objects = () => {
         if (buildingTypeCount && buildingTypeCount.length > 0) {
             filteredProducts = filteredProducts.filter(product => buildingTypeCount.some(d => d.value === product.isHouse));
         }
-
+    
+        return filteredProducts;
+    };
+    
+    const filterAndSortProducts = () => {
+        const filteredProducts = filterData();
+    
+        if (sortBy === "lowToHigh") {
+            // Сортировка по возрастанию цены
+            filteredProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+        } else if (sortBy === "highToLow") {
+            // Сортировка по убыванию цены
+            filteredProducts.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+        }
+    
         setFilteredData(filteredProducts);
         setSortedFilter(filteredProducts);
         setOriginalData(filteredProducts);
     };
-
+    
     const sortProducts = (order) => {
-        let sortedProducts;
-    
-        if (order === "default") {
-            setSortBy("default");
-            return;
-        } else {
-            sortedProducts = [...filteredData].sort((a, b) => {
-                if (order === "lowToHigh") {
-                    // Сортировка по возрастанию цены
-                    return parseFloat(a.price) - parseFloat(b.price);
-                } else if (order === "highToLow") {
-                    return parseFloat(b.price) - parseFloat(a.price);
-                }
-            });
-        }
-    
-        setFilteredData(sortedProducts);
         setSortBy(order);
+        filterAndSortProducts();
     };
-
     const resetSort = () => {
         setFilteredData([...filteredData]);
         setSortBy("default");
@@ -260,26 +327,6 @@ export const Objects = () => {
         filterAndSortProducts();
     }, [minPrice, maxPrice, district, type, buildingTypeCount, sortBy, maxRooms, minRooms, minArea, maxArea, state1, minFloor, maxFloor]);
 
-    useEffect(() => {
-        const filtersToSave = {
-            minPrice,
-            maxPrice,
-            minRooms,
-            maxRooms,
-            minArea,
-            maxArea,
-            district,
-            type,
-            buildingTypeCount,
-            minFloor,
-            maxFloor,
-            state1,
-            sortBy,
-            typeSelectValue
-        };
-    
-        localStorage.setItem("filters", JSON.stringify(filtersToSave));
-    }, [minPrice, maxPrice, district, type, buildingTypeCount, sortBy, maxRooms, minRooms, minArea, maxArea, state1, minFloor, maxFloor, typeSelectValue]);
     
     return (
         <section className={`${style.objects} ${style.container}`}>
@@ -391,9 +438,13 @@ export const Objects = () => {
             </div>
             <div>
                 <div className={style.products__wrapper}>
-                    {filteredData.slice(0, visibleCards).map(product => (
-                        <ProductCard product={product} key={product.id}/>
-                    ))}    
+                    {loader ? (
+                        <Oval />
+                    ) : (
+                        filteredData.slice(0, visibleCards).map(product => (
+                            <ProductCard product={product} key={product.id} />
+                        ))
+                    )}
                 </div>
                 <div className={style.products__button}>
                     {visibleCards < filteredData.length && filteredData.length > 9 && (
@@ -448,6 +499,7 @@ export const Objects = () => {
                                 <div className={style.filters__inputs}>
                                     <label className={`${style.label} ${style.label2}`}>{`Тип  нерухомості`}</label>
                                         <Select 
+                                            isMulti
                                             classNamePrefix='custom-select'
                                             className={style.custom__width11}
                                             placeholder= 'Всі типи'
@@ -500,8 +552,8 @@ export const Objects = () => {
                                 <div className={style.filters__more__price}>
                                     <label className={style.label3} htmlFor="">Ціна:</label>
                                     <div className={style.filters__input__wrapper}>
-                                        <input type="number" className={style.more__filters__inputs}  placeholder="вiд"/>
-                                        <input type="number" className={style.more__filters__inputs}  placeholder="до"/>
+                                        <input type="number" className={style.more__filters__inputs}  placeholder="вiд" value={minPrice} onChange={(e) => setMinPrice(e.target.value)}/>
+                                        <input type="number" className={style.more__filters__inputs}  placeholder="до" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)}/>
                                     </div>
                                     
                                 </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { v4 as uuidv4 } from 'uuid';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import ProjectMap from '../../components/ProjectMap/ProjectMap';
 import Select from 'react-select';
@@ -9,9 +9,11 @@ import { Oval } from 'react-loader-spinner';
 import axios from 'axios';
 import style from './editProject.module.css';
 
-const EditProject = () => {
+const EditProject = ({ user }) => {
+  const navigate = useNavigate()
   const { projectId } = useParams(); // Получаем projectId из URL
   const [projectData, setProjectData] = useState(null);
+  const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -27,6 +29,10 @@ const EditProject = () => {
     district: '',
     adress: '',
     isHouse: '',
+    user_id: '',
+    imgUrls: '',
+    images: '',
+
 
 
 
@@ -34,6 +40,7 @@ const EditProject = () => {
   });
 
     const [type, setType] = useState('');
+    const [userId, setUserId] = useState('');
     const [buildingOption, setBuildingOption] = useState('');
     const [stateOption, setStateOption] = useState('');
     const [buildingType, setBuildingType] = useState('');
@@ -45,20 +52,26 @@ const EditProject = () => {
     const [lng, setLng] = useState('');
     const [mapLng, setMapLng] = useState('');
     const [mapLat, setMapLat] = useState('');
-    // const [images, setImages] = useState([]);
+    const [images, setImages] = useState([]);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [formNotSubmitted, setFormNotSubmitted] = useState(false);
     const [hidden, setHidden] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [district, setDistrict] = useState('');
+    const [imgUrls, setImgUrls] = useState('');
+
 
     useEffect(() => {
         const fetchProject = async () => {
           try {
             const response = await axios.get(`${process.env.REACT_APP_BE_HOST}/products/${projectId}`);
+            const usersResponse = await axios.get(`${process.env.REACT_APP_BE_HOST}/users`);
+
             setProjectData(response.data); // Загрузка данных проекта для редактирования
-            setFormData(response.data); // Используем данные для установки начальных значений формы
-            // setImages(response.data.imgUrls); // Установка изображений для предварительного просмотра
+            setFormData(response.data);
+            setUsers(usersResponse.data);
+            setImages(response.data.imgUrls);
+            setImgUrls(response.data.imgUrls) // Установка изображений для предварительного просмотра
           } catch (error) {
             console.error('Ошибка при получении данных проекта:', error);
           }
@@ -73,16 +86,23 @@ const EditProject = () => {
 
 
     try {
-      await axios.put(`${process.env.REACT_APP_BE_HOST}/products/${projectId}`, formData);
+      const response =  await axios.put(`${process.env.REACT_APP_BE_HOST}/products/${projectId}`, formData);
       // Обработка успешного обновления проекта
-      console.log('Проект успешно обновлен!', formData);
+      console.log('Проект успешно обновлен!', formData.data);
       setHidden(false);
       setIsLoading(false);
+      navigate(`/admin/dashboard/${user.id}/my-products`)
+      console.log(response)
     } catch (error) {
       console.error('Ошибка при обновлении проекта:', error);
       setIsLoading(false);
     }
   };
+
+  const userIdOptions = users.map(item => ({
+    value: item.id,
+    label: `${item.name} ${item.surname}`,
+  }));
 
   const typeOptions = [
     { value: 'rent', label: 'Оренда' },
@@ -113,6 +133,7 @@ const typeOfWaterHeating = [
     { value: 'Дача', label: 'Дача'},
     { value: 'Земля', label: 'Земля'},
     { value: 'Комерційна нерухомість', label: 'Комерційна нерухомість'},
+    { value: 'Гараж', label: 'Гараж'},
   ]
 
   const regionTypes = [
@@ -182,15 +203,15 @@ const typeOfWaterHeating = [
   ]
 
   const removeImage = (indexToRemove) => {
-    // const updatedImages = images.filter((_, index) => index !== indexToRemove);
-    // setImages(updatedImages);
-    // setFormData({ ...formData, imgUrls: updatedImages.map(img => img.src) });
+    const updatedImages = images.filter((_, index) => index !== indexToRemove);
+    setImages(updatedImages);
+    setFormData({ ...formData, imgUrls: updatedImages.map(img => img.src) });
   };
   
   const onDrop = useCallback((acceptedFiles) => {
     const newImages = acceptedFiles.map((file) => URL.createObjectURL(file));
 
-    // setImages((prevImages) => [...prevImages, ...newImages]); // Обновление изображений
+    setImages((prevImages) => [...prevImages, ...newImages]); // Обновление изображений
     setFormData((prevFormData) => ({
       ...prevFormData,
       imgUrls: [...prevFormData.imgUrls, ...newImages],
@@ -203,18 +224,24 @@ const typeOfWaterHeating = [
       return;
     }
 
-    // const updatedImages = Array.from(images);
-    // const [reorderedItem] = updatedImages.splice(result.source.index, 1);
-    // updatedImages.splice(result.destination.index, 0, reorderedItem);
+    const updatedImages = Array.from(images);
+    const [reorderedItem] = updatedImages.splice(result.source.index, 1);
+    updatedImages.splice(result.destination.index, 0, reorderedItem);
 
-    // setImages(updatedImages); // Обновление изображений
-    // setFormData((prevFormData) => ({
-    //   ...prevFormData,
-    //   imgUrls: updatedImages,
-    // })); // Обновление formData.imgUrls
+    setImages(updatedImages); // Обновление изображений
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      imgUrls: updatedImages,
+    })); // Обновление formData.imgUrls
   };
 
 const { getRootProps: dropzoneGetRootProps, getInputProps: dropzoneGetInputProps } = useDropzone({
+    onDrop,
+    accept: 'image/*',
+    multiple: true,
+});
+
+const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: 'image/*',
     multiple: true,
@@ -224,6 +251,11 @@ const { getRootProps: dropzoneGetRootProps, getInputProps: dropzoneGetInputProps
     const handleTypeChange = (selectedOption) => {
         setType(selectedOption.value);
         setFormData((prevFormData) => ({ ...prevFormData, type: selectedOption.value }));
+    };
+
+    const handleUserChange = (selectedOption) => {
+        setUserId(selectedOption.value);
+        setFormData((prevFormData) => ({ ...prevFormData, user_id: selectedOption.value }));
     };
 
     const handleTop = (selectedOption) => {
@@ -453,32 +485,52 @@ return (
                                 value={typeCurrency.find(option => option.value === formData.currency)}  
                             />
                         </div>
+                        <div className={style.custom__select__wrapper}>
+                            <label htmlFor="userId" className={style.labelWithMargin}>Передати проект</label>
+                            <Select
+                                classNamePrefix='custom-select'
+                                placeholder= 'Виберіть користовача'
+                                options={userIdOptions}
+                                onChange={handleUserChange}
+                                value={userIdOptions.find(option => option.value === formData.user_id)}  
+                            />
+                        </div>
                 </div>
                 </div>
 
                 <div>
-                {/* <DragDropContext onDragEnd={handleDragEnd}>
+                <div >
+                <DragDropContext onDragEnd={handleDragEnd}>
                     <Droppable droppableId="uniqueDroppableId">
                     {(provided) => (
-                        <div ref={provided.innerRef} {...provided.droppableProps}>
+                        <div ref={provided.innerRef} {...provided.droppableProps} className={style.image__preview__container}>
                         {images.map((image, index) => (
-                            <Draggable key={index} draggableId={String(index)} index={index}>
+                            <div ><Draggable key={index} draggableId={String(index)} index={index} >
+                                
                             {(provided) => (
                                 <div
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
+                                className={style.image__preview}
                                 >
+                                <button onClick={() => removeImage(index)} className={style.img__btn} type='button'>Видалити</button>
                                 <img src={image} alt={`image-${index}`} />
                                 </div>
                             )}
                             </Draggable>
+                            </div>
                         ))}
                         {provided.placeholder}
+                        <div className={style.dropzone} {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            <p>Перетягніть свої фото сюди або натиснути <span>Завантажити</span></p>
+                        </div>
                         </div>
                     )}
                     </Droppable>
-                </DragDropContext> */}
+                </DragDropContext>
+                </div>
 
 
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import style from "./productDetails.module.css";
 import { Favorite } from "../../icons/favorite";
@@ -54,6 +54,12 @@ export const ProductDetails = () => {
 
     localStorage.setItem('cardData', JSON.stringify(cardData));
 };
+
+const scrollToAnchor = () => {
+    if (contactsRef.current) {
+      contactsRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
 useEffect(() => {
     const storedData = localStorage.getItem('cardData');
@@ -139,7 +145,8 @@ useEffect(() => {
     window.scrollTo(0,0);
    },[])
     return (
-        <section className={`${style.product__details} ${style.container}`}>
+        <section>
+            <div className={`${style.product__details} ${style.container}`}>
             <p className={style.go__back} onClick={handleBack}>Назад до оголошень</p>
             { product ? (
                 <>
@@ -189,6 +196,9 @@ useEffect(() => {
                     { product && Object.keys(product).length > 0 ? (
                         <section className={style.price__header}>
                             <h2 className={style.price}>{`${product.currency}  ${product.price.toLocaleString('ru-RU')}`}</h2>
+                            <button className={`${style.favorive} ${style.favorite__mobile}`} onClick={toggleFavorite}>
+                                    <div className={style.favotite__title}>{favorite ? <FavoriteActive /> : <Favorite />}</div>
+                            </button>
                             <div className={style.price__header__wrapper}>
                                 <button className={style.favorive} onClick={toggleFavorite}>
                                     <div className={style.favotite__title}>В обране{favorite ? <FavoriteActive /> : <Favorite />}</div>
@@ -221,41 +231,41 @@ useEffect(() => {
                                     </div>
                                     <div className={style.good}>
                                         <p className={`${style.type} ${style.type__width} ${style.room}`}>Кімнат</p>
-                                        <p className={style.desc}>{product.rooms}</p>
+                                        <p className={style.desc}>{product.rooms !== '' ? product.rooms : '-'}</p>
                                     </div>
                                     <div className={style.good}>
                                         <p className={`${style.type} ${style.type__width} ${style.area}`}>Площа</p>
-                                        <p className={style.desc}>{product.area} м²</p>
+                                        <p className={style.desc}>{product.area !== '' ? product.area : '-'} м²</p>
                                     </div>
                                     <div className={style.good}>
                                         <p className={`${style.type} ${style.type__width} ${style.floor}`}>Поверх</p>
-                                        <p className={style.desc}>{product.flor}</p>
+                                        <p className={style.desc}>{product.flor !== '' ? product.flor : '-'}</p>
                                     </div>
                                 </div>
 
                                 <div className={style.goods__wrapper}>
                                     <div className={style.good}>
                                         <p className={`${style.type} ${style.state}`}>Стан</p>
-                                        <p className={style.desc}>{product.state}</p>
+                                        <p className={style.desc}>{product.state !== '' ? product.state : '-'}</p>
                                     </div>
                                     <div className={style.good}>
                                         <p className={`${style.type} ${style.heating}`}>Опалення</p>
-                                        <p className={style.desc}>{product.heating}</p>
+                                        <p className={style.desc}>{product.heating !== '' ? product.heating : '-'}</p>
                                     </div>
                                     <div className={style.good}>
                                         <p className={`${style.type} ${style.waterheating}`}>Підігрів води</p>
-                                        <p className={style.desc}>{product.waterheating}</p>
+                                        <p className={style.desc}>{product.waterheating !== '' ? product.waterheating : '-'}</p>
                                     </div>
                                     <div className={style.good}>
                                         <p className={`${style.type} ${style.buildingtype}`}>Тип будинку</p>
-                                        <p className={style.desc}>{product.buildingtype}</p>
+                                        <p className={style.desc}>{product.buildingtype !== '' ? product.buildingtype : '-'}</p>
                                     </div>
                                 </div>
                             </div>
                             
                         </div>
                         <div className={style.card__wrapper} >
-                            <AgentCard user={user} count={data.length}/>
+                            <AgentCard user={user} count={data.length} anchor={scrollToAnchor}/>
                         </div>
                     </section>
                     <section className={style.full__description}>
@@ -268,7 +278,9 @@ useEffect(() => {
                     <div ref={targetRef}>
                         <ProjectMap lat={product.lat} lng={product.lng}/>
                     </div>
-                    <Contacts ref={contactsRef}/>
+                    <div ref={contactsRef}>
+                        <Contacts/>
+                    </div>
                     <WhyWe />
                     <div className={style.map__wrapper}>
                         <Map />
@@ -326,7 +338,19 @@ useEffect(() => {
                
             </div>
             )}
-            
+
+        </div>
+            <div className={style.mobile__buttons__sticky}>
+                <div className={style.mobile__buttons__container}>
+                    <button onClick={scrollToRef} className={style.map__btn}>
+                        <div className={style.favotite__title1}><BookIcon />Мапа</div>
+                    </button>
+
+                    <button className={style.map__btn}>
+                        <div className={style.favotite__title1} onClick={handleOpenGallery}><PhotoIcon />Фото</div>
+                    </button>
+                </div>
+            </div>
         </section>
     )
 }

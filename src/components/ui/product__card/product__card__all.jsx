@@ -1,44 +1,22 @@
 import { useState, useEffect } from 'react';
-import { Favorite } from "../../../icons/favorite";
-import { FavoriteActive } from '../../../icons/favorite-active';
-import style from "./product__card.module.css";
-import image from '../../../img/noImage.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Photo } from '../../../icons/photo';
+import style from './product__card.module.css';
+import { Trash } from '../../../icons/trash';
+import axios from 'axios';
+import { EditIcon } from '../../../icons/edit';
 
-export const ProductCard = ({product}) => {
-    const [favorite, setFavorite] = useState(false);
+export const ProductCardAll = ({ product, onDelete, updateProductsList }) => {
+    const { id } = useParams();
     const [swiper, setSwiper] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
-    useEffect(() => {
-        const data = localStorage.getItem('cardData');
-        if (data) {
-            try {
-                const parsedData = JSON.parse(data);
-                const exists = parsedData.some(item => item.id === product.id);
-                setFavorite(exists);
-            } catch (error) {
-                console.error('Error parsing data from localStorage:', error);
-            }
-        }
-    }, [product]);
-
-    const handleFavorite = () => {
-        const data = localStorage.getItem('cardData');
-        const newData = data ? JSON.parse(data) : [];
-        const existingIndex = newData.findIndex(item => item.id === product.id);
-
-        if (existingIndex !== -1) {
-            newData.splice(existingIndex, 1);
-            setFavorite(false);
-        } else {
-            newData.push(product);
-            setFavorite(true);
-        }
-
-        localStorage.setItem('cardData', JSON.stringify(newData));
+    const handleDelete = async () => {
+        await onDelete(product.id);
+        setShowModal(false);
+        updateProductsList(); // Обновление списка продуктов после удаления
     };
 
 
@@ -56,9 +34,10 @@ export const ProductCard = ({product}) => {
                             product.imgUrls.map((imageUrl, index) => (
                                 
                                     <SwiperSlide key={index} className={style.swiper__slide}>
-                                        <Link to={`/products/${product.id}`}>
+                                        <Link to={`/admin/dashboard/${id}/my-products/${product.id}`}>
                                         <img src={imageUrl} alt={`Slide ${index}`}/>
                                         <div className={style.count}><Photo />{`${index + 1} / ${product.imgUrls.length}`}</div>
+                                        <div className={style.id}>{`id: ${product.id}`}</div>
                                         </Link>
                                     </SwiperSlide>
                             ))
@@ -70,24 +49,27 @@ export const ProductCard = ({product}) => {
                 </div>
 
                 <div className={style.price__wrapper}>
-                <Link to={`/products/${product.id}`}>
+                <Link to={`/admin/dashboard/${id}/my-products/${product.id}`}>
                     <h3 className={style.price}>{`${product.price.toLocaleString('ru-RU')} ${product.currency}`}</h3>
                 </Link>
-                    <button className={style.favorite__button} onClick={handleFavorite}>{!favorite ? <Favorite /> : <FavoriteActive />}</button>
+                    <div className={style.edit__buttons}>
+                        <button className={style.favorite__button} onClick={() => setShowModal(true)}><Trash /></button>
+                        <button className={style.favorite__button}><Link to={`/admin/dashboard/${id}/my-products/edit/${product.id}`}><EditIcon /></Link></button>
+                    </div>
                 </div>
-                <Link to={`/products/${product.id}`}>
+                <Link to={`/admin/dashboard/${id}/my-products/${product.id}`}>
                 <h4 className={style.adress}>{product.adress}</h4>
                 <p className={style.district}>{product.district}</p>
                 </Link>
-                <Link to={`/products/${product.id}`}>
+                <Link to={`/admin/dashboard/${id}/my-products/${product.id}`}>
                 <div className={style.desc__wrapper}>
                     <div className={style.desc__position}>
-                        <p className={`${style.desc} ${style.desc1}`}>{product.rooms !== '' ? product.rooms : '-'}</p>
-                        <p className={`${style.desc} ${style.desc2}`}>{product.flor !== '' ? product.flor : '-'}</p>
+                        <p className={`${style.desc} ${style.desc1}`}>{product.rooms}</p>
+                        <p className={`${style.desc} ${style.desc2}`}>{product.flor}</p>
                     </div>
                     <div className={style.desc__position}>
-                        <p className={`${style.desc} ${style.desc3}`}>{product.area !== '' ? product.area : '-'} м²</p>
-                        <p className={`${style.desc} ${style.desc4}`}>{product.state !== '' ? product.state : '-'}</p>
+                        <p className={`${style.desc} ${style.desc3}`}>{product.area} м²</p>
+                        <p className={`${style.desc} ${style.desc4}`}>{product.state}</p>
                     </div>
                 </div>
                 <div className={style.paragraph__wrapper}>
@@ -95,7 +77,18 @@ export const ProductCard = ({product}) => {
                 </div>
                 </Link>
             </div>
-            
+            {showModal && (
+                <div className={style.modal}>
+                    <div className={style.modal__content}>
+                        <p className={style.modal__title}>Ви впевнені, що бажаєте видалити?</p>
+                        <div className={style.modal__buttons}>
+                            <button onClick={() => setShowModal(false)} className={style.modal__btn2}>Скасувати</button>
+                            <button onClick={handleDelete} className={style.modal__btn}>Так</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

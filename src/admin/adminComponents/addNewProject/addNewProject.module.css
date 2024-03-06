@@ -328,3 +328,8 @@
 .custom__width1 {
     width: 350px;
 }
+
+.errorInput {
+    color: red;
+    font-size: 18px;
+}

@@ -225,3 +225,24 @@ input.input-100 {
   display: none;
 }
 
+.swiper {
+  width: 100%;
+}
+
+.body-no-scroll {
+  overflow: hidden;
+}
+
+.custom-select__menu {
+  position: relative;
+  z-index: 1000;
+  background-color: #00976F;
+}
+
+.css-1nmdiq5-menu {
+  z-index: 10 !important;
+}
+
+.custom-select__option--is-focused {
+
+}

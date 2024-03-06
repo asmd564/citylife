@@ -5,8 +5,9 @@ import axios from "axios";
 import { ProductCardAdmin } from "../../../components/ui/product__card/product__card__admin";
 import { ProductCardAll } from "../../../components/ui/product__card/product__card__all";
 import { Oval } from "react-loader-spinner";
+import { ProductCardUser } from "../../../components/ui/product__card/product__card__user";
 
-export const AllProjects = () => {
+export const AllProjectsUser = () => {
     const [proudcts, setProducts] = useState([]);
     const [users, setUsers] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -36,23 +37,11 @@ export const AllProjects = () => {
         fetchData();
       }, []);
     
-      useEffect(() => {
-        const filtered = proudcts.filter(product => product.id.toString().includes(searchTerm));
-        setFilteredProducts(filtered);
-      },[searchTerm, proudcts])
+    useEffect(() => {
+    const filtered = proudcts.filter(product => product.id.toString().includes(searchTerm));
+    setFilteredProducts(filtered);
+    },[searchTerm, proudcts])
 
-    const handleDeleteProduct = async (productId) => {
-        try {
-            await axios.delete(`${process.env.REACT_APP_BE_HOST}/products/${productId}`);
-            setFilteredProducts(prevProducts => prevProducts.filter(item => item.id !== productId));
-        } catch (error) {
-            console.error('Ошибка удаления продукта:', error);
-        }
-    };
-
-    const updateProductsList = () => {
-      fetchData(); // Обновление списка продуктов
-  };
     
 
       const filterUsers = (id) => {
@@ -69,7 +58,7 @@ export const AllProjects = () => {
 
     return (
         <section className={style.allprojects}>
-            <h1 className={style.title}>Квартири від рієлторів</h1>
+            <h1 className={style.title}>Всі об'єкти</h1>
             <div className={style.search}>
                 <input
                     type="text"
@@ -98,7 +87,7 @@ export const AllProjects = () => {
                <div className={style.filtered__products}>
                 {filteredProducts.length > 0 ? (
                     filteredProducts.map(product => (
-                    <ProductCardAll product={product} key={product.id} onDelete={() => handleDeleteProduct(product.id)} updateProductsList={updateProductsList}/>
+                    <ProductCardUser product={product} key={product.id} />
                     ))
                 ) : (
                     <p className={style.no__projects}>Немає оголошень</p>

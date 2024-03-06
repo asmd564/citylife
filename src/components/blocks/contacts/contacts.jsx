@@ -1,13 +1,18 @@
 import React, { useState, useRef } from 'react';
 import style from "./contacts.module.css";
+import { Oval } from 'react-loader-spinner';
 
 export const Contacts = () => {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [zapyt, setZapyt] = useState('');
-    const [hidden, setHidden] = useState('Новое сглошение')
+    const [hidden, setHidden] = useState('Новое сглошение');
+    const [loader, setLoader] = useState(false);
+    const [ok, setOk] = useState(false);
+    const [error, setError] = useState(false);
 
     const handleSubmit = async (e) => {
+        setLoader(true)
         e.preventDefault();
         const data = { name, phone, zapyt };
         try {
@@ -22,11 +27,17 @@ export const Contacts = () => {
           if (response.ok) {
             // Обработка успешного ответа
             console.log('Запрос успешно отправлен!');
+            setLoader(false);
+            setOk(true);
           } else {
             // Обработка ошибки
             console.error('Ошибка при отправке запроса.');
+            setError(true);
+            setLoader(false);
           }
         } catch (error) {
+          setError(true);
+          setLoader(false);
           console.error('Произошла ошибка:', error);
         }
       };
@@ -81,7 +92,13 @@ export const Contacts = () => {
                         onChange={(e) => setZapyt(e.target.value)}
                     />
                     </div>
-                    <button className={style.form__button}>Надіслати</button>
+                    {ok && (
+                      <p className={style.ok}>Ваш запит надіслано</p>
+                    )}
+                    {error && (
+                      <p className={style.error}>Виникла помилка</p>
+                    )}
+                    <button className={style.form__button}>{loader ? <Oval height={20} width={20}/> : 'Надіслати'}</button>
                 </form>
             </div>
         </section>

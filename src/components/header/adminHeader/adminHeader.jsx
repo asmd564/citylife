@@ -52,6 +52,9 @@ export const AdminHeader = ({ id, user }) => {
                             <li className={style.nav__item}><NavLink to={`/admin/dashboard/${id}/all-projects`} activeClassName={style.activeLink} className={style.nav__link}>Всi оголошеня</NavLink></li>
                             </>
                         )}
+                        {user && !user.role &&(
+                            <li className={style.nav__item}><NavLink to={`/admin/dashboard/${id}/all-objects`} activeClassName={style.activeLink} className={style.nav__link}>Всi оголошеня</NavLink></li>
+                        )}
                         <li className={style.nav__item}><NavLink to={`/admin/dashboard/${id}/my-products`} className={style.nav__link} active={style.activeLink}>Мої оголошення</NavLink></li>
                         <li className={style.nav__item}><NavLink to={`/admin/dashboard/${id}/add-product`} activeClassName={style.activeLink} className={style.nav__link}>Додати обʼєкт</NavLink></li>
                         

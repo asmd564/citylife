@@ -36,6 +36,7 @@ export const ProductCardAdmin = ({ product, onDelete, updateProductsList }) => {
                                         <Link to={`/admin/dashboard/${product.user_id}/my-products/${product.id}`}>
                                         <img src={imageUrl} alt={`Slide ${index}`}/>
                                         <div className={style.count}><Photo />{`${index + 1} / ${product.imgUrls.length}`}</div>
+                                        <div className={style.id}>{`id: ${product.id}`}</div>
                                         </Link>
                                     </SwiperSlide>
                             ))

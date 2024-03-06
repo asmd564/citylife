@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import ProjectMap from '../../../components/ProjectMap/ProjectMap';
 import style from './addNewProject.module.css';
@@ -7,6 +8,7 @@ import Select from 'react-select';
 import { Oval } from 'react-loader-spinner';
 
 export const AddNewProject = ({ user }) => {
+    const navigate = useNavigate();
     const [type, setType] = useState('');
     const [buildingOption, setBuildingOption] = useState('');
     const [stateOption, setStateOption] = useState('');
@@ -25,6 +27,7 @@ export const AddNewProject = ({ user }) => {
     const [hidden, setHidden] = useState(false);
     const [isLoading, setIsLoading] = useState(false); 
     const [district, setDistrict] = useState('');
+    const [formErrors, setFormErrors] = useState({});
 
   const onDrop = useCallback(acceptedFiles => {
     const imagePreviews = acceptedFiles.map(file => Object.assign(file, {
@@ -122,6 +125,7 @@ export const AddNewProject = ({ user }) => {
         { value: 'Дача', label: 'Дача'},
         { value: 'Земля', label: 'Земля'},
         { value: 'Комерційна нерухомість', label: 'Комерційна нерухомість'},
+        { value: 'Гараж', label: 'Гараж'},
       ]
 
 
@@ -214,6 +218,66 @@ export const AddNewProject = ({ user }) => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true)
+
+        const errors = {};
+
+    if (!e.target.name.value.trim()) {
+        errors.name = "Заповніть поле";
+    }
+
+    if (!e.target.adress.value.trim()) {
+        errors.adress = "Заповніть поле";
+    }
+
+    if (!district) {
+        errors.district = "Заповніть поле";
+    }
+    if (!e.target.lat.value.trim()) {
+        errors.lat = "Заповніть поле";
+    }
+    if (!e.target.lng.value.trim()) {
+        errors.lng = "Заповніть поле";
+    }
+    if (!e.target.city.value.trim()) {
+        errors.city = "Заповніть поле";
+    }
+
+    if (!e.target.description.value.trim()) {
+        errors.description = "Заповніть поле";
+    }
+
+    if (!e.target.price.value.trim()) {
+        errors.price = "Заповніть поле";
+    }
+
+    if (!type) {
+        errors.type = "Заповніть поле";
+    }
+
+    if (!buildingOption) {
+        errors.buildingOption = "Заповніть поле";
+    }
+
+    if (!top) {
+        errors.top = "Заповніть поле";
+    }
+
+    if (!currency) {
+        errors.currency = "Заповніть поле";
+    }
+
+    if (Object.keys(errors).length > 0) {
+        setFormErrors(errors);
+        setIsLoading(false);
+        setHidden(false);
+        setFormNotSubmitted(true);
+        setTimeout(() => {
+            setFormNotSubmitted(false);
+        }, 3000);
+        return;
+    } else {
+        setFormErrors({});
+    }
     
         const formData = new FormData();
         formData.append('user_id', user.id);
@@ -236,8 +300,6 @@ export const AddNewProject = ({ user }) => {
         formData.append('waterheating', waterheating);
         formData.append('currency', currency);
         formData.append('top', top);
-
-
     
         images.forEach((image) => {
           formData.append('images', image);
@@ -271,10 +333,12 @@ export const AddNewProject = ({ user }) => {
             setTimeout(() => {
                 setFormSubmitted(false);
             }, 3000);
+            navigate(`/admin/dashboard/${user.id}/my-products`)
         } catch (error) {
           console.error('Ошибка отправки данных:', error);
           setFormNotSubmitted(true);
           setIsLoading(false);
+          setHidden(false);
 
             setTimeout(() => {
                 setFormNotSubmitted(false);
@@ -312,11 +376,14 @@ export const AddNewProject = ({ user }) => {
                         <div className={style.first__input__wrapper}>
                             <input type="text" className={style.hidden__input} value={user.id} name="user_id" id="user_id"/>
                             <label htmlFor="name" className={style.labelWithMargin}>Заголовок</label>
+                            <div className={style.errorInput}>{formErrors.name}</div>
                             <input className={style.input}  type="text" id="name" name="name" placeholder='Повний заголовок для сторінки обʼєкта' />
+                            
                             <div className={style.inputs__group__wrapper}>
                                 <div className={style.group__wrapper}>
                                 <div className={style.custom__select__wrapper}>
                                 <label htmlFor="isHouse" className={style.labelWithMargin}>Район</label>
+                                <div className={style.errorInput}>{formErrors.district}</div>
                                 <Select
                                     classNamePrefix='custom-select'
                                     placeholder= 'Район'
@@ -326,13 +393,16 @@ export const AddNewProject = ({ user }) => {
                             </div>
 
                                     <label htmlFor="adress" className={style.labelWithMargin}>Вулиця</label>
+                                    <div className={style.errorInput}>{formErrors.adress}</div>
                                     <input className={style.input} type="text" name="adress" id="adress" placeholder="Адреса i номер будинку" />
                                 </div>
-                                <div className={style.group__wrapper}>
+                                <div className={style.group__wrapper}>                 
                                     <label htmlFor="lat" className={style.labelWithMargin}>Широта</label>
+                                    <div className={style.errorInput}>{formErrors.lat}</div>
                                     <input className={style.input} type="text" name="lat" id="lat" placeholder="Широта" value={lat} onChange={handleLatChange} />
 
                                     <label htmlFor="lng" className={style.labelWithMargin}>Довгота</label>
+                                    <div className={style.errorInput}>{formErrors.lng}</div>
                                     <input className={style.input} type="text" name="lng" id="lng" placeholder="Довгота" value={lng} onChange={handleLngChange} />
                                 </div>  
                             </div>
@@ -342,26 +412,29 @@ export const AddNewProject = ({ user }) => {
                             
 
                             <label htmlFor="description" className={style.labelWithMargin}>Опис обʼєкта</label>
+                                <div className={style.errorInput}>{formErrors.adress}</div>
                                 <textarea type="text" name="description" id="description" placeholder="Напишіть детальний опис" className={style.textarea} />
                         </div>
                         <div className={style.form__wrapper2}>
                         <div className={style.custom__select__wrapper1}>
                                 <label htmlFor="city" className={style.labelWithMargin}>Місто</label>
+                                <div className={style.errorInput}>{formErrors.city}</div>
                                 <input className={style.input} type="text" name="city" id="city" placeholder="Подайте місто" />
                              </div>
                             <div className={style.custom__select__wrapper}>
                                 <label htmlFor="type" className={style.labelWithMargin}>Тип операції</label>
+                                <div className={style.errorInput}>{formErrors.type}</div>
                                 <Select
                                     classNamePrefix='custom-select'
                                     placeholder= 'Виберіть тип операції'
                                     options={typeOptions}
-                                    onChange={handleTypeChange}   
-                                    
+                                    onChange={handleTypeChange} 
                                 />
                             </div>
 
                             <div className={style.custom__select__wrapper}>
                                 <label htmlFor="isHouse" className={style.labelWithMargin}>Тип нерухомості</label>
+                                <div className={style.errorInput}>{formErrors.buildingOption}</div>
                                 <Select
                                     classNamePrefix='custom-select'
                                     placeholder= 'Виберіть тип нерухомості'
@@ -422,24 +495,28 @@ export const AddNewProject = ({ user }) => {
 
                             <div className={style.custom__select__wrapper1}>
                                 <label htmlFor="price" className={style.labelWithMargin}>Ціна</label>
+                                <div className={style.errorInput}>{formErrors.price}</div>
                                 <input className={style.input} type="text" name="price" id="price" placeholder="Ціна" />
                              </div>
                              <div className={style.custom__select__wrapper}>
+                                <label htmlFor="currency" className={style.labelWithMargin}>Валюта</label>
+                                <div className={style.errorInput}>{formErrors.currency}</div>
+                                <Select
+                                    classNamePrefix='custom-select'
+                                    placeholder= 'Виберіть валюту'
+                                    options={typeCurrency}
+                                    onChange={handleCurrencyType}   
+                                />
+                            </div>
+                            
+                            <div className={style.custom__select__wrapper}>
+                             <div className={style.errorInput}>{formErrors.top}</div>
                                 <label htmlFor="top" className={style.labelWithMargin}>Топ</label>
                                 <Select
                                     classNamePrefix='custom-select'
                                     placeholder= 'В топ?'
                                     options={topOptions}
                                     onChange={handleTop}   
-                                />
-                            </div>
-                             <div className={style.custom__select__wrapper}>
-                                <label htmlFor="currency" className={style.labelWithMargin}>Валюта</label>
-                                <Select
-                                    classNamePrefix='custom-select'
-                                    placeholder= 'Виберіть валюту'
-                                    options={typeCurrency}
-                                    onChange={handleCurrencyType}   
                                 />
                             </div>
                     </div>

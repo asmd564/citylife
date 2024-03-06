@@ -19,6 +19,7 @@ import { Close } from "../../../icons/close";
 import { EditIcon } from "../../../icons/edit";
 
 export const ProductPreviev = (linkId) => {
+   const { id } = useParams();
    const { projectId } = useParams();
    const [product, setProduct] = useState([]);
    const [user, setUser] = useState([]);
@@ -138,7 +139,7 @@ useEffect(() => {
    },[])
     return (
         <section className={`${style.product__details} container`}>
-            <p className={style.go__back} onClick={handleBack}>Назад до оголошень</p>
+            <Link to={`/admin/dashboard/${id}/my-products`}><p className={style.go__back}>Назад до оголошень</p></Link>
             { product ? (
                 <>
                     <div className={style.details__wrapper}>
@@ -188,7 +189,7 @@ useEffect(() => {
                         <section className={style.price__header}>
                             <h2 className={style.price}>{`${product.currency}  ${product.price.toLocaleString('ru-RU')}`}</h2>
                             <div className={style.price__header__wrapper}>
-                                <Link to={`/admin/dashboard/${user.id}/my-products/edit/${projectId}`}>
+                                <Link to={`/admin/dashboard/${id}/my-products/edit/${projectId}`}>
                                     <button className={style.favorive}>
                                         <div className={style.favotite__title}>Редагувати{<EditIcon />}</div>
                                     </button>

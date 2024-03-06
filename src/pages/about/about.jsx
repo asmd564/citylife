@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import style from './about.module.css';
 import firstblockimg from "../../img/Rectangle 827.png";
 import secondblockimg from '../../img/Rectangle 827 (1).png';
@@ -9,14 +9,23 @@ import { Contacts } from "../../components/blocks/contacts/contacts";
 import { WhyWe } from "../../components/blocks/whyWe/whyWe";
 import Map from "../../components/blocks/map/map";
 import axios from "axios";
+import { AgentCard } from "../../components/agentCard/agentCard";
+import { Close } from "../../icons/close";
 
 export const About = () => {
     const[users, setUsers] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [products, setProducts] = useState([]);
+    const [count, setCount] = useState(0);
+    const contactsRef = useRef(null);
 
     const getUsers = async () => {
         try{
            const response = await axios.get(`${process.env.REACT_APP_BE_HOST}/users`);
-            setUsers(response.data);
+           const productsResponse = await axios.get(`${process.env.REACT_APP_BE_HOST}/products`);
+            const filter = response.data.filter(user => user.role !== true);
+            setUsers(filter);
+            setProducts(productsResponse.data);
         } catch (error) {
             console.error(error);
         }
@@ -25,9 +34,30 @@ export const About = () => {
     useEffect(() => {
         getUsers()
     },[])
+
     useEffect (() => {
         window.scrollTo(0,0)
     },[])
+
+    const openUserPopup = (user) => {
+        setSelectedUser(user);
+        setCount(products.filter(product => product.user_id === user.id).length);
+        document.body.classList.add('body-no-scroll');
+      };
+    
+      const closeUserPopup = () => {
+        setSelectedUser(null);
+        document.body.classList.remove('body-no-scroll');
+      };
+
+      const scrollToAnchor = () => {
+        if (contactsRef.current) {
+          contactsRef.current.scrollIntoView({ behavior: 'smooth' });
+          setSelectedUser(null);
+          document.body.classList.remove('body-no-scroll');
+        }
+      };
+
     return (
         <section className={style.about}>
             <div className={style.first__section}>
@@ -36,7 +66,7 @@ export const About = () => {
                         <div className={style.first__section__title__wrapper}>
                             <h1 className={style.first__section__title}>Команда досвідчених професіоналів</h1>
                             <p className={style.first__section__description}>Наша команда допоможе вам безпечно, швидко та вигідно орендувати, продати або купити нерухомість в Івано-Франківську. Ви захочете тут жити!</p>
-                            <button className={style.first__section__button}>Наші контакти</button>
+                            <button className={style.first__section__button} onClick={scrollToAnchor}>Наші контакти</button>
                         </div>
                     </div>
                     <div className={style.first__section__img}>
@@ -87,23 +117,33 @@ export const About = () => {
                 <div className={style.team__cards__wrapper}>
 
                 {users && users.length > 0 ? (
-                               users.map(user => (
-                                <div className={style.team__card}>
-                                <div className={style.avatar}>
-                                    <img src={user.avatar} alt="" />
-                                </div>
-                                <p className={style.card__name}>{user.name}</p>
-                                <p className={style.card__surname}>{user.surname}</p>
-                            </div>
-                                ))
-                                   
-                                ) : (
-                                    <h2>помылка</h2>
-                                )}
+                    users.map(user => (
+                    <div className={style.team__card} key={user.id} onClick={() => openUserPopup(user)}>
+                        <div className={style.avatar}>
+                            <img src={user.avatar} alt="" />
+                        </div>
+                        <p className={style.card__name}>{user.name}</p>
+                        <p className={style.card__surname}>{user.surname}</p>
+                    </div>
+                    ))
+                        
+                    ) : (
+                        <h2>Помилка</h2>
+                    )}
 
                 </div>
             </div>
-            <Contacts />
+            {selectedUser && (
+                <div className={style.agentCard__container}>
+                    <div className={style.agentCard__wrapper}>
+                        <div className={style.close} onClick={closeUserPopup}><Close /></div>
+                        <AgentCard user={selectedUser} count={count} anchor={scrollToAnchor}/>
+                    </div>
+                </div>
+            )}
+            <div ref={contactsRef}>
+                <Contacts />
+            </div>
             <WhyWe />
             <Map />
         </section>
