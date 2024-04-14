@@ -154,6 +154,7 @@ export const Users = () => {
             setNewUser(false);
         } catch (error) {
             console.error('Error registering user:', error);
+            console.log(formData)
         }
     };
 

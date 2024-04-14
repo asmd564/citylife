@@ -186,6 +186,7 @@ export const Objects = () => {
           {
             label: 'Передмістя',
             options: [
+              { value: 'Вовчинець', label: 'Вовчинець' },
               { value: 'Крихівці', label: 'Крихівці' },
               { value: 'Драгомирчани', label: 'Драгомирчани' },
               { value: 'Опришівці', label: 'Опришівці' },
