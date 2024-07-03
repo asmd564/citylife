@@ -30,6 +30,16 @@ export const TopProposition = () => {
 
     const fetchTop = products.filter(product => product.top === true);
 
+    const handlePrevClick = (event) => {
+      event.preventDefault();
+      if (swiper) swiper.slidePrev();
+  };
+
+  const handleNextClick = (event) => {
+      event.preventDefault();
+      if (swiper) swiper.slideNext();
+  };
+
     return (
         <section className={style.top}>
             <div className={`${style.top__wrapper} container`}>
@@ -53,6 +63,7 @@ export const TopProposition = () => {
                     ) : error ? (
                         <h2 className={style.error}>Помилка завантаження даних!</h2>
                     ) : (
+                      <>
                         <Swiper
                             spaceBetween={32}
                             slidesPerView={1}
@@ -132,10 +143,14 @@ export const TopProposition = () => {
                                 </SwiperSlide>
                             ))}
                         </Swiper>
+  
+                            <div className={style.swiper__button__prev} onClick={handlePrevClick}></div>
+                            <div className={style.swiper__button__next} onClick={handleNextClick}></div>
+                        </>
+                       
                     )}
 
-                    <div className={style.swiper__button__prev} onClick={() => swiper.slidePrev()}></div>
-                    <div className={style.swiper__button__next} onClick={() => swiper.slideNext()}></div>
+                    
                 </div>
             </div>
         </section>

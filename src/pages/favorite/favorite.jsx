@@ -18,7 +18,7 @@ export const Favorite = () => {
       if (storedData) {
         setCardData(JSON.parse(storedData));
       }
-    }, [cardData]);
+    }, []);
   
     return (
       <>

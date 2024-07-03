@@ -19,7 +19,7 @@ export const Header = ({ callback }) => {
         if (storedData) {
           setCardData(JSON.parse(storedData));
         }
-      }, [cardData]);
+      }, []);
 
 
     const toggleMenu = () => {
@@ -59,7 +59,7 @@ export const Header = ({ callback }) => {
                             )}
                             </li>
                         <li className={style.nav__item}><NavLink to="/about" className={style.nav__link} onClick={closeMenu}>Про нас</NavLink></li>
-                        {/*<li className={style.nav__item}><NavLink to="/reviews" className={style.nav__link} onClick={closeMenu}>Відгуки</NavLink></li>*/}
+                        <li className={style.nav__item}><NavLink to="/reviews" className={style.nav__link} onClick={closeMenu}>Відгуки</NavLink></li>
                         <li className={style.nav__item}><NavLink to="/contact" className={style.nav__link} onClick={closeMenu}>Контакти</NavLink></li>
                     </ul>
                 </nav>
@@ -81,7 +81,7 @@ export const Header = ({ callback }) => {
                         <NavLink to="/for-sellers" className={style.burger__nav__link} onClick={closeMenu}><li className={style.burger__nav__item}>Для  продавців</li></NavLink>
                         <NavLink to="/for-buyers" className={style.burger__nav__link} onClick={closeMenu}><li className={style.burger__nav__item}>Для  покупців</li></NavLink>
                         <NavLink to="/about" className={style.burger__nav__link} onClick={closeMenu}><li className={style.burger__nav__item}>Про нас</li></NavLink>
-                        {/*<li className={style.burger__nav__item}><NavLink to="/reviews" className={style.burger__nav__link} onClick={closeMenu}>Відгуки</NavLink></li>*/}
+                        <li className={style.burger__nav__item}><NavLink to="/reviews" className={style.burger__nav__link} onClick={closeMenu}>Відгуки</NavLink></li>
                         <NavLink to="/favorite" className={style.burger__nav__link} onClick={closeMenu}><li className={style.burger__nav__item}>Улюблені</li></NavLink>
                         <NavLink to="/contact" className={style.burger__nav__link} onClick={closeMenu}><li className={style.burger__nav__item}>Контакти</li></NavLink>
                     </ul>

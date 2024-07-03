@@ -31,7 +31,7 @@ const EditProject = ({ user }) => {
     isHouse: '',
     user_id: '',
     imgUrls: '',
-    images: '',
+    images: [],
 
 
 
@@ -80,24 +80,61 @@ const EditProject = ({ user }) => {
         fetchProject();
       }, [projectId]);
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true)
+      const removeImage = (indexToRemove) => {
+        const updatedImages = images.filter((_, index) => index !== indexToRemove);
+        setImages(updatedImages);
+        setFormData({ ...formData, imgUrls: updatedImages.map(img => img.src) });
+      };
+      
+      const onDrop = useCallback((acceptedFiles) => {
+        const newImages = acceptedFiles.map((file) => URL.createObjectURL(file));
+        setImages((prevImages) => [...prevImages, ...newImages]);
+        setImgUrls((prevImgUrls) => [...prevImgUrls, ...newImages]);
+    }, []);
+    
+    const handleDragEnd = (result) => {
+        if (!result.destination) {
+            return;
+        }
+        const updatedImages = Array.from(images);
+        const [reorderedItem] = updatedImages.splice(result.source.index, 1);
+        updatedImages.splice(result.destination.index, 0, reorderedItem);
+        setImages(updatedImages);
+        setImgUrls(updatedImages);
+    };
+    
+    const { getRootProps: dropzoneGetRootProps, getInputProps: dropzoneGetInputProps } = useDropzone({
+        onDrop,
+        accept: 'image/*',
+        multiple: true,
+    });
+    
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop,
+        accept: 'image/*',
+        multiple: true,
+    });
+    
 
-
-    try {
-      const response =  await axios.put(`${process.env.REACT_APP_BE_HOST}/products/${projectId}`, formData);
-      // Обработка успешного обновления проекта
-      console.log('Проект успешно обновлен!', formData.data);
-      setHidden(false);
-      setIsLoading(false);
-      navigate(`/admin/dashboard/${user.id}/my-products`)
-      console.log(response)
-    } catch (error) {
-      console.error('Ошибка при обновлении проекта:', error);
-      setIsLoading(false);
-    }
-  };
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+    
+        try {
+            const response =  await axios.put(`${process.env.REACT_APP_BE_HOST}/products/${projectId}`, {
+                ...formData,
+                imgUrls: imgUrls,
+            });
+            console.log('Проект успешно обновлен!', images);
+            setHidden(false);
+            setIsLoading(false);
+            navigate(`/admin/dashboard/${user.id}/my-products`);
+            console.log(response);
+        } catch (error) {
+            console.error('Ошибка при обновлении проекта:', error);
+            setIsLoading(false);
+        }
+    };
 
   const userIdOptions = users.map(item => ({
     value: item.id,
@@ -202,52 +239,6 @@ const typeOfWaterHeating = [
     { value: '€', label: '€' },
     { value: 'UAH', label: 'UAH' },
   ]
-
-  const removeImage = (indexToRemove) => {
-    const updatedImages = images.filter((_, index) => index !== indexToRemove);
-    setImages(updatedImages);
-    setFormData({ ...formData, imgUrls: updatedImages.map(img => img.src) });
-  };
-  
-  const onDrop = useCallback((acceptedFiles) => {
-    const newImages = acceptedFiles.map((file) => URL.createObjectURL(file));
-
-    setImages((prevImages) => [...prevImages, ...newImages]); // Обновление изображений
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      imgUrls: [...prevFormData.imgUrls, ...newImages],
-    })); // Обновление formData.imgUrls
-  }, []);
-
-  // Обработчик окончания перетаскивания
-  const handleDragEnd = (result) => {
-    if (!result.destination) {
-      return;
-    }
-
-    const updatedImages = Array.from(images);
-    const [reorderedItem] = updatedImages.splice(result.source.index, 1);
-    updatedImages.splice(result.destination.index, 0, reorderedItem);
-
-    setImages(updatedImages); // Обновление изображений
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      imgUrls: updatedImages,
-    })); // Обновление formData.imgUrls
-  };
-
-const { getRootProps: dropzoneGetRootProps, getInputProps: dropzoneGetInputProps } = useDropzone({
-    onDrop,
-    accept: 'image/*',
-    multiple: true,
-});
-
-const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: 'image/*',
-    multiple: true,
-});
-
   
     const handleTypeChange = (selectedOption) => {
         setType(selectedOption.value);

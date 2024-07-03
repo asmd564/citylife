@@ -50,6 +50,7 @@ export const AdminHeader = ({ id, user }) => {
                             <>
                                 <li className={style.nav__item}><NavLink to={`/admin/dashboard/${id}/users`} activeClassName={style.activeLink} className={style.nav__link}>Працівники</NavLink></li>
                             <li className={style.nav__item}><NavLink to={`/admin/dashboard/${id}/all-projects`} activeClassName={style.activeLink} className={style.nav__link}>Всi оголошеня</NavLink></li>
+                            <li className={style.nav__item}><NavLink to={`/admin/dashboard/${id}/reviews`} activeClassName={style.activeLink} className={style.nav__link}>Вiдгуки</NavLink></li>
                             </>
                         )}
                         {user && !user.role &&(

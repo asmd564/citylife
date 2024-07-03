@@ -1,10 +1,12 @@
 .avatar {
+    min-width: 64px;
+    min-height: 64px;
     width: 64px;
     height: 64px;
     overflow: hidden;
     border-radius: 50%;
     background: grey;
-    margin-right: 16px;
+
 }
 
 .avatar img {
@@ -12,6 +14,12 @@
     object-position: center;
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
+    display: block;
+}
+
+.review__card__wrapper {
+    padding-left: 26px;
 }
 
 .reviews__card {
@@ -20,6 +28,7 @@
     width: 100%;
     margin: 0 auto;
     padding-bottom: 40px;
+    word-wrap: break-word;
 }
 
 .card__description {
@@ -108,6 +117,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
 
 .form__title {
@@ -128,6 +138,36 @@
     width: 1288px;
 }
 
+@media(max-width: 1288px) {
+    .reviews__form__wrapper {
+        width: 1200px;
+    }
+}
+
+@media(max-width: 1200px) {
+    .reviews__form__wrapper {
+        width: 1100px;
+    }
+}
+
+@media(max-width: 1100px) {
+    .reviews__form__wrapper {
+        width: 1000px;
+    }
+}
+
+@media(max-width: 1000px) {
+    .reviews__form__wrapper {
+        width: 900px;
+    }
+}
+
+@media(max-width: 900px) {
+    .reviews__form__wrapper {
+        width: 870px;
+    }
+}
+
 .form__button {
     padding: 17px 80px;
     text-align: center;
@@ -144,4 +184,242 @@
     box-sizing: border-box;
     cursor: pointer;
     margin-bottom: 100px;
+}
+
+.rewiews__input {
+    background: rgba(255, 248, 235, 0.72);
+    font-size: 16px;
+    border: none;
+    margin-bottom: 40px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    border-bottom: 1px solid grey;
+    padding-bottom: 10px;
+}
+
+.thanks__message {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%);
+    background: #009166;
+    color: white;
+    width: 600px;
+    text-align: center;
+    padding: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 40px;
+    border-radius: 6px;
+}
+
+@media(max-width: 870px) {
+    .reviews__form__wrapper {
+        width: 800px;
+    }
+
+    .input__wrapper {
+        display: flex;
+        flex-direction: column;
+        max-width: 700px;
+        gap: 12px;
+    }
+
+    .text__area {
+        max-width: 700px;
+    }
+
+    .rewiews__input {
+        max-width: 700px;
+    }
+
+    .reviews__wrapper {
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    .reviews__card {
+        max-width: 800px;
+    }
+}
+
+@media(max-width: 800px) {
+    .reviews__form__wrapper {
+        width: 700px;
+    }
+
+    .input__wrapper {
+        display: flex;
+        flex-direction: column;
+        max-width: 600px;
+        gap: 12px;
+    }
+
+    .text__area {
+        max-width: 600px;
+    }
+
+    .rewiews__input {
+        max-width: 600px;
+    }
+}
+
+@media(max-width: 700px) {
+    .reviews__form__wrapper {
+        width: 600px;
+    }
+
+    .input__wrapper {
+        display: flex;
+        flex-direction: column;
+        max-width: 500px;
+        gap: 12px;
+    }
+
+    .text__area {
+        max-width: 500px;
+    }
+
+    .rewiews__input {
+        max-width: 500px;
+    }
+
+    .thanks__message {
+        width: 500px;
+        font-size: 35px;
+    }
+}
+
+@media(max-width: 600px) {
+    .reviews__form__wrapper {
+        width: 500px;
+    }
+
+    .input__wrapper {
+        display: flex;
+        flex-direction: column;
+        max-width: 500px;
+        gap: 12px;
+    }
+
+    .text__area {
+        max-width: 400px;
+    }
+
+    .rewiews__input {
+        max-width: 400px;
+    }
+
+    .thanks__message {
+        width: 400px;
+        font-size: 30px;
+    }
+}
+
+@media(max-width: 500px) {
+    .reviews__form__wrapper {
+        width: 400px;
+    }
+
+    .input__wrapper {
+        display: flex;
+        flex-direction: column;
+        max-width: 400px;
+        gap: 12px;
+    }
+
+    .text__area {
+        max-width: 300px;
+    }
+
+    .rewiews__input {
+        max-width: 300px;
+    }
+
+    .thanks__message {
+        width: 300px;
+        font-size: 20px;
+    }
+
+    .reviews__wrapper {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media(max-width: 400px) {
+    .reviews__form__wrapper {
+        max-width: 380px;
+        width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .input__wrapper {
+        display: flex;
+        flex-direction: column;
+        max-width: 380px;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .text__area {
+        max-width: 370px;
+        width: 100%;
+    }
+
+    .rewiews__input {
+        max-width: 370px;
+        width: 100%;
+    }
+
+    .thanks__message {
+        width: 325px;
+        font-size: 20px;
+    }
+
+    .reviews__wrapper {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media(max-width: 380px) {
+    .reviews__form__wrapper {
+        max-width: 325px;
+        width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .input__wrapper {
+        display: flex;
+        flex-direction: column;
+        max-width: 300px;
+        width: 100%;
+        gap: 12px;
+    }
+
+    .text__area {
+        max-width: 300px;
+        width: 100%;
+    }
+
+    .rewiews__input {
+        max-width: 300px;
+        width: 100%;
+    }
+
+    .thanks__message {
+        width: 300px;
+        font-size: 20px;
+    }
+}
+
+
+
+
+
+
+.review__empty {
+    padding-bottom: 40px;
 }
